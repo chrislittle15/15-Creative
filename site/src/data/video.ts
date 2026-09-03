@@ -10,6 +10,56 @@ export type VideoProject = {
 
 export const videoProjects: VideoProject[] = [
   {
+    title: "High End Production Reel",
+    slug: "mavis-reel",
+    description: "A high-end production reel, courtesy of creative partner Mavis Media.",
+    video: "/videos/mavis.mov",
+    thumb: "/images/video-thumbs/mavis.png",
+  },
+  {
+    title: "Motion Graphic Reel",
+    slug: "ravel-reel",
+    description: "A motion graphics reel from creative partner Ravel Creative.",
+    video: "/videos/ravel.mp4",
+    thumb: "/images/video-thumbs/ravel.png",
+  },
+  {
+    title: "CashOne Commercial",
+    slug: "cashone-commercial",
+    description: "Commercial spot for Cash 1, a cash-advance lender.",
+    video: "/videos/cashone.mp4",
+    thumb: "/images/video-thumbs/cashone.png",
+  },
+  {
+    title: "RVCA Branding Commercial",
+    slug: "rvca-branding",
+    description: "Branding commercial for RVCA.",
+    video: "/videos/rvca.mov",
+    thumb: "/images/video-thumbs/rvca.png",
+  },
+  {
+    title: "2D Motion Graphics",
+    slug: "2d-motion-graphics",
+    description: "Motion graphics promo for Xanadu Surf Designs — \"This Is Life.\"",
+    video: "/videos/surf2005.mov",
+    thumb: "/images/video-thumbs/surf2005.png",
+  },
+  {
+    title: "Boost Mobile Kiosk Ad",
+    slug: "boost-mobile-kiosk",
+    description:
+      "In-store interactive kiosk and video content for Boost Mobile, delivered through the ASAN digital signage network in Sun Diego Boardshop locations.",
+    video: "/videos/boost.mov",
+    thumb: "/images/video-thumbs/boost.png",
+  },
+  {
+    title: "Allodic Marketing Spot",
+    slug: "allodic-marketing-spot",
+    description: "Promotional spot for Allodic Marketing's digital signage platform — \"the future of advertising.\"",
+    video: "/videos/allodic.mov",
+    thumb: "/images/video-thumbs/allodic.png",
+  },
+  {
     title: "Quail Rally DVD",
     slug: "quail-rally",
     description:
@@ -59,55 +109,5 @@ export const videoProjects: VideoProject[] = [
       "Pilot episode for a reality TV series pitch, spotlighting the pedicab scene in Austin, Texas.",
     video: "/videos/pedi.mov",
     thumb: "/images/video-thumbs/pedi.png",
-  },
-  {
-    title: "High End Production Reel",
-    slug: "mavis-reel",
-    description: "A high-end production reel, courtesy of creative partner Mavis Media.",
-    video: "/videos/mavis.mov",
-    thumb: "/images/video-thumbs/mavis.png",
-  },
-  {
-    title: "Motion Graphic Reel",
-    slug: "ravel-reel",
-    description: "A motion graphics reel from creative partner Ravel Creative.",
-    video: "/videos/ravel.mp4",
-    thumb: "/images/video-thumbs/ravel.png",
-  },
-  {
-    title: "CashOne Commercial",
-    slug: "cashone-commercial",
-    description: "Commercial spot for Cash 1, a cash-advance lender.",
-    video: "/videos/cashone.mp4",
-    thumb: "/images/video-thumbs/cashone.png",
-  },
-  {
-    title: "RVCA Branding Commercial",
-    slug: "rvca-branding",
-    description: "Branding commercial for RVCA.",
-    video: "/videos/rvca.mov",
-    thumb: "/images/video-thumbs/rvca.png",
-  },
-  {
-    title: "2D Motion Graphics",
-    slug: "2d-motion-graphics",
-    description: "Motion graphics promo for Xanadu Surf Designs — \"This Is Life.\"",
-    video: "/videos/surf2005.mov",
-    thumb: "/images/video-thumbs/surf2005.png",
-  },
-  {
-    title: "Boost Mobile Kiosk Ad",
-    slug: "boost-mobile-kiosk",
-    description:
-      "In-store interactive kiosk and video content for Boost Mobile, delivered through the ASAN digital signage network in Sun Diego Boardshop locations.",
-    video: "/videos/boost.mov",
-    thumb: "/images/video-thumbs/boost.png",
-  },
-  {
-    title: "Allodic Marketing Spot",
-    slug: "allodic-marketing-spot",
-    description: "Promotional spot for Allodic Marketing's digital signage platform — \"the future of advertising.\"",
-    video: "/videos/allodic.mov",
-    thumb: "/images/video-thumbs/allodic.png",
   },
 ];
