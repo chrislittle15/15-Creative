@@ -1,0 +1,145 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PhotoGallery from "../components/PhotoGallery.astro";
+import { videoProjects } from "../data/video";
+import { photoGalleries } from "../data/photography";
+import { businessProjects } from "../data/business";
+
+const webDir = path.join(process.cwd(), "public", "images", "web");
+let webShots: string[] = [];
+try {
+  webShots = fs.readdirSync(webDir).filter((f) => /\.(jpe?g|png)$/i.test(f)).sort();
+} catch {
+  webShots = [];
+}
+---
+<BaseLayout title="Portfolio">
+  <section class="section decor">
+    <div class="wrap">
+      <span class="eyebrow">Portfolio</span>
+      <h1>15 Creative</h1>
+      <p class="lede">Creative and consulting serving startup through corporate clients.</p>
+      <nav class="section-jump">
+        <a href="#video">Video Production</a>
+        <a href="#photography">Photography</a>
+        <a href="#web">Web Development</a>
+        <a href="#business">Business Development</a>
+      </nav>
+    </div>
+  </section>
+
+  <section id="video" class="section section--raised">
+    <div class="wrap">
+      <h2>Video Production</h2>
+      <div class="grid video-grid">
+        {videoProjects.map((v) => (
+          <div class="card video-card" id={v.slug}>
+            {v.video ? (
+              <video controls preload="none" poster={v.thumb} src={v.video}></video>
+            ) : (
+              <img class="zoomable" src={v.thumb} alt={v.title} />
+            )}
+            <div class="card__body">
+              <h3>{v.title}</h3>
+              <p>{v.description}</p>
+              {v.note && <p class="note">{v.note}</p>}
+              {v.stills && v.stills.length > 0 && (
+                <div class="stills">
+                  {v.stills.map((s) => <img class="zoomable" src={s} alt="" loading="lazy" />)}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="photography" class="section">
+    <div class="wrap">
+      <h2>Photography</h2>
+      {photoGalleries.map((g) => (
+        <div class="photo-section">
+          <h3>{g.title} <span class="count">({g.count})</span></h3>
+          <p>{g.description}</p>
+          <PhotoGallery folder={g.folder} title={g.title} />
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section id="web" class="section section--raised">
+    <div class="wrap">
+      <h2>Web Development</h2>
+      <p>Selected past client sites, pulled from the archive. These predate the current version of this site and don't have documented case-study details yet.</p>
+      <div class="grid grid--photos web-grid">
+        {webShots.map((f) => (
+          <div class="web-shot">
+            <img class="zoomable" src={`/images/web/${f}`} alt="" loading="lazy" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="business" class="section section--raised">
+    <div class="wrap">
+      <h2>Business Development</h2>
+      <p>Ventures and business initiatives from earlier in Chris's career — creative direction and marketing behind other people's businesses and products, alongside the client video and web work above.</p>
+      <div class="business-list">
+        {businessProjects.map((b) => (
+          <div class="business-feature">
+            <img class="zoomable" src={b.image} alt={b.title} />
+            <div class="business-feature__body">
+              <h3>{b.title}</h3>
+              <p>{b.description}</p>
+              {b.note && <p class="note">{b.note}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .lede { max-width: 65ch; font-size: 1.05rem; }
+  .section-jump { display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
+  .video-grid { grid-template-columns: repeat(3, 1fr); }
+  .video-card video, .video-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; background: #111; }
+  @media (max-width: 900px) { .video-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .video-grid { grid-template-columns: 1fr; } }
+  .stills { display: flex; gap: 0.4rem; margin-top: 0.75rem; flex-wrap: wrap; }
+  .stills img { width: 64px; height: 64px; object-fit: cover; border-radius: 3px; }
+
+  .business-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1.5rem; }
+  .business-feature {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2rem;
+    align-items: center;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 1.5rem;
+  }
+  .business-feature img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  .business-feature__body p { max-width: 60ch; }
+  .photo-section { margin-bottom: 3rem; }
+  .photo-section .count { color: var(--ink-soft); font-weight: 400; font-family: var(--font-body); font-size: 0.9rem; }
+  .web-grid.grid--photos { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  .web-shot { border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: white; }
+  .web-shot img { width: 100%; height: 120px; object-fit: cover; object-position: top; }
+
+  @media (max-width: 700px) {
+    .business-feature { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,189 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+
+interface Props {
+  folder: string; // public-relative, e.g. "/photography/commercial"
+  title: string;
+}
+const { folder, title } = Astro.props;
+
+const absDir = path.join(process.cwd(), "public", folder.replace(/^\//, ""));
+let files: string[] = [];
+try {
+  files = fs
+    .readdirSync(absDir)
+    .filter((f) => /\.(jpe?g|png|gif|webp)$/i.test(f))
+    .sort();
+} catch {
+  files = [];
+}
+const galleryId = `gallery-${folder.replace(/[^a-z0-9]/gi, "-")}`;
+---
+<div class="photo-gallery" data-gallery={galleryId}>
+  <div class="grid grid--photos">
+    {files.map((f, i) => (
+      <button type="button" class="photo-thumb" data-index={i} data-src={`${folder}/${f}`}>
+        <img src={`${folder}/${f}`} alt={`${title} photo ${i + 1}`} loading="lazy" />
+      </button>
+    ))}
+  </div>
+</div>
+
+<dialog class="lightbox" data-lightbox={galleryId}>
+  <button type="button" class="lightbox__close" aria-label="Close">&times;</button>
+  <button type="button" class="lightbox__prev" aria-label="Previous">&larr;</button>
+  <div class="lightbox__scroll">
+    <img class="lightbox__img" src="" alt="" />
+  </div>
+  <button type="button" class="lightbox__next" aria-label="Next">&rarr;</button>
+  <p class="lightbox__hint">Scroll to zoom · click to reset</p>
+</dialog>
+
+<script>
+  const galleries = document.querySelectorAll<HTMLElement>(".photo-gallery");
+  galleries.forEach((gallery) => {
+    const id = gallery.dataset.gallery!;
+    const dialog = document.querySelector<HTMLDialogElement>(`dialog[data-lightbox="${id}"]`);
+    if (!dialog) return;
+    const scrollEl = dialog.querySelector(".lightbox__scroll") as HTMLElement;
+    const img = dialog.querySelector("img") as HTMLImageElement;
+    const thumbs = Array.from(gallery.querySelectorAll<HTMLButtonElement>(".photo-thumb"));
+    let current = 0;
+    let zoom = 1;
+    let baseW = 0;
+    let baseH = 0;
+
+    const measure = () => {
+      const r = img.getBoundingClientRect();
+      if (r.width > 0) {
+        baseW = r.width;
+        baseH = r.height;
+      }
+    };
+
+    const applyZoom = () => {
+      if (zoom === 1) {
+        img.style.width = "";
+        img.style.height = "";
+      } else {
+        img.style.width = `${baseW * zoom}px`;
+        img.style.height = `${baseH * zoom}px`;
+      }
+    };
+
+    const resetZoom = () => {
+      zoom = 1;
+      img.style.width = "";
+      img.style.height = "";
+      scrollEl.scrollTo(0, 0);
+    };
+
+    const show = (i: number) => {
+      current = (i + thumbs.length) % thumbs.length;
+      const src = thumbs[current].dataset.src!;
+      resetZoom();
+      img.setAttribute("src", src);
+      img.setAttribute("alt", thumbs[current].querySelector("img")?.alt ?? "");
+      if (img.complete) measure();
+      else img.addEventListener("load", measure, { once: true });
+    };
+
+    thumbs.forEach((thumb, i) => {
+      thumb.addEventListener("click", () => {
+        show(i);
+        dialog.showModal();
+      });
+    });
+
+    dialog.querySelector(".lightbox__close")?.addEventListener("click", () => dialog.close());
+    dialog.querySelector(".lightbox__prev")?.addEventListener("click", () => show(current - 1));
+    dialog.querySelector(".lightbox__next")?.addEventListener("click", () => show(current + 1));
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) dialog.close();
+    });
+    dialog.addEventListener("close", resetZoom);
+    dialog.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") show(current - 1);
+      if (e.key === "ArrowRight") show(current + 1);
+    });
+
+    scrollEl.addEventListener(
+      "wheel",
+      (e) => {
+        if (!dialog.open) return;
+        e.preventDefault();
+        if (!baseW) measure();
+        const next = zoom + (e.deltaY < 0 ? 0.25 : -0.25);
+        zoom = Math.min(4, Math.max(1, next));
+        applyZoom();
+      },
+      { passive: false }
+    );
+
+    img.addEventListener("click", () => {
+      if (!baseW) measure();
+      zoom = zoom > 1 ? 1 : 2.2;
+      applyZoom();
+    });
+  });
+</script>
+
+<style>
+  .photo-thumb {
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 4px;
+    overflow: hidden;
+    aspect-ratio: 1;
+  }
+  .photo-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s; }
+  .photo-thumb:hover img { transform: scale(1.05); }
+
+  .lightbox {
+    border: none;
+    background: transparent;
+    max-width: 94vw;
+    max-height: 94vh;
+    padding: 0;
+    overflow: visible;
+  }
+  .lightbox::backdrop { background: rgba(20, 18, 16, 0.9); }
+  .lightbox__scroll {
+    max-width: 88vw;
+    max-height: 88vh;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink);
+    border-radius: 4px;
+  }
+  .lightbox__img { max-width: 100%; max-height: 88vh; display: block; cursor: zoom-in; user-select: none; }
+  .lightbox__close, .lightbox__prev, .lightbox__next {
+    position: fixed;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--ink);
+    z-index: 2;
+  }
+  .lightbox__close { top: 1.5rem; right: 1.5rem; }
+  .lightbox__prev { left: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox__next { right: 1.5rem; top: 50%; transform: translateY(-50%); }
+  .lightbox__hint {
+    position: fixed;
+    bottom: 1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.75);
+    font-size: 0.78rem;
+    margin: 0;
+  }
+</style>

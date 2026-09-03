@@ -1,0 +1,41 @@
+---
+import { site } from "../data/site";
+---
+<blockquote class="testimonial">
+  <span class="testimonial__mark" aria-hidden="true">&ldquo;</span>
+  <p>{site.testimonial.quote}</p>
+  <cite>&mdash; {site.testimonial.attribution}</cite>
+</blockquote>
+
+<style>
+  .testimonial {
+    max-width: 70ch;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    padding: 0 1rem;
+  }
+  .testimonial__mark {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    color: var(--accent-soft);
+    line-height: 1;
+    display: block;
+  }
+  .testimonial p {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--ink);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  .testimonial cite {
+    display: block;
+    margin-top: 1rem;
+    font-style: normal;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+</style>

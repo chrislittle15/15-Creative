@@ -1,0 +1,94 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+import { experience } from "../data/experience";
+---
+<BaseLayout title="Experience">
+  <section class="section">
+    <div class="wrap">
+      <span class="eyebrow">Career</span>
+      <h1>Experience</h1>
+      <p class="lede">A 20-year arc across venture development, operations, and founding — condensed for the web, not a literal resume dump.</p>
+      <a class="btn btn--outline resume-btn" href="/resume/christopher-little-resume.pdf" target="_blank" rel="noopener">
+        Download Full Resume (PDF)
+      </a>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <ol class="timeline">
+        {experience.map((e) => (
+          <li class="timeline__item">
+            <div class="timeline__marker"><Icon name={e.icon} /></div>
+            <div class="timeline__content">
+              <span class="timeline__dates">{e.dates}</span>
+              <h2>{e.role}</h2>
+              <h3>{e.org}</h3>
+              <p class="timeline__summary">{e.summary}</p>
+              <ul>
+                {e.bullets.map((b) => <li>{b}</li>)}
+              </ul>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .lede { max-width: 65ch; font-size: 1.05rem; }
+  .resume-btn { margin-top: 1.25rem; }
+  .timeline { list-style: none; padding: 0; margin: 0; position: relative; }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 21px;
+    top: 44px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--line);
+  }
+  .timeline__item {
+    position: relative;
+    padding-left: 4rem;
+    margin-bottom: 3rem;
+  }
+  .timeline__marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--paper);
+    box-shadow: 0 0 0 5px var(--paper), 0 0 0 6px var(--line);
+  }
+  .timeline__dates {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .timeline__content h2 { margin: 0.2rem 0 0; }
+  .timeline__content h3 {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--ink-soft);
+    margin: 0 0 0.6rem;
+  }
+  .timeline__summary { max-width: 65ch; }
+  .timeline__content ul { color: var(--ink-soft); padding-left: 1.2rem; max-width: 65ch; }
+  .timeline__content li { margin-bottom: 0.35rem; }
+
+  @media (max-width: 600px) {
+    .timeline::before { left: 17px; }
+    .timeline__item { padding-left: 3.25rem; }
+    .timeline__marker { width: 36px; height: 36px; padding: 8px; }
+  }
+</style>

@@ -1,0 +1,188 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+import Testimonial from "../components/Testimonial.astro";
+import { services } from "../data/services";
+import { site } from "../data/site";
+
+const featured = services.filter((s) => s.featured);
+const rest = services.filter((s) => !s.featured);
+---
+<BaseLayout title="Services">
+  <section class="section decor">
+    <div class="wrap">
+      <span class="eyebrow">15 Creative</span>
+      <h1>Services</h1>
+      <p class="tagline">&ldquo;{site.tagline}&rdquo;</p>
+      <p class="lede">Graphic design, photography, website/app development, AI and workflow automation, and startup business consulting.</p>
+      <p class="note">Chris is currently taking client work on a limited basis. Please reach out if you're interested in a service.</p>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    {featured.map((s, i) => (
+      <div class:list={["service-block", { "service-block--alt": i % 2 === 1, "service-block--raised": i % 2 === 0 }]}>
+        <div class="wrap service-block__inner">
+          <div class="service-block__text">
+            <div class="service-block__icon"><Icon name={s.icon} /></div>
+            <h2>{s.title}</h2>
+            <p>{s.description}</p>
+            <ul class="feature-list">
+              {s.features.map((f) => <li>{f}</li>)}
+            </ul>
+          </div>
+          {s.video ? (
+            <div class="service-block__media">
+              <video controls preload="metadata" src={s.video}></video>
+            </div>
+          ) : s.image && (
+            <div class:list={["service-block__media", { "service-block__media--portrait": s.imagePortrait }]}>
+              <img class="zoomable" src={s.image} alt={s.imageAlt ?? s.title} />
+            </div>
+          )}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section class="section section--raised">
+    <div class="wrap">
+      <span class="eyebrow">Also available</span>
+      <h2>More ways to work together</h2>
+      <div class="grid grid--3 service-cards">
+        {rest.map((s) => (
+          <div class="service-card">
+            <div class="service-card__icon"><Icon name={s.icon} /></div>
+            <h3>{s.title}</h3>
+            <p>{s.description}</p>
+            <ul class="feature-list">
+              {s.features.map((f) => <li>{f}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <Testimonial />
+    </div>
+  </section>
+
+  <section class="section section--raised">
+    <div class="wrap">
+      <h2>Creative partner network</h2>
+      <p>Work is resourced through a network of specialist collaborators, matched to the client's budget and objectives.</p>
+      <ul>
+        {site.partners.map((p) => <li><strong>{p.name}</strong> — {p.role}</li>)}
+      </ul>
+      <a class="btn" href="/contact">Get in touch</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .lede { max-width: 65ch; font-size: 1.05rem; }
+  .tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--ink);
+    max-width: 60ch;
+  }
+  ul { color: var(--ink-soft); padding-left: 1.2rem; margin-bottom: 1.5rem; }
+  li { margin-bottom: 0.4rem; }
+
+  .feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .feature-list li {
+    position: relative;
+    padding-left: 1.4rem;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+  }
+  .feature-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .service-block { padding: 3rem 0; }
+  .service-block--raised { background: var(--paper-raised); }
+  .service-block__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .service-block--alt .service-block__inner { direction: rtl; }
+  .service-block--alt .service-block__inner > * { direction: ltr; }
+  .service-block__icon {
+    width: 52px;
+    height: 52px;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--navy);
+    color: var(--paper);
+    margin-bottom: 1rem;
+  }
+  .service-block__text h2 { margin-bottom: 0.5rem; }
+  .service-block__text p { max-width: 48ch; }
+  .service-block__media img {
+    width: 100%;
+    border-radius: 8px;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    object-position: top;
+    box-shadow: 0 16px 32px -18px rgba(28,26,23,0.35);
+  }
+  .service-block__media--portrait img {
+    aspect-ratio: 3/4;
+    max-width: 380px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  .service-cards { margin-top: 1.5rem; align-items: stretch; }
+  .service-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .service-card__icon {
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    border-radius: 10px;
+    background: var(--navy);
+    color: var(--paper);
+    margin-bottom: 1rem;
+  }
+  .service-card h3 { margin-bottom: 0.4rem; }
+
+  .service-block__media video {
+    width: 100%;
+    border-radius: 8px;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    background: #111;
+    box-shadow: 0 16px 32px -18px rgba(28,26,23,0.35);
+  }
+
+  @media (max-width: 760px) {
+    .service-block__inner { grid-template-columns: 1fr; }
+    .service-block--alt .service-block__inner { direction: ltr; }
+    .service-block__media { order: -1; }
+  }
+</style>

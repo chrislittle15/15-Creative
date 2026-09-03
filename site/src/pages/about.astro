@@ -1,0 +1,165 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { site } from "../data/site";
+---
+<BaseLayout title="About">
+  <section class="section decor">
+    <div class="wrap about-hero">
+      <div>
+        <span class="eyebrow">About</span>
+        <h1>Founder story</h1>
+        <p class="lede">{site.founderStory}</p>
+        <blockquote class="philosophy">&ldquo;{site.aboutPhilosophy}&rdquo;</blockquote>
+      </div>
+      <img class="about-hero__photo zoomable" src="/images/site/profile.jpg" alt="Christopher C. Little" />
+    </div>
+  </section>
+
+  <section class="section section--raised">
+    <div class="wrap">
+      <h2>The throughline</h2>
+      <p class="lede">{site.throughline}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="grid grid--2">
+        <div>
+          <h2>Education &amp; certifications</h2>
+          <p>{site.education}</p>
+          <ul>
+            {site.certifications.map((c) => <li>{c}</li>)}
+          </ul>
+        </div>
+        <div>
+          <h2>Technology</h2>
+          <p>{site.technology.join(" · ")}</p>
+          <h3>AI practitioner</h3>
+          <p>{site.aiNote}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--raised">
+    <div class="wrap">
+      <h2>Creative partner network</h2>
+      <p>A collaborative model — the right specialist for the client's budget and objectives.</p>
+      <div class="grid grid--3">
+        {site.partners.map((p) => (
+          <div class="card">
+            <img src={p.logo} alt={p.name} class="partner-logo zoomable" />
+            <div class="card__body">
+              <h3>{p.name}</h3>
+              <p>{p.role}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>A Personal Touch</h2>
+      <p class="note">These are differentiators, not standard resume material — included here at Chris's discretion for a personal-brand site.</p>
+      <ul>
+        <li>{site.lawsonLittle.text}</li>
+        {site.personalTexture.map((t) => <li>{t}</li>)}
+      </ul>
+      <div class="lawson-banner">
+        <img class="zoomable" src={site.lawsonLittle.photo} alt={site.lawsonLittle.name} />
+        <blockquote class="lawson-banner__quote">
+          &ldquo;{site.lawsonLittle.quote}&rdquo;
+          <cite>&mdash; {site.lawsonLittle.name}</cite>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .lede { font-size: 1.05rem; max-width: 65ch; }
+  .about-hero {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .about-hero__photo {
+    border-radius: 8px;
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    object-position: top;
+    justify-self: end;
+    box-shadow: 0 12px 30px -12px rgba(28, 26, 23, 0.35);
+  }
+  .philosophy {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--ink);
+    border-left: 3px solid var(--accent);
+    padding-left: 1.25rem;
+    margin: 1.5rem 0 0;
+    max-width: 60ch;
+  }
+  .partner-logo {
+    width: 100%;
+    aspect-ratio: 3/2;
+    object-fit: contain;
+    background: var(--paper-raised);
+    padding: 1.5rem;
+  }
+  ul { color: var(--ink-soft); padding-left: 1.2rem; }
+  li { margin-bottom: 0.4rem; }
+
+  .lawson-banner {
+    margin-top: 1.75rem;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    align-items: center;
+    background: var(--paper-raised);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.5rem;
+  }
+  .lawson-banner img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 6px;
+  }
+  .lawson-banner__quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.35rem;
+    color: var(--ink);
+    margin: 0;
+    border-left: 3px solid var(--accent);
+    padding-left: 1.25rem;
+  }
+  .lawson-banner__quote cite {
+    display: block;
+    margin-top: 0.6rem;
+    font-style: normal;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 900px) {
+    .about-hero { grid-template-columns: 1fr; }
+    .about-hero__photo { justify-self: start; max-width: 220px; }
+  }
+  @media (max-width: 600px) {
+    .lawson-banner { grid-template-columns: 1fr; }
+    .lawson-banner img { max-width: 180px; }
+  }
+</style>

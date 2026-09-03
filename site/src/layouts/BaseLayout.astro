@@ -1,0 +1,118 @@
+---
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { site } from "../data/site";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = "Chris Little — operator, strategist, and founder of 15 Creative." } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="description" content={description} />
+    <title>{title} · {site.displayName}</title>
+  </head>
+  <body>
+    <Nav />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <dialog id="lightbox" class="lightbox">
+      <button type="button" class="lightbox__close" aria-label="Close">&times;</button>
+      <div class="lightbox__scroll">
+        <img class="lightbox__img" src="" alt="" />
+      </div>
+      <p class="lightbox__hint">Scroll to zoom · click to reset</p>
+    </dialog>
+
+    <script>
+  const dialog = document.getElementById("lightbox") as HTMLDialogElement;
+  const scrollEl = dialog.querySelector(".lightbox__scroll") as HTMLElement;
+  const img = dialog.querySelector(".lightbox__img") as HTMLImageElement;
+  const closeBtn = dialog.querySelector(".lightbox__close") as HTMLButtonElement;
+
+  let zoom = 1;
+  let baseW = 0;
+  let baseH = 0;
+
+  function measure() {
+    const r = img.getBoundingClientRect();
+    if (r.width > 0) {
+      baseW = r.width;
+      baseH = r.height;
+    }
+  }
+
+  function resetZoom() {
+    zoom = 1;
+    img.style.width = "";
+    img.style.height = "";
+    scrollEl.scrollTo(0, 0);
+  }
+
+  function applyZoom() {
+    if (zoom === 1) {
+      img.style.width = "";
+      img.style.height = "";
+    } else {
+      img.style.width = `${baseW * zoom}px`;
+      img.style.height = `${baseH * zoom}px`;
+    }
+  }
+
+  function openLightbox(src: string, alt: string) {
+    img.src = src;
+    img.alt = alt;
+    resetZoom();
+    dialog.showModal();
+    if (img.complete) {
+      measure();
+    } else {
+      img.addEventListener("load", measure, { once: true });
+    }
+  }
+
+  document.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    const clicked = target.closest("img.zoomable") as HTMLImageElement | null;
+    if (clicked) {
+      openLightbox(clicked.src, clicked.alt);
+    }
+  });
+
+  closeBtn.addEventListener("click", () => dialog.close());
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+  dialog.addEventListener("close", resetZoom);
+
+  scrollEl.addEventListener(
+    "wheel",
+    (e) => {
+      if (!dialog.open) return;
+      e.preventDefault();
+      if (!baseW) measure();
+      const next = zoom + (e.deltaY < 0 ? 0.25 : -0.25);
+      zoom = Math.min(4, Math.max(1, next));
+      applyZoom();
+    },
+    { passive: false }
+  );
+
+  img.addEventListener("click", () => {
+    if (!baseW) measure();
+    zoom = zoom > 1 ? 1 : 2.2;
+    applyZoom();
+  });
+    </script>
+  </body>
+</html>

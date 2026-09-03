@@ -1,0 +1,27 @@
+---
+import { site } from "../data/site";
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p>&copy; {year} {site.displayName} · {site.business}</p>
+    <p><a href={`mailto:${site.email}`}>{site.email}</a> · {site.location}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--line);
+    margin-top: 3rem;
+  }
+  .site-footer__inner {
+    padding: 2rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+  }
+  .site-footer__inner p { margin: 0; }
+</style>

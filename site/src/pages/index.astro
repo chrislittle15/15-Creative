@@ -1,0 +1,116 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Testimonial from "../components/Testimonial.astro";
+import StatStrip from "../components/StatStrip.astro";
+import { site } from "../data/site";
+import { videoProjects } from "../data/video";
+---
+<BaseLayout title="Home">
+  <section class="section hero decor">
+    <div class="wrap hero__inner">
+      <div>
+        <span class="eyebrow">Austin, Texas</span>
+        <h1>{site.homeTitle}</h1>
+        <p class="hero__lede">{site.positioning}</p>
+        <div class="hero__actions">
+          <a class="btn" href="/experience">See the career timeline</a>
+          <a class="btn btn--outline" href="/portfolio">See the portfolio</a>
+        </div>
+      </div>
+      <img class="hero__portrait zoomable" src="/images/site/headshot.jpg" alt="Portrait of Christopher C. Little" />
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="wrap">
+      <StatStrip />
+    </div>
+  </section>
+
+  <section class="section section--raised">
+    <div class="wrap">
+      <span class="eyebrow">The throughline</span>
+      <h2>2004 to now</h2>
+      <p class="lede">{site.throughline}</p>
+      <div class="disciplines">
+        {site.disciplines.map((d) => <span class="tag">{d}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <span class="eyebrow">Two sides, one person</span>
+      <div class="grid grid--2">
+        <div class="card">
+          <div class="card__body">
+            <h3>The Career</h3>
+            <p>20+ years as an operator and strategist — venture development, GTM strategy, and operations at the scale of a billion-dollar luxury resort enterprise down to founding companies from zero.</p>
+            <a href="/experience">View the experience timeline &rarr;</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__body">
+            <h3>The Portfolio</h3>
+            <p>{site.business} — video production, photography, web development, and creative direction since 2004, with a network of specialist collaborators.</p>
+            <a href="/portfolio">View the portfolio &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--raised">
+    <div class="wrap">
+      <span class="eyebrow">Selected video work</span>
+      <div class="grid grid--3">
+        {videoProjects.slice(0, 3).map((v) => (
+          <div class="card video-preview">
+            <video controls preload="none" poster={v.thumb} src={v.video ?? undefined}></video>
+            <div class="card__body">
+              <h3>{v.title}</h3>
+              <a href={`/portfolio#${v.slug}`}>View case study &rarr;</a>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p class="see-more"><a href="/portfolio">See the full portfolio &rarr;</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <Testimonial />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    padding-top: 1.5rem;
+  }
+  .hero__lede { font-size: 1.1rem; max-width: 46ch; }
+  .hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .hero__portrait {
+    border-radius: 8px;
+    width: 100%;
+    max-width: 340px;
+    justify-self: end;
+    box-shadow: 0 12px 30px -12px rgba(28, 26, 23, 0.35);
+  }
+  .lede { font-size: 1.05rem; max-width: 65ch; }
+  .disciplines { margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .video-preview video { aspect-ratio: 4/3; object-fit: cover; width: 100%; background: #111; }
+  .video-preview h3 { font-size: 1rem; margin: 0 0 0.35rem; }
+  .video-preview .card__body a { font-size: 0.88rem; }
+  .see-more { margin-top: 1.5rem; }
+
+  @media (max-width: 720px) {
+    .hero__inner { grid-template-columns: 1fr; }
+    .hero__portrait { justify-self: start; max-width: 220px; }
+  }
+</style>

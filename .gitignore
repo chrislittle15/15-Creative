@@ -1,0 +1,17 @@
+# Raw source media dump — not part of the deployed site
+assets/
+
+# Superseded/unused files kept for reference, not deployed
+unused-files/
+
+# macOS
+.DS_Store
+
+# Astro project build artifacts (also covered by site/.gitignore)
+site/node_modules/
+site/dist/
+site/.astro/
+
+# Full hosting-account backup — contains personal/legal files, never commit
+15creative.com/
+15creative.com.zip
