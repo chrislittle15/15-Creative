@@ -21,6 +21,7 @@ try {
 const galleryId = `gallery-${folder.replace(/[^a-z0-9]/gi, "-")}`;
 ---
 <div class="photo-gallery" data-gallery={galleryId}>
+  <p class="swipe-hint">Swipe to browse &rarr;</p>
   <div class="grid grid--photos">
     {files.map((f, i) => (
       <button type="button" class="photo-thumb" data-index={i} data-src={`${folder}/${f}`}>
@@ -130,6 +131,8 @@ const galleryId = `gallery-${folder.replace(/[^a-z0-9]/gi, "-")}`;
 </script>
 
 <style>
+  .swipe-hint { display: none; }
+
   .photo-thumb {
     padding: 0;
     border: none;
@@ -141,6 +144,27 @@ const galleryId = `gallery-${folder.replace(/[^a-z0-9]/gi, "-")}`;
   }
   .photo-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s; }
   .photo-thumb:hover img { transform: scale(1.05); }
+
+  @media (max-width: 640px) {
+    .swipe-hint {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      margin: 0 0 0.5rem;
+    }
+    .grid.grid--photos {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 0.6rem;
+      padding-bottom: 0.5rem;
+    }
+    .grid.grid--photos .photo-thumb {
+      flex: 0 0 130px;
+      scroll-snap-align: start;
+    }
+  }
 
   .lightbox {
     border: none;
