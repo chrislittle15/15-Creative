@@ -74,9 +74,17 @@ const rest = services.filter((s) => !s.featured);
     <div class="wrap">
       <h2>Creative partner network</h2>
       <p>Work is resourced through a network of specialist collaborators, matched to the client's budget and objectives.</p>
-      <ul>
-        {site.partners.map((p) => <li><strong>{p.name}</strong> — {p.role}</li>)}
-      </ul>
+      <div class="grid grid--3 partner-grid">
+        {site.partners.map((p) => (
+          <div class="card">
+            <img src={p.logo} alt={p.name} class="partner-logo zoomable" />
+            <div class="card__body">
+              <h3>{p.name}</h3>
+              <p>{p.role}</p>
+            </div>
+          </div>
+        ))}
+      </div>
       <a class="btn" href="/contact">Get in touch</a>
     </div>
   </section>
@@ -92,6 +100,14 @@ const rest = services.filter((s) => !s.featured);
     max-width: 60ch;
   }
   ul { color: var(--ink-soft); padding-left: 1.2rem; margin-bottom: 1.5rem; }
+  .partner-grid { margin: 1.5rem 0 2rem; }
+  .partner-logo {
+    width: 100%;
+    aspect-ratio: 3/2;
+    object-fit: contain;
+    background: var(--paper-raised);
+    padding: 1.5rem;
+  }
   li { margin-bottom: 0.4rem; }
 
   .feature-list {

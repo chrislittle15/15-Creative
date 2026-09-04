@@ -24,7 +24,6 @@ export const businessProjects: BusinessProject[] = [
     description:
       "Multi-camera coverage of action sports (snowboarding, skateboarding, surfing) with motion graphics, instant replays, and live scoring.",
     image: "/images/business/asan-live.jpg",
-    note: "Source video file not recovered from the old media library — shown here as a described case study with a still image.",
   },
   {
     title: "FloValve",
