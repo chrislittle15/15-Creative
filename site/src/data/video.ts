@@ -40,7 +40,8 @@ export const videoProjects: VideoProject[] = [
   {
     title: "2D Motion Graphics",
     slug: "2d-motion-graphics",
-    description: "Motion graphics promo for Xanadu Surf Designs — \"This Is Life.\"",
+    description:
+      "Motion graphics reel highlighting content created for Allodic Marketing's Action Sports Ad Network (ASAN).",
     video: "/videos/surf2005.mov",
     thumb: "/images/video-thumbs/surf2005.png",
   },
@@ -74,7 +75,6 @@ export const videoProjects: VideoProject[] = [
     description: "Commemorative video for a renowned golf instructor.",
     video: "/videos/ben.mov",
     thumb: "/images/video-thumbs/ben.png",
-    stills: ["/images/video-thumbs/ben.jpg"],
   },
   {
     title: "Aqua-vi Boardshort Promo",
@@ -83,7 +83,6 @@ export const videoProjects: VideoProject[] = [
       "Product promo video for Aqua-VI Trading Co.: on-site production, set design, video/photo editing, and motion graphics.",
     video: "/videos/aqua.mov",
     thumb: "/images/video-thumbs/aqua.png",
-    stills: ["/images/video-thumbs/aqua.jpg"],
   },
   {
     title: "LOW Clothing Surf/Lifestyle Branding",
@@ -92,7 +91,6 @@ export const videoProjects: VideoProject[] = [
       "7-day production in Baja California: lifestyle content for a surf team, shot on Canon/Panasonic with underwater housings.",
     video: "/videos/low.mov",
     thumb: "/images/video-thumbs/low.png",
-    stills: ["/images/video-thumbs/low.jpg"],
   },
   {
     title: "Invincible — Consumer Reports Creative Challenge",
