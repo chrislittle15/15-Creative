@@ -3,16 +3,10 @@ export type BusinessProject = {
   description: string;
   image: string;
   note?: string;
+  noCrop?: boolean;
 };
 
 export const businessProjects: BusinessProject[] = [
-  {
-    title: "Live Event Webcast Production",
-    description:
-      "Multi-camera coverage of action sports (snowboarding, skateboarding, surfing) with motion graphics, instant replays, and live scoring.",
-    image: "/images/video-thumbs/asanLive_billabongpro.jpg",
-    note: "Source video file not recovered from the old media library — shown here as a described case study with a still image.",
-  },
   {
     title: "Allodic Marketing",
     description:
@@ -26,6 +20,13 @@ export const businessProjects: BusinessProject[] = [
     image: "/images/business/asan.jpg",
   },
   {
+    title: "Live Event Webcast Production",
+    description:
+      "Multi-camera coverage of action sports (snowboarding, skateboarding, surfing) with motion graphics, instant replays, and live scoring.",
+    image: "/images/business/asan-live.jpg",
+    note: "Source video file not recovered from the old media library — shown here as a described case study with a still image.",
+  },
+  {
     title: "FloValve",
     description: "Ecommerce and brand site for a hydration bottle technology product line.",
     image: "/images/business/flovalve.jpg",
@@ -34,5 +35,11 @@ export const businessProjects: BusinessProject[] = [
     title: "ChillPill",
     description: "Packaging and brand identity for a stress-relief supplement product.",
     image: "/images/business/chillpill.jpg",
+  },
+  {
+    title: "Nothingonit.com",
+    description: "An earlier personal portfolio and resume site for Chris's work.",
+    image: "/images/business/frontpage.gif",
+    noCrop: true,
   },
 ];

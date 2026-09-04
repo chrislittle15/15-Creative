@@ -91,7 +91,7 @@ try {
       <div class="business-list">
         {businessProjects.map((b) => (
           <div class="business-feature">
-            <img class="zoomable" src={b.image} alt={b.title} />
+            <img class:list={["zoomable", { "business-feature__img--contain": b.noCrop }]} src={b.image} alt={b.title} />
             <div class="business-feature__body">
               <h3>{b.title}</h3>
               <p>{b.description}</p>
@@ -131,6 +131,12 @@ try {
     aspect-ratio: 4/3;
     object-fit: cover;
     border-radius: 6px;
+  }
+  .business-feature__img--contain {
+    aspect-ratio: auto;
+    height: auto;
+    object-fit: contain;
+    background: white;
   }
   .business-feature__body p { max-width: 60ch; }
   .photo-section { margin-bottom: 3rem; }

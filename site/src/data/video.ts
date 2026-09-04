@@ -81,7 +81,7 @@ export const videoProjects: VideoProject[] = [
     slug: "aqua-vi-boardshort-promo",
     description:
       "Product promo video for Aqua-VI Trading Co.: on-site production, set design, video/photo editing, and motion graphics.",
-    video: "/videos/aqua.mov",
+    video: "/videos/aqua.mp4",
     thumb: "/images/video-thumbs/aqua.png",
   },
   {
