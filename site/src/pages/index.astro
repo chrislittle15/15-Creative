@@ -118,7 +118,7 @@ import { videoProjects } from "../data/video";
   .see-more { margin-top: 1.5rem; }
 
   @media (max-width: 720px) {
-    .hero__inner { display: block; }
-    .hero__portrait { max-width: 220px; margin-top: 1.5rem; }
+    .hero__inner { display: flex; flex-direction: column; }
+    .hero__portrait { max-width: 220px; order: -1; align-self: center; margin: 0 0 1.5rem; }
   }
 </style>
