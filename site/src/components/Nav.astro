@@ -13,7 +13,9 @@ const path = Astro.url.pathname;
 ---
 <header class="site-header">
   <div class="wrap site-header__inner">
-    <a href="/" class="site-header__brand">{site.displayName}</a>
+    <a href="/" class="site-header__brand">
+      <img src="/images/site/logo.png" alt={site.displayName} class="site-header__logo" />
+    </a>
     <nav class="site-header__nav">
       {navItems.map((item) => (
         <a
@@ -45,12 +47,15 @@ const path = Astro.url.pathname;
     gap: 0.75rem;
   }
   .site-header__brand {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 1.15rem;
-    color: var(--ink);
+    display: flex;
+    align-items: center;
   }
-  .site-header__brand:hover { text-decoration: none; color: var(--accent); }
+  .site-header__brand:hover { text-decoration: none; }
+  .site-header__logo {
+    height: 28px;
+    width: auto;
+    display: block;
+  }
   .site-header__nav {
     display: flex;
     gap: 1.5rem;
