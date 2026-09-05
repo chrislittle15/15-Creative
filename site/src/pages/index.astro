@@ -10,7 +10,7 @@ import { videoProjects } from "../data/video";
     <div class="wrap hero__inner">
       <div>
         <span class="eyebrow">Austin, Texas</span>
-        <h1>{site.homeTitle}</h1>
+        <h1 class="hero__title">Entrepreneur, Strategist,<br class="hero-title-break" /> Business Consultant</h1>
         <p class="hero__lede">{site.positioning}</p>
         <div class="hero__actions">
           <a class="btn" href="/experience">See the career timeline</a>
@@ -92,6 +92,11 @@ import { videoProjects } from "../data/video";
     gap: 2.5rem;
     align-items: center;
     padding-top: 1.5rem;
+  }
+  .hero-title-break { display: none; }
+  @media (min-width: 900px) {
+    .hero-title-break { display: inline; }
+    .hero__title { font-size: clamp(2rem, 3.4vw, 2.6rem); }
   }
   .hero__lede { font-size: 1.1rem; max-width: 46ch; }
   .hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
