@@ -143,6 +143,8 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
 .decor::before {
   width: 420px;
   height: 420px;
+  max-width: 60vw;
+  max-height: 60vw;
   background: var(--accent-soft);
   opacity: 0.22;
   top: -180px;
@@ -151,6 +153,8 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
 .decor::after {
   width: 320px;
   height: 320px;
+  max-width: 50vw;
+  max-height: 50vw;
   background: var(--navy);
   opacity: 0.12;
   bottom: -160px;
@@ -163,7 +167,7 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
 }
-.stat-strip__item { text-align: left; }
+.stat-strip__item { text-align: left; min-width: 0; }
 .stat-strip__value {
   font-family: var(--font-display);
   font-size: 2.4rem;
@@ -181,6 +185,9 @@ p { margin: 0 0 1em; color: var(--ink-soft); }
 }
 @media (max-width: 760px) {
   .stat-strip { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 420px) {
+  .stat-strip__value { font-size: 1.9rem; }
 }
 
 /* Sitewide image shadowbox (zoom + scroll) */
