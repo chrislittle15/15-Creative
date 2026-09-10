@@ -12,18 +12,19 @@ export type Service = {
 
 export const services: Service[] = [
   {
-    title: "Website Development",
+    title: "Strategy & Consulting",
     description:
-      "Custom websites and web applications, designed and built end-to-end — from a marketing site to a full ecommerce platform.",
-    icon: "web",
+      "Operator-led consulting for founders and executive teams — the systems, processes, and GTM strategy behind building a company from zero.",
+    icon: "consulting",
     features: [
-      "Custom design & development",
-      "Ecommerce platform builds",
-      "Mobile-responsive, fast-loading sites",
-      "Ongoing maintenance & support",
+      "Operating model & systems design",
+      "GTM strategy",
+      "Team training & independence planning",
+      "AI workflow automation",
     ],
-    image: "/images/web/3-custom.jpg",
-    imageAlt: "Custom Sweat ecommerce site, built and run by Chris",
+    image: "/images/site/profile2.jpg",
+    imageAlt: "Chris Little",
+    imagePortrait: true,
     featured: true,
   },
   {
@@ -64,25 +65,24 @@ export const services: Service[] = [
     features: ["Search engine optimization (SEO)", "Paid search & social (SEM/PPC)", "Email marketing", "Social media strategy"],
   },
   {
-    title: "Business Consulting",
-    description:
-      "Operator-led consulting for founders and executive teams — the systems, processes, and GTM strategy behind building a company from zero.",
-    icon: "consulting",
-    features: [
-      "Operating model & systems design",
-      "GTM strategy",
-      "Team training & independence planning",
-      "AI workflow automation",
-    ],
-    image: "/images/site/profile2.jpg",
-    imageAlt: "Chris Little",
-    imagePortrait: true,
-    featured: true,
-  },
-  {
     title: "Mobile App Development",
     description: "Mobile applications for iOS and Android, built for real business use cases.",
     icon: "mobile",
     features: ["iOS & Android development", "UX/UI design", "App store submission & launch support"],
+  },
+  {
+    title: "Website / Application Development",
+    description:
+      "Custom websites and web applications, designed and built end-to-end — from a marketing site to a full ecommerce platform.",
+    icon: "web",
+    features: [
+      "Custom design & development",
+      "Ecommerce platform builds",
+      "Mobile-responsive, fast-loading sites",
+      "Ongoing maintenance & support",
+    ],
+    image: "/images/web/3-custom.jpg",
+    imageAlt: "Custom Sweat ecommerce site, built and run by Chris",
+    featured: true,
   },
 ];
