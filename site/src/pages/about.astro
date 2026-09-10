@@ -42,24 +42,6 @@ import { site } from "../data/site";
     </div>
   </section>
 
-  <section class="section section--raised">
-    <div class="wrap">
-      <h2>Creative partner network</h2>
-      <p>A collaborative model — the right specialist for the client's budget and objectives.</p>
-      <div class="grid grid--3">
-        {site.partners.map((p) => (
-          <div class="card">
-            <img src={p.logo} alt={p.name} class="partner-logo zoomable" />
-            <div class="card__body">
-              <h3>{p.name}</h3>
-              <p>{p.role}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <section class="section">
     <div class="wrap">
       <h2>A Personal Touch</h2>
@@ -105,13 +87,6 @@ import { site } from "../data/site";
     padding-left: 1.25rem;
     margin: 1.5rem 0 0;
     max-width: 60ch;
-  }
-  .partner-logo {
-    width: 100%;
-    aspect-ratio: 3/2;
-    object-fit: contain;
-    background: var(--paper-raised);
-    padding: 1.5rem;
   }
   ul { color: var(--ink-soft); padding-left: 1.2rem; }
   li { margin-bottom: 0.4rem; }
