@@ -478,7 +478,8 @@
     color: var(--gray);
     font-size: 12.5px;
   }
-  .preset-row select { min-width: 220px; }
+  .preset-row select { min-width: 210px; }
+  .preset-row input[type="text"] { flex: 1; min-width: 180px; width: auto; }
 
   .clear-wrap { text-align: center; margin-bottom: 34px; }
   button.clear-btn {
@@ -665,13 +666,14 @@
   <section class="panel no-print">
     <div class="section-head">
       <span class="section-eyebrow">Fine-Tune</span>
-      <h2 class="section-title">Package Reference</h2>
+      <h2 class="section-title">Your Store</h2>
     </div>
-    <p class="help">Edit package sizes, units, sections, and labels. Changes apply live and are saved in this browser.</p>
     <div class="preset-row">
-      <label for="presetSelect">Package sizes from:</label>
+      <label for="presetSelect">Store:</label>
       <select id="presetSelect"></select>
+      <input type="text" id="refSearch" placeholder="Search all store items&hellip;">
     </div>
+    <p class="help" id="refSummary"></p>
     <div class="scroll-wrap">
       <table id="packageRefTable">
         <thead>
@@ -687,9 +689,10 @@
         <tbody></tbody>
       </table>
     </div>
+    <div id="refEmpty" class="empty-note"></div>
     <div class="row-actions">
       <button id="addRefRowBtn" class="ghost">+ Add Ingredient</button>
-      <button id="resetRefBtn" class="ghost">Reset to Preset</button>
+      <button id="resetRefBtn" class="ghost">Reset to Store Defaults</button>
     </div>
   </section>
 
@@ -762,114 +765,242 @@
   })();
 
   /* ======================= SEED DATA ======================= */
-  var DEFAULT_PACKAGE_REFERENCE = {
-    "bacon": { section: "Meat", packageSize: 12, packageUnit: "oz", packageLabel: "package" },
-    "bacon slices": { section: "Meat", packageSize: 12, packageUnit: "slice", packageLabel: "package" },
-    "egg": { section: "Dairy", packageSize: 12, packageUnit: "ct", packageLabel: "dozen" },
-    "milk": { section: "Dairy", packageSize: 128, packageUnit: "fl oz", packageLabel: "gallon" },
-    "butter": { section: "Dairy", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
-    "flour": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
-    "sugar": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
-    "brown sugar": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
-    "corn muffin mix": { section: "Bakery", packageSize: 8, packageUnit: "oz", packageLabel: "box" },
-    "cornmeal": { section: "Pantry", packageSize: 12, packageUnit: "cup", packageLabel: "bag" },
-    "chicken breast": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
-    "ground beef": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
-    "pork chop": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
-    "sausage": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+  // Package sizes for common cooking ingredients. Store presets layer on top of this
+  // base list, overriding only the items where that store's own catalog differs.
+  var BASE_PACKAGE_REFERENCE = {
     "onion": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "red onion": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "green onion": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
+    "shallot": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "garlic": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bulb" },
     "garlic cloves": { section: "Produce", packageSize: 10, packageUnit: "clove", packageLabel: "bulb" },
+    "ginger": { section: "Produce", packageSize: 4, packageUnit: "oz", packageLabel: "piece" },
     "potato": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
-    "carrot": { section: "Produce", packageSize: 1, packageUnit: "lb", packageLabel: "bag" },
+    "sweet potato": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "carrot": { section: "Produce", packageSize: 16, packageUnit: "oz", packageLabel: "bag" },
     "celery": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
     "bell pepper": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "jalapeno": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "tomato": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "cherry tomatoes": { section: "Produce", packageSize: 10, packageUnit: "oz", packageLabel: "container" },
+    "lettuce": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "head" },
+    "spinach": { section: "Produce", packageSize: 5, packageUnit: "oz", packageLabel: "bag" },
+    "kale": { section: "Produce", packageSize: 8, packageUnit: "oz", packageLabel: "bunch" },
+    "broccoli": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "head" },
+    "cauliflower": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "head" },
+    "cabbage": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "head" },
+    "zucchini": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "cucumber": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "mushroom": { section: "Produce", packageSize: 8, packageUnit: "oz", packageLabel: "container" },
+    "corn": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "ear" },
+    "green beans": { section: "Produce", packageSize: 12, packageUnit: "oz", packageLabel: "bag" },
+    "peas": { section: "Produce", packageSize: 16, packageUnit: "oz", packageLabel: "bag" },
+    "asparagus": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
+    "avocado": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "lemon": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "lime": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
-    "canned tomato": { section: "Pantry", packageSize: 14.5, packageUnit: "oz", packageLabel: "can" },
-    "tomato sauce": { section: "Pantry", packageSize: 8, packageUnit: "oz", packageLabel: "can" },
-    "chicken broth": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
-    "beef broth": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
-    "olive oil": { section: "Pantry", packageSize: 16, packageUnit: "fl oz", packageLabel: "bottle" },
-    "vegetable oil": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "bottle" },
-    "salt": { section: "Pantry", packageSize: 26, packageUnit: "oz", packageLabel: "container" },
-    "pepper": { section: "Pantry", packageSize: 4, packageUnit: "oz", packageLabel: "container" },
-    "black pepper": { section: "Pantry", packageSize: 4, packageUnit: "oz", packageLabel: "container" },
-    "rice": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
-    "pasta": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "box" },
-    "cheddar cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "block" },
-    "mozzarella cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "bag" },
-    "parmesan cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "container" },
-    "sour cream": { section: "Dairy", packageSize: 16, packageUnit: "oz", packageLabel: "container" },
-    "heavy cream": { section: "Dairy", packageSize: 16, packageUnit: "fl oz", packageLabel: "carton" },
-    "yogurt": { section: "Dairy", packageSize: 32, packageUnit: "oz", packageLabel: "container" },
-    "bread": { section: "Bakery", packageSize: 1, packageUnit: "ct", packageLabel: "loaf" },
-    "tortilla": { section: "Bakery", packageSize: 1, packageUnit: "ct", packageLabel: "package" },
-    "baking powder": { section: "Pantry", packageSize: 8.1, packageUnit: "oz", packageLabel: "container" },
-    "baking soda": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "box" },
-    "vanilla extract": { section: "Pantry", packageSize: 4, packageUnit: "fl oz", packageLabel: "bottle" },
-    "honey": { section: "Pantry", packageSize: 12, packageUnit: "fl oz", packageLabel: "bottle" },
-    "cinnamon": { section: "Pantry", packageSize: 2.37, packageUnit: "oz", packageLabel: "container" }
-  };
-
-  // Package sizes as actually carried by Whole Foods Market, sourced from their Austin
-  // store catalog. Sizes that their catalog doesn't list individually (eggs, canned
-  // tomatoes) use the standard grocery size, which doesn't vary by chain.
-  var WHOLE_FOODS_AUSTIN_REFERENCE = {
+    "apple": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "banana": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "orange": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "strawberries": { section: "Produce", packageSize: 16, packageUnit: "oz", packageLabel: "container" },
+    "blueberries": { section: "Produce", packageSize: 6, packageUnit: "oz", packageLabel: "container" },
+    "parsley": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
+    "cilantro": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
+    "basil": { section: "Produce", packageSize: 0.75, packageUnit: "oz", packageLabel: "package" },
+    "rosemary": { section: "Produce", packageSize: 0.75, packageUnit: "oz", packageLabel: "package" },
+    "thyme": { section: "Produce", packageSize: 0.75, packageUnit: "oz", packageLabel: "package" },
+    "oregano": { section: "Produce", packageSize: 0.75, packageUnit: "oz", packageLabel: "package" },
+    "mint": { section: "Produce", packageSize: 0.75, packageUnit: "oz", packageLabel: "package" },
+    "sage": { section: "Produce", packageSize: 0.75, packageUnit: "oz", packageLabel: "package" },
     "bacon": { section: "Meat", packageSize: 12, packageUnit: "oz", packageLabel: "package" },
     "bacon slices": { section: "Meat", packageSize: 12, packageUnit: "slice", packageLabel: "package" },
+    "ground beef": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "steak": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "chuck roast": { section: "Meat", packageSize: 48, packageUnit: "oz", packageLabel: "roast" },
+    "ground turkey": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "ground pork": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "chicken breast": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "chicken thigh": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "chicken wings": { section: "Meat", packageSize: 32, packageUnit: "oz", packageLabel: "package" },
+    "whole chicken": { section: "Meat", packageSize: 64, packageUnit: "oz", packageLabel: "each" },
+    "pork chop": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "pork shoulder": { section: "Meat", packageSize: 64, packageUnit: "oz", packageLabel: "roast" },
+    "ham": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "sausage": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "hot dogs": { section: "Meat", packageSize: 8, packageUnit: "ct", packageLabel: "package" },
+    "deli ham": { section: "Meat", packageSize: 8, packageUnit: "oz", packageLabel: "package" },
+    "deli turkey": { section: "Meat", packageSize: 8, packageUnit: "oz", packageLabel: "package" },
+    "salmon": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "fillet" },
+    "shrimp": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "bag" },
+    "tilapia": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "tuna": { section: "Meat", packageSize: 5, packageUnit: "oz", packageLabel: "can" },
     "egg": { section: "Dairy", packageSize: 12, packageUnit: "ct", packageLabel: "dozen" },
     "milk": { section: "Dairy", packageSize: 128, packageUnit: "fl oz", packageLabel: "gallon" },
+    "heavy cream": { section: "Dairy", packageSize: 16, packageUnit: "fl oz", packageLabel: "carton" },
+    "half and half": { section: "Dairy", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
+    "buttermilk": { section: "Dairy", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
     "butter": { section: "Dairy", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
-    "flour": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
-    "sugar": { section: "Pantry", packageSize: 64, packageUnit: "oz", packageLabel: "bag" },
-    "brown sugar": { section: "Pantry", packageSize: 24, packageUnit: "oz", packageLabel: "bag" },
-    "corn muffin mix": { section: "Bakery", packageSize: 8, packageUnit: "oz", packageLabel: "box" },
-    "cornmeal": { section: "Pantry", packageSize: 24, packageUnit: "oz", packageLabel: "bag" },
-    "chicken breast": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
-    "ground beef": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
-    "pork chop": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
-    "sausage": { section: "Meat", packageSize: 12, packageUnit: "oz", packageLabel: "package" },
-    "onion": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
-    "garlic": { section: "Produce", packageSize: 3, packageUnit: "ct", packageLabel: "bag" },
-    "garlic cloves": { section: "Produce", packageSize: 10, packageUnit: "clove", packageLabel: "bulb" },
-    "potato": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
-    "carrot": { section: "Produce", packageSize: 1, packageUnit: "lb", packageLabel: "bag" },
-    "celery": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
-    "bell pepper": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
-    "tomato": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
-    "lemon": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
-    "lime": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
-    "canned tomato": { section: "Pantry", packageSize: 14.5, packageUnit: "oz", packageLabel: "can" },
-    "tomato sauce": { section: "Pantry", packageSize: 8, packageUnit: "oz", packageLabel: "can" },
-    "chicken broth": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
-    "beef broth": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
-    "olive oil": { section: "Pantry", packageSize: 16.9, packageUnit: "fl oz", packageLabel: "bottle" },
-    "vegetable oil": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "bottle" },
-    "salt": { section: "Pantry", packageSize: 24.7, packageUnit: "oz", packageLabel: "container" },
-    "pepper": { section: "Pantry", packageSize: 4, packageUnit: "oz", packageLabel: "container" },
-    "black pepper": { section: "Pantry", packageSize: 4, packageUnit: "oz", packageLabel: "container" },
-    "rice": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
-    "pasta": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "box" },
+    "sour cream": { section: "Dairy", packageSize: 16, packageUnit: "oz", packageLabel: "container" },
+    "cream cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "package" },
+    "yogurt": { section: "Dairy", packageSize: 32, packageUnit: "oz", packageLabel: "container" },
+    "greek yogurt": { section: "Dairy", packageSize: 32, packageUnit: "oz", packageLabel: "container" },
     "cheddar cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "block" },
     "mozzarella cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "bag" },
-    "parmesan cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "container" },
-    "sour cream": { section: "Dairy", packageSize: 16, packageUnit: "oz", packageLabel: "container" },
-    "heavy cream": { section: "Dairy", packageSize: 16, packageUnit: "fl oz", packageLabel: "carton" },
-    "yogurt": { section: "Dairy", packageSize: 32, packageUnit: "oz", packageLabel: "container" },
-    "bread": { section: "Bakery", packageSize: 24, packageUnit: "oz", packageLabel: "loaf" },
+    "parmesan cheese": { section: "Dairy", packageSize: 5, packageUnit: "oz", packageLabel: "container" },
+    "feta cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "container" },
+    "swiss cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "package" },
+    "cottage cheese": { section: "Dairy", packageSize: 16, packageUnit: "oz", packageLabel: "container" },
+    "ricotta cheese": { section: "Dairy", packageSize: 15, packageUnit: "oz", packageLabel: "container" },
+    "whipped cream": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "can" },
+    "bread": { section: "Bakery", packageSize: 20, packageUnit: "oz", packageLabel: "loaf" },
+    "sandwich bread": { section: "Bakery", packageSize: 20, packageUnit: "oz", packageLabel: "loaf" },
+    "baguette": { section: "Bakery", packageSize: 1, packageUnit: "ct", packageLabel: "loaf" },
     "tortilla": { section: "Bakery", packageSize: 8, packageUnit: "ct", packageLabel: "package" },
-    "baking powder": { section: "Pantry", packageSize: 8.1, packageUnit: "oz", packageLabel: "container" },
+    "hamburger buns": { section: "Bakery", packageSize: 8, packageUnit: "ct", packageLabel: "package" },
+    "hot dog buns": { section: "Bakery", packageSize: 8, packageUnit: "ct", packageLabel: "package" },
+    "bagel": { section: "Bakery", packageSize: 6, packageUnit: "ct", packageLabel: "package" },
+    "english muffin": { section: "Bakery", packageSize: 6, packageUnit: "ct", packageLabel: "package" },
+    "pita bread": { section: "Bakery", packageSize: 6, packageUnit: "ct", packageLabel: "package" },
+    "corn muffin mix": { section: "Bakery", packageSize: 8, packageUnit: "oz", packageLabel: "box" },
+    "pancake mix": { section: "Bakery", packageSize: 32, packageUnit: "oz", packageLabel: "box" },
+    "breadcrumbs": { section: "Bakery", packageSize: 15, packageUnit: "oz", packageLabel: "container" },
+    "flour": { section: "Pantry", packageSize: 80, packageUnit: "oz", packageLabel: "bag" },
+    "bread flour": { section: "Pantry", packageSize: 80, packageUnit: "oz", packageLabel: "bag" },
+    "whole wheat flour": { section: "Pantry", packageSize: 80, packageUnit: "oz", packageLabel: "bag" },
+    "almond flour": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "bag" },
+    "cornmeal": { section: "Pantry", packageSize: 24, packageUnit: "oz", packageLabel: "bag" },
+    "cornstarch": { section: "Pantry", packageSize: 18, packageUnit: "oz", packageLabel: "container" },
+    "sugar": { section: "Pantry", packageSize: 64, packageUnit: "oz", packageLabel: "bag" },
+    "brown sugar": { section: "Pantry", packageSize: 24, packageUnit: "oz", packageLabel: "bag" },
+    "powdered sugar": { section: "Pantry", packageSize: 24, packageUnit: "oz", packageLabel: "bag" },
+    "baking powder": { section: "Pantry", packageSize: 10, packageUnit: "oz", packageLabel: "container" },
     "baking soda": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "box" },
-    "vanilla extract": { section: "Pantry", packageSize: 4, packageUnit: "fl oz", packageLabel: "bottle" },
-    "honey": { section: "Pantry", packageSize: 12, packageUnit: "fl oz", packageLabel: "bottle" },
-    "cinnamon": { section: "Pantry", packageSize: 2.37, packageUnit: "oz", packageLabel: "container" }
+    "yeast": { section: "Pantry", packageSize: 0.75, packageUnit: "oz", packageLabel: "package" },
+    "vanilla extract": { section: "Pantry", packageSize: 2, packageUnit: "fl oz", packageLabel: "bottle" },
+    "cocoa powder": { section: "Pantry", packageSize: 8, packageUnit: "oz", packageLabel: "container" },
+    "chocolate chips": { section: "Pantry", packageSize: 12, packageUnit: "oz", packageLabel: "bag" },
+    "honey": { section: "Pantry", packageSize: 12, packageUnit: "oz", packageLabel: "bottle" },
+    "maple syrup": { section: "Pantry", packageSize: 12, packageUnit: "fl oz", packageLabel: "bottle" },
+    "molasses": { section: "Pantry", packageSize: 12, packageUnit: "fl oz", packageLabel: "bottle" },
+    "olive oil": { section: "Pantry", packageSize: 16.9, packageUnit: "fl oz", packageLabel: "bottle" },
+    "vegetable oil": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "bottle" },
+    "avocado oil": { section: "Pantry", packageSize: 16.9, packageUnit: "fl oz", packageLabel: "bottle" },
+    "coconut oil": { section: "Pantry", packageSize: 14, packageUnit: "oz", packageLabel: "jar" },
+    "sesame oil": { section: "Pantry", packageSize: 5, packageUnit: "fl oz", packageLabel: "bottle" },
+    "cooking spray": { section: "Pantry", packageSize: 6, packageUnit: "oz", packageLabel: "can" },
+    "vinegar": { section: "Pantry", packageSize: 16.9, packageUnit: "fl oz", packageLabel: "bottle" },
+    "balsamic vinegar": { section: "Pantry", packageSize: 8.5, packageUnit: "fl oz", packageLabel: "bottle" },
+    "soy sauce": { section: "Pantry", packageSize: 10, packageUnit: "fl oz", packageLabel: "bottle" },
+    "worcestershire sauce": { section: "Pantry", packageSize: 10, packageUnit: "fl oz", packageLabel: "bottle" },
+    "hot sauce": { section: "Pantry", packageSize: 5, packageUnit: "fl oz", packageLabel: "bottle" },
+    "ketchup": { section: "Pantry", packageSize: 20, packageUnit: "oz", packageLabel: "bottle" },
+    "mustard": { section: "Pantry", packageSize: 12, packageUnit: "oz", packageLabel: "bottle" },
+    "mayonnaise": { section: "Pantry", packageSize: 12, packageUnit: "fl oz", packageLabel: "jar" },
+    "bbq sauce": { section: "Pantry", packageSize: 18, packageUnit: "oz", packageLabel: "bottle" },
+    "salsa": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "jar" },
+    "peanut butter": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "jar" },
+    "almond butter": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "jar" },
+    "jam": { section: "Pantry", packageSize: 13, packageUnit: "oz", packageLabel: "jar" },
+    "pickles": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "jar" },
+    "canned tomato": { section: "Pantry", packageSize: 14.5, packageUnit: "oz", packageLabel: "can" },
+    "tomato sauce": { section: "Pantry", packageSize: 15, packageUnit: "oz", packageLabel: "can" },
+    "tomato paste": { section: "Pantry", packageSize: 6, packageUnit: "oz", packageLabel: "can" },
+    "pasta sauce": { section: "Pantry", packageSize: 24, packageUnit: "oz", packageLabel: "jar" },
+    "coconut milk": { section: "Pantry", packageSize: 13.5, packageUnit: "oz", packageLabel: "can" },
+    "black beans": { section: "Pantry", packageSize: 15, packageUnit: "oz", packageLabel: "can" },
+    "kidney beans": { section: "Pantry", packageSize: 15, packageUnit: "oz", packageLabel: "can" },
+    "chickpeas": { section: "Pantry", packageSize: 15, packageUnit: "oz", packageLabel: "can" },
+    "pinto beans": { section: "Pantry", packageSize: 15, packageUnit: "oz", packageLabel: "can" },
+    "refried beans": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "can" },
+    "corn kernels": { section: "Pantry", packageSize: 15, packageUnit: "oz", packageLabel: "can" },
+    "green chiles": { section: "Pantry", packageSize: 4, packageUnit: "oz", packageLabel: "can" },
+    "olives": { section: "Pantry", packageSize: 6, packageUnit: "oz", packageLabel: "can" },
+    "chicken broth": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
+    "beef broth": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
+    "vegetable broth": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
+    "rice": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
+    "brown rice": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
+    "pasta": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "box" },
+    "egg noodles": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "bag" },
+    "lasagna noodles": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "box" },
+    "quinoa": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "bag" },
+    "oats": { section: "Pantry", packageSize: 24, packageUnit: "oz", packageLabel: "container" },
+    "lentils": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "bag" },
+    "couscous": { section: "Pantry", packageSize: 10, packageUnit: "oz", packageLabel: "box" },
+    "panko": { section: "Pantry", packageSize: 8, packageUnit: "oz", packageLabel: "container" },
+    "walnuts": { section: "Pantry", packageSize: 8, packageUnit: "oz", packageLabel: "bag" },
+    "pecans": { section: "Pantry", packageSize: 8, packageUnit: "oz", packageLabel: "bag" },
+    "almonds": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "bag" },
+    "raisins": { section: "Pantry", packageSize: 12, packageUnit: "oz", packageLabel: "container" },
+    "salt": { section: "Pantry", packageSize: 26, packageUnit: "oz", packageLabel: "container" },
+    "sea salt": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "container" },
+    "black pepper": { section: "Pantry", packageSize: 1.8, packageUnit: "oz", packageLabel: "container" },
+    "pepper": { section: "Pantry", packageSize: 1.8, packageUnit: "oz", packageLabel: "container" },
+    "cinnamon": { section: "Pantry", packageSize: 2.37, packageUnit: "oz", packageLabel: "container" },
+    "paprika": { section: "Pantry", packageSize: 2.12, packageUnit: "oz", packageLabel: "container" },
+    "cumin": { section: "Pantry", packageSize: 1.9, packageUnit: "oz", packageLabel: "container" },
+    "chili powder": { section: "Pantry", packageSize: 2.5, packageUnit: "oz", packageLabel: "container" },
+    "garlic powder": { section: "Pantry", packageSize: 3.1, packageUnit: "oz", packageLabel: "container" },
+    "onion powder": { section: "Pantry", packageSize: 2.6, packageUnit: "oz", packageLabel: "container" },
+    "italian seasoning": { section: "Pantry", packageSize: 0.75, packageUnit: "oz", packageLabel: "container" },
+    "bay leaves": { section: "Pantry", packageSize: 0.12, packageUnit: "oz", packageLabel: "container" },
+    "red pepper flakes": { section: "Pantry", packageSize: 1.5, packageUnit: "oz", packageLabel: "container" },
+    "nutmeg": { section: "Pantry", packageSize: 1.9, packageUnit: "oz", packageLabel: "container" },
+    "curry powder": { section: "Pantry", packageSize: 2, packageUnit: "oz", packageLabel: "container" },
+    "taco seasoning": { section: "Pantry", packageSize: 1, packageUnit: "oz", packageLabel: "package" },
+    "frozen berries": { section: "Other", packageSize: 16, packageUnit: "oz", packageLabel: "bag" },
+    "ice cream": { section: "Other", packageSize: 48, packageUnit: "fl oz", packageLabel: "container" },
+    "puff pastry": { section: "Other", packageSize: 17.3, packageUnit: "oz", packageLabel: "box" },
+    "pie crust": { section: "Other", packageSize: 14.1, packageUnit: "oz", packageLabel: "package" }
   };
 
+  // Only the items where Whole Foods' own catalog differs from the base size above;
+  // everything else they stock at the same size, so it needs no override.
+  var WHOLE_FOODS_AUSTIN_OVERRIDES = {
+    "black beans": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "can" },
+    "bread": { section: "Bakery", packageSize: 24, packageUnit: "oz", packageLabel: "loaf" },
+    "carrot": { section: "Produce", packageSize: 12, packageUnit: "oz", packageLabel: "bag" },
+    "chickpeas": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "can" },
+    "feta cheese": { section: "Dairy", packageSize: 12, packageUnit: "oz", packageLabel: "container" },
+    "garlic": { section: "Produce", packageSize: 3, packageUnit: "ct", packageLabel: "bag" },
+    "ketchup": { section: "Pantry", packageSize: 18.5, packageUnit: "oz", packageLabel: "bottle" },
+    "kidney beans": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "can" },
+    "milk": { section: "Dairy", packageSize: 64, packageUnit: "fl oz", packageLabel: "half gallon" },
+    "salt": { section: "Pantry", packageSize: 24.7, packageUnit: "oz", packageLabel: "container" },
+    "sandwich bread": { section: "Bakery", packageSize: 24, packageUnit: "oz", packageLabel: "loaf" },
+    "spinach": { section: "Produce", packageSize: 16, packageUnit: "oz", packageLabel: "container" }
+  };
+
+  // Reference keys must be spelled the way the parser normalizes an ingredient, or the
+  // entry can never be matched. "black beans" in a recipe normalizes to "black bean",
+  // so the key is run through the same pipeline. Names ending in a descriptive count
+  // unit ("bacon slices", "garlic cloves") keep their plural, since the parser appends it.
+  function normalizeReferenceKey(key) {
+    var words = String(key).split(/\s+/);
+    var last = words[words.length - 1];
+    var isCountPlural = Object.keys(DESCRIPTIVE_COUNT_UNITS).some(function (u) {
+      return DESCRIPTIVE_COUNT_UNITS[u] === last;
+    });
+    if (isCountPlural && words.length > 1) {
+      return (normalizeIngredientName(words.slice(0, -1).join(' ')) + ' ' + last).trim();
+    }
+    return normalizeIngredientName(key) || key;
+  }
+
+  function buildPreset(overrides) {
+    var out = {};
+    Object.keys(BASE_PACKAGE_REFERENCE).forEach(function (k) {
+      out[normalizeReferenceKey(k)] = BASE_PACKAGE_REFERENCE[k];
+    });
+    Object.keys(overrides).forEach(function (k) {
+      out[normalizeReferenceKey(k)] = overrides[k];
+    });
+    return out;
+  }
+
   var PACKAGE_PRESETS = {
-    generic: { label: "Generic US grocery", data: DEFAULT_PACKAGE_REFERENCE },
-    wfmAustin: { label: "Whole Foods — Austin, TX", data: WHOLE_FOODS_AUSTIN_REFERENCE }
+    wfmAustin: { label: "Whole Foods \u2014 Austin, TX", build: function () { return buildPreset(WHOLE_FOODS_AUSTIN_OVERRIDES); } },
+    generic: { label: "Generic US grocery", build: function () { return buildPreset({}); } }
   };
 
   var SECTIONS = ["Produce", "Meat", "Dairy", "Pantry", "Bakery", "Other"];
@@ -967,7 +1098,7 @@
 
   var STORAGE_KEY = "pressureCooker.packageReference";
   var PRESET_KEY = "pressureCooker.preset";
-  var activePreset = "generic";
+  var activePreset = "wfmAustin";
 
   function loadPackageReference() {
     try {
@@ -985,9 +1116,9 @@
   // Switching presets replaces the table wholesale, so any hand edits are intentionally
   // discarded — the preset is the new starting point.
   function applyPreset(name, persist) {
-    if (!PACKAGE_PRESETS[name]) name = "generic";
+    if (!PACKAGE_PRESETS[name]) name = "wfmAustin";
     activePreset = name;
-    packageReference = JSON.parse(JSON.stringify(PACKAGE_PRESETS[name].data));
+    packageReference = PACKAGE_PRESETS[name].build();
     if (persist !== false) savePackageReference();
   }
 
@@ -1545,6 +1676,7 @@
         ri.flagged = false;
         tr.classList.remove('flagged');
         generateAndRenderAll();
+        renderPackageRefTable();
       });
       rawTd.appendChild(rawInput);
 
@@ -1557,6 +1689,7 @@
       normInput.addEventListener('input', function () {
         ri.ingredientNormalized = normInput.value;
         generateAndRenderAll();
+        renderPackageRefTable();
       });
       normTd.appendChild(normInput);
 
@@ -1676,10 +1809,56 @@
     });
   }
 
+  // Ingredient keys the current recipes actually call for.
+  function recipeIngredientKeys() {
+    var seen = {};
+    recipeIngredients.forEach(function (ri) {
+      if (ri.ingredientNormalized) seen[ri.ingredientNormalized] = true;
+    });
+    return Object.keys(seen);
+  }
+
+  // Default view is just what the recipes need; searching opens up the whole store list.
+  function visibleReferenceKeys() {
+    var all = Object.keys(packageReference).sort();
+    var term = (document.getElementById('refSearch').value || '').trim().toLowerCase();
+    if (term) return all.filter(function (k) { return k.indexOf(term) !== -1; });
+    var used = recipeIngredientKeys();
+    return all.filter(function (k) { return used.indexOf(k) !== -1; });
+  }
+
+  function renderRefSummary(shownCount) {
+    var total = Object.keys(packageReference).length;
+    var term = (document.getElementById('refSearch').value || '').trim();
+    var summary = document.getElementById('refSummary');
+    var empty = document.getElementById('refEmpty');
+    var missing = recipeIngredientKeys().filter(function (k) { return !packageReference[k]; });
+
+    if (term) {
+      summary.textContent = shownCount + ' of ' + total + ' store items matching "' + term + '".';
+    } else {
+      summary.textContent = 'Showing the ' + shownCount + ' item' + (shownCount === 1 ? '' : 's') +
+        ' your recipes call for. The ' + PACKAGE_PRESETS[activePreset].label + ' list has ' +
+        total + ' items in total — search above to see the rest.';
+    }
+
+    if (missing.length && !term) {
+      empty.style.display = 'block';
+      empty.textContent = 'Not stocked in this list: ' + missing.map(ingredientDisplayName).join(', ') +
+        ' — use "+ Add Ingredient" to set a package size.';
+    } else if (!shownCount) {
+      empty.style.display = 'block';
+      empty.textContent = term ? 'No store items match that search.' : 'Add a recipe above to see the items you need.';
+    } else {
+      empty.style.display = 'none';
+    }
+  }
+
   function renderPackageRefTable() {
     var tbody = document.querySelector('#packageRefTable tbody');
     tbody.innerHTML = '';
-    var keys = Object.keys(packageReference).sort();
+    var keys = visibleReferenceKeys();
+    renderRefSummary(keys.length);
     keys.forEach(function (key) {
       var ref = packageReference[key];
       var tr = document.createElement('tr');
@@ -2006,6 +2185,8 @@
     renderPackageRefTable();
     generateAndRenderAll();
   });
+
+  document.getElementById('refSearch').addEventListener('input', renderPackageRefTable);
 
   document.getElementById('resetRefBtn').addEventListener('click', function () {
     applyPreset(activePreset, true);
