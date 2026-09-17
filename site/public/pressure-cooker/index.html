@@ -467,6 +467,19 @@
     margin-top: 8px;
   }
 
+  .preset-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 0 16px;
+  }
+  .preset-row label {
+    color: var(--gray);
+    font-size: 12.5px;
+  }
+  .preset-row select { min-width: 220px; }
+
   .clear-wrap { text-align: center; margin-bottom: 34px; }
   button.clear-btn {
     border: 1px solid var(--danger);
@@ -594,7 +607,7 @@
     <div class="section-head">
       <span class="section-eyebrow">Step 2</span>
       <h2 class="section-title">&ldquo;2018-Style&rdquo; Datatable</h2>
-      <p class="section-intro">Every recipe gets normalized into one row per ingredient &mdash; a single fact table that any program could read. Fix anything that parsed wrong right here; rows with a yellow left border need a closer look.</p>
+      <p class="section-intro">Every recipe gets normalized into one row per ingredient &mdash; a single fact table that any program could read. Fix anything that parsed wrong right here.</p>
     </div>
 
     <div class="data-table-panel">
@@ -655,6 +668,10 @@
       <h2 class="section-title">Package Reference</h2>
     </div>
     <p class="help">Edit package sizes, units, sections, and labels. Changes apply live and are saved in this browser.</p>
+    <div class="preset-row">
+      <label for="presetSelect">Package sizes from:</label>
+      <select id="presetSelect"></select>
+    </div>
     <div class="scroll-wrap">
       <table id="packageRefTable">
         <thead>
@@ -672,7 +689,7 @@
     </div>
     <div class="row-actions">
       <button id="addRefRowBtn" class="ghost">+ Add Ingredient</button>
-      <button id="resetRefBtn" class="ghost">Reset to Defaults</button>
+      <button id="resetRefBtn" class="ghost">Reset to Preset</button>
     </div>
   </section>
 
@@ -796,6 +813,65 @@
     "cinnamon": { section: "Pantry", packageSize: 2.37, packageUnit: "oz", packageLabel: "container" }
   };
 
+  // Package sizes as actually carried by Whole Foods Market, sourced from their Austin
+  // store catalog. Sizes that their catalog doesn't list individually (eggs, canned
+  // tomatoes) use the standard grocery size, which doesn't vary by chain.
+  var WHOLE_FOODS_AUSTIN_REFERENCE = {
+    "bacon": { section: "Meat", packageSize: 12, packageUnit: "oz", packageLabel: "package" },
+    "bacon slices": { section: "Meat", packageSize: 12, packageUnit: "slice", packageLabel: "package" },
+    "egg": { section: "Dairy", packageSize: 12, packageUnit: "ct", packageLabel: "dozen" },
+    "milk": { section: "Dairy", packageSize: 128, packageUnit: "fl oz", packageLabel: "gallon" },
+    "butter": { section: "Dairy", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "flour": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
+    "sugar": { section: "Pantry", packageSize: 64, packageUnit: "oz", packageLabel: "bag" },
+    "brown sugar": { section: "Pantry", packageSize: 24, packageUnit: "oz", packageLabel: "bag" },
+    "corn muffin mix": { section: "Bakery", packageSize: 8, packageUnit: "oz", packageLabel: "box" },
+    "cornmeal": { section: "Pantry", packageSize: 24, packageUnit: "oz", packageLabel: "bag" },
+    "chicken breast": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "ground beef": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "pork chop": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "sausage": { section: "Meat", packageSize: 12, packageUnit: "oz", packageLabel: "package" },
+    "onion": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "garlic": { section: "Produce", packageSize: 3, packageUnit: "ct", packageLabel: "bag" },
+    "garlic cloves": { section: "Produce", packageSize: 10, packageUnit: "clove", packageLabel: "bulb" },
+    "potato": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "carrot": { section: "Produce", packageSize: 1, packageUnit: "lb", packageLabel: "bag" },
+    "celery": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
+    "bell pepper": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "tomato": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "lemon": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "lime": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "canned tomato": { section: "Pantry", packageSize: 14.5, packageUnit: "oz", packageLabel: "can" },
+    "tomato sauce": { section: "Pantry", packageSize: 8, packageUnit: "oz", packageLabel: "can" },
+    "chicken broth": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
+    "beef broth": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
+    "olive oil": { section: "Pantry", packageSize: 16.9, packageUnit: "fl oz", packageLabel: "bottle" },
+    "vegetable oil": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "bottle" },
+    "salt": { section: "Pantry", packageSize: 24.7, packageUnit: "oz", packageLabel: "container" },
+    "pepper": { section: "Pantry", packageSize: 4, packageUnit: "oz", packageLabel: "container" },
+    "black pepper": { section: "Pantry", packageSize: 4, packageUnit: "oz", packageLabel: "container" },
+    "rice": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
+    "pasta": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "box" },
+    "cheddar cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "block" },
+    "mozzarella cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "bag" },
+    "parmesan cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "container" },
+    "sour cream": { section: "Dairy", packageSize: 16, packageUnit: "oz", packageLabel: "container" },
+    "heavy cream": { section: "Dairy", packageSize: 16, packageUnit: "fl oz", packageLabel: "carton" },
+    "yogurt": { section: "Dairy", packageSize: 32, packageUnit: "oz", packageLabel: "container" },
+    "bread": { section: "Bakery", packageSize: 24, packageUnit: "oz", packageLabel: "loaf" },
+    "tortilla": { section: "Bakery", packageSize: 8, packageUnit: "ct", packageLabel: "package" },
+    "baking powder": { section: "Pantry", packageSize: 8.1, packageUnit: "oz", packageLabel: "container" },
+    "baking soda": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "box" },
+    "vanilla extract": { section: "Pantry", packageSize: 4, packageUnit: "fl oz", packageLabel: "bottle" },
+    "honey": { section: "Pantry", packageSize: 12, packageUnit: "fl oz", packageLabel: "bottle" },
+    "cinnamon": { section: "Pantry", packageSize: 2.37, packageUnit: "oz", packageLabel: "container" }
+  };
+
+  var PACKAGE_PRESETS = {
+    generic: { label: "Generic US grocery", data: DEFAULT_PACKAGE_REFERENCE },
+    wfmAustin: { label: "Whole Foods — Austin, TX", data: WHOLE_FOODS_AUSTIN_REFERENCE }
+  };
+
   var SECTIONS = ["Produce", "Meat", "Dairy", "Pantry", "Bakery", "Other"];
 
   var UNIT_FAMILIES = {
@@ -890,21 +966,35 @@
   var checkedItems = {};
 
   var STORAGE_KEY = "pressureCooker.packageReference";
+  var PRESET_KEY = "pressureCooker.preset";
+  var activePreset = "generic";
 
   function loadPackageReference() {
     try {
+      var savedPreset = localStorage.getItem(PRESET_KEY);
+      if (savedPreset && PACKAGE_PRESETS[savedPreset]) activePreset = savedPreset;
       var raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         packageReference = JSON.parse(raw);
         return;
       }
-    } catch (e) { /* fall through to defaults */ }
-    packageReference = JSON.parse(JSON.stringify(DEFAULT_PACKAGE_REFERENCE));
+    } catch (e) { /* fall through to preset defaults */ }
+    applyPreset(activePreset, false);
+  }
+
+  // Switching presets replaces the table wholesale, so any hand edits are intentionally
+  // discarded — the preset is the new starting point.
+  function applyPreset(name, persist) {
+    if (!PACKAGE_PRESETS[name]) name = "generic";
+    activePreset = name;
+    packageReference = JSON.parse(JSON.stringify(PACKAGE_PRESETS[name].data));
+    if (persist !== false) savePackageReference();
   }
 
   function savePackageReference() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(packageReference));
+      localStorage.setItem(PRESET_KEY, activePreset);
     } catch (e) { /* localStorage unavailable; edits stay in-memory only */ }
   }
 
@@ -1867,9 +1957,22 @@
     renderRollupTable();
   }
 
+  function renderPresetSelect() {
+    var sel = document.getElementById('presetSelect');
+    sel.innerHTML = '';
+    Object.keys(PACKAGE_PRESETS).forEach(function (key) {
+      var opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = PACKAGE_PRESETS[key].label;
+      if (key === activePreset) opt.selected = true;
+      sel.appendChild(opt);
+    });
+  }
+
   function renderAll() {
     renderRecipeList();
     renderDataTable();
+    renderPresetSelect();
     renderPackageRefTable();
     generateAndRenderAll();
   }
@@ -1898,9 +2001,14 @@
     generateAndRenderAll();
   });
 
+  document.getElementById('presetSelect').addEventListener('change', function () {
+    applyPreset(this.value, true);
+    renderPackageRefTable();
+    generateAndRenderAll();
+  });
+
   document.getElementById('resetRefBtn').addEventListener('click', function () {
-    packageReference = JSON.parse(JSON.stringify(DEFAULT_PACKAGE_REFERENCE));
-    savePackageReference();
+    applyPreset(activePreset, true);
     renderPackageRefTable();
     generateAndRenderAll();
   });
