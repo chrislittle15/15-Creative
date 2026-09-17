@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Pressure Cooker</title>
+<style>
+  :root {
+    --bg: #0A0A0A;
+    --cream: #EDE6D6;
+    --gray: #8C8C8C;
+    --gold: #C9A66B;
+    --border: #2A2A2A;
+    --danger: #C97B6B;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--cream);
+    font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  #dotfield {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+
+  header.masthead {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .wordmark {
+    font-size: 40px;
+    letter-spacing: 2px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .wordmark .serif {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 300;
+    letter-spacing: 1px;
+  }
+
+  .wordmark .bold {
+    font-family: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
+    font-weight: 700;
+    letter-spacing: 6px;
+    color: var(--cream);
+  }
+
+  .tagline {
+    color: var(--gray);
+    margin-top: 14px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--gold);
+    opacity: 0.6;
+    margin: 40px 0;
+  }
+
+  section.panel {
+    margin-bottom: 40px;
+  }
+
+  .section-head {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .section-eyebrow {
+    display: block;
+    color: var(--gray);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h2.section-title {
+    font-size: 26px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .section-intro {
+    text-align: center;
+    color: var(--gray);
+    font-size: 13px;
+    max-width: 560px;
+    margin: 10px auto 0;
+  }
+
+  h3.sub-title {
+    font-size: 13px;
+    color: var(--cream);
+    margin: 24px 0 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  p.help {
+    color: var(--gray);
+    font-size: 12.5px;
+    margin: 6px 0 14px;
+  }
+
+  a {
+    color: var(--gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  a:hover { color: var(--cream); }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    border: 1px solid var(--border);
+  }
+
+  .tab-btn {
+    flex: 1;
+    background: transparent;
+    color: var(--gray);
+    border: none;
+    padding: 10px 14px;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    border-right: 1px solid var(--border);
+  }
+  .tab-btn:last-child { border-right: none; }
+
+  .tab-btn.active {
+    color: var(--bg);
+    background: var(--gold);
+  }
+
+  .tab-panel { display: none; padding: 16px 0; }
+  .tab-panel.active { display: block; }
+
+  textarea, input[type="text"], input[type="url"], input[type="number"] {
+    background: #111;
+    border: 1px solid var(--border);
+    color: var(--cream);
+    font-family: inherit;
+    font-size: 13.5px;
+    padding: 10px 12px;
+    width: 100%;
+  }
+  textarea:focus, input:focus, select:focus {
+    outline: 1px solid var(--gold);
+    border-color: var(--gold);
+  }
+
+  textarea { min-height: 140px; resize: vertical; }
+
+  select {
+    background: #111;
+    border: 1px solid var(--border);
+    color: var(--cream);
+    font-family: inherit;
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: 1px solid var(--gold);
+    background: transparent;
+    color: var(--gold);
+    padding: 10px 18px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  button:hover { background: var(--gold); color: var(--bg); }
+  button.primary {
+    background: var(--gold);
+    color: var(--bg);
+    font-weight: 700;
+    width: 100%;
+    padding: 14px;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+  button.primary:hover { opacity: 0.85; background: var(--gold); }
+  button.ghost {
+    border-color: var(--border);
+    color: var(--gray);
+    padding: 6px 10px;
+    font-size: 12px;
+    text-transform: none;
+  }
+  button.ghost:hover { background: var(--border); color: var(--cream); }
+  button.icon-btn {
+    border: 1px solid var(--border);
+    color: var(--gray);
+    background: transparent;
+    padding: 4px 10px;
+    font-size: 13px;
+    text-transform: none;
+  }
+  button.icon-btn:hover { border-color: var(--danger); color: var(--danger); background: transparent; }
+
+  .row-actions { margin-top: 12px; }
+
+  /* Recipe list */
+  .recipe-card {
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .recipe-card .name-input {
+    flex: 1;
+    min-width: 160px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    color: var(--cream);
+    font-size: 14px;
+    padding: 4px 2px;
+  }
+  .recipe-card .scale-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--gray);
+    font-size: 12px;
+  }
+  .recipe-card .scale-wrap input {
+    width: 60px;
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+  .recipe-meta {
+    color: var(--gray);
+    font-size: 11px;
+    min-width: 60px;
+  }
+
+  .empty-note {
+    color: var(--gray);
+    font-size: 12.5px;
+    font-style: italic;
+    margin-top: 12px;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    text-align: left;
+    vertical-align: middle;
+  }
+  th {
+    color: var(--gold);
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+    background: #111;
+  }
+  td input, td select {
+    width: 100%;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--cream);
+    padding: 4px 6px;
+    font-size: 13px;
+  }
+  td input:hover, td select:hover { border-color: var(--border); }
+  td input:focus, td select:focus { border-color: var(--gold); background: #111; }
+
+  tr.flagged td { border-left: 3px solid #D8B23A; }
+  tr.flagged td:first-child { border-left: 3px solid #D8B23A; }
+
+  tr.recipe-band-b td { background: #0f0f0f; }
+  tr.recipe-band-b.flagged td { background: #14130d; }
+
+  td.normalized-cell input {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  /* The Data Table showcase panel */
+  .data-table-panel {
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    padding: 32px 24px;
+    background: #0d0d0d;
+  }
+
+  #dataTable { min-width: 620px; }
+  #dataTable th:first-child, #dataTable td:first-child {
+    width: 72px;
+    white-space: nowrap;
+  }
+
+  .rollup-arrow {
+    text-align: center;
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin: 30px 0 18px;
+  }
+
+  /* Shopping list */
+  .shop-section {
+    margin-bottom: 26px;
+  }
+  .shop-section h3 {
+    font-size: 13px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+  .shop-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 7px 2px;
+    font-size: 14px;
+  }
+  .shop-item input[type="checkbox"] {
+    margin-top: 2px;
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    accent-color: var(--gold);
+  }
+  .shop-item label { flex: 1; cursor: pointer; }
+  .shop-item.checked label { color: var(--gray); text-decoration: line-through; }
+  .manual-note {
+    display: block;
+    color: #D8B23A;
+    font-size: 11.5px;
+    margin-top: 2px;
+    font-style: italic;
+  }
+  .item-detail {
+    display: block;
+    color: var(--gray);
+    font-size: 11.5px;
+    margin-top: 2px;
+  }
+  .shop-item.checked .item-detail { color: #5a5a5a; }
+
+  .note-banner {
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    font-size: 12.5px;
+    color: var(--gray);
+    margin-top: 10px;
+  }
+  .note-banner.warn { border-color: #D8B23A; color: #D8B23A; }
+
+  table.raw {
+    font-size: 11.5px;
+    overflow-x: auto;
+    display: block;
+  }
+  table.raw thead, table.raw tbody { display: table; width: 100%; table-layout: fixed; }
+
+  footer {
+    text-align: center;
+    color: var(--gray);
+    font-size: 11px;
+    margin-top: 40px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Inline PDF preview */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.88);
+    z-index: 50;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: #0d0d0d;
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    width: 100%;
+    max-width: 840px;
+    height: 88vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .modal-title {
+    color: var(--gold);
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .modal-actions { display: flex; gap: 10px; }
+  .modal-body { flex: 1; min-height: 0; background: #2b2b2b; }
+  .modal-body iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+  .scroll-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  .scroll-hint {
+    display: none;
+    color: var(--gray);
+    font-size: 11px;
+    font-style: italic;
+    margin-top: 8px;
+  }
+
+  .clear-wrap { text-align: center; margin-bottom: 34px; }
+  button.clear-btn {
+    border: 1px solid var(--danger);
+    color: var(--danger);
+    background: transparent;
+    padding: 11px 22px;
+    font-size: 13px;
+  }
+  button.clear-btn:hover { background: var(--danger); color: var(--bg); }
+
+  .print-btn-wrap { text-align: center; margin-bottom: 20px; display: flex; gap: 12px; justify-content: center; }
+  button.print-btn {
+    border-color: var(--gold);
+    color: var(--gold);
+    padding: 12px 24px;
+  }
+  button.print-btn:hover { background: var(--gold); color: var(--bg); }
+
+  @media (max-width: 600px) {
+    .wordmark { font-size: 28px; letter-spacing: 1px; gap: 8px; }
+    .wordmark .bold { letter-spacing: 3px; }
+    .page { padding: 32px 16px 64px; }
+    table.raw { font-size: 11px; }
+    h2.section-title { font-size: 20px; letter-spacing: 2px; }
+    .section-intro { font-size: 12.5px; }
+    .data-table-panel { padding: 20px 12px; }
+    .scroll-hint { display: block; }
+
+    /* Recipe name on its own row, then meta + scale + remove beneath it. */
+    .recipe-card { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .recipe-card .name-input { flex: 1 1 100%; min-width: 0; }
+    .recipe-card .recipe-meta { flex: 0 0 auto; }
+    .recipe-card .scale-wrap { flex: 0 0 auto; margin-left: auto; }
+    .recipe-card button.icon-btn { flex: 0 0 auto; padding: 6px 14px; }
+
+    /* 16px keeps iOS Safari from auto-zooming when a field is focused. */
+    textarea, input[type="text"], input[type="url"], input[type="number"],
+    select, td input, td select { font-size: 16px; }
+
+    .tab-btn { font-size: 12px; padding: 12px 8px; }
+    .shop-item { font-size: 15px; padding: 10px 2px; }
+    .shop-item input[type="checkbox"] { width: 22px; height: 22px; }
+    .print-btn-wrap { flex-direction: column; }
+    .print-btn-wrap button { width: 100%; }
+    th, td { padding: 8px; }
+  }
+
+  @media print {
+    body * { visibility: hidden; }
+    #printable, #printable * { visibility: visible; }
+    #printable {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      background: #FFFFFF;
+      color: #000000;
+      padding: 20px;
+    }
+    #dotfield { display: none; }
+    .shop-section h3 { color: #000; border-bottom: 1px solid #000; }
+    .shop-item.checked label { color: #555; }
+    #printable h2.section-title { color: #000; }
+    button, .no-print { display: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="dotfield"></canvas>
+
+<div class="page">
+
+  <header class="masthead">
+    <h1 class="wordmark">
+      <span class="serif">THE</span><span class="bold">PRESSURE</span><span class="serif">COOKER</span>
+    </h1>
+    <p class="tagline">Turn any recipe into a &ldquo;2018 Style&rdquo; Datatable and generate a shopping list that even your Grandpa can follow!</p>
+  </header>
+
+  <hr class="divider">
+
+  <!-- Recipe input panel -->
+  <section class="panel">
+    <div class="clear-wrap">
+      <button id="clearAllBtn" class="clear-btn">Clear Contents</button>
+    </div>
+
+    <div class="section-head">
+      <span class="section-eyebrow">Step 1</span>
+      <h2 class="section-title">Add Recipes</h2>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="paste-tab">Paste Ingredients</button>
+      <button class="tab-btn" data-tab="url-tab">Paste a URL</button>
+    </div>
+
+    <div class="tab-panel active" id="paste-tab">
+      <p class="help">Paste ingredient lines, one per line. Example: "1 1/2 cups flour", "6 slices bacon".</p>
+      <input type="text" id="pasteNameInput" placeholder="Recipe name (optional)" style="margin-bottom:10px;">
+      <textarea id="pasteInput" placeholder="1 1/2 cups flour&#10;6 slices bacon&#10;8 oz box corn muffin mix"></textarea>
+      <div class="row-actions">
+        <button class="primary" id="addPasteBtn" style="width:auto;">Add Recipe</button>
+      </div>
+    </div>
+
+    <div class="tab-panel" id="url-tab">
+      <p class="help">Paste a recipe page URL. We'll try to read structured recipe data directly from the page. This works reliably on <strong>Food Network</strong> recipe pages &mdash; most other sites block that kind of direct read, and we'll fall back to the paste tab if so.</p>
+      <input type="url" id="urlInput" placeholder="https://example.com/some-recipe">
+      <p class="help" style="margin-top:8px;"><a href="https://www.foodnetwork.com/recipes/recipes-a-z" target="_blank" rel="noopener">Browse recipes on Food Network &#8599;</a> and paste any recipe URL from there.</p>
+      <div id="urlStatus" class="note-banner" style="display:none;"></div>
+      <div class="row-actions">
+        <button class="primary" id="addUrlBtn" style="width:auto;">Add Recipe</button>
+      </div>
+    </div>
+
+    <h3 class="sub-title">Recipes in this list</h3>
+    <div id="recipeList"></div>
+    <div id="recipeListEmpty" class="empty-note">No recipes added yet.</div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- The Data Table: the showcase of the whole app -->
+  <section class="panel">
+    <div class="section-head">
+      <span class="section-eyebrow">Step 2</span>
+      <h2 class="section-title">&ldquo;2018-Style&rdquo; Datatable</h2>
+      <p class="section-intro">Every recipe gets normalized into one row per ingredient &mdash; a single fact table that any program could read. Fix anything that parsed wrong right here; rows with a yellow left border need a closer look.</p>
+    </div>
+
+    <div class="data-table-panel">
+      <div class="scroll-wrap">
+        <table id="dataTable">
+          <thead>
+            <tr>
+              <th>Recipe</th>
+              <th>Section</th>
+              <th>Raw Ingredient</th>
+              <th>Normalized</th>
+              <th>Qty</th>
+              <th>Unit</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div id="dataTableEmpty" class="empty-note">Add a recipe above to see it parsed into the data table here.</div>
+      <div class="scroll-hint">Swipe the table sideways to see every column.</div>
+
+      <div class="rollup-arrow">&#9660; rolled up into &#9660;</div>
+
+      <h3 class="sub-title">The Rollup Table</h3>
+      <p class="help">Every recipe's quantities, scaled and summed per ingredient, then converted into package units.</p>
+      <div class="scroll-wrap">
+        <table class="raw" id="rollupTable">
+          <thead><tr><th>Ingredient</th><th>Section</th><th>Total Qty Needed</th><th>Package Unit</th><th>Packages Needed</th><th>Instruction</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- Shopping list output -->
+  <section class="panel" id="printable">
+    <div class="section-head">
+      <span class="section-eyebrow">Step 3</span>
+      <h2 class="section-title">Shopping List</h2>
+    </div>
+    <div class="print-btn-wrap no-print">
+      <button class="print-btn" id="pdfBtn">Preview PDF</button>
+      <button class="print-btn" id="printBtn">Print</button>
+    </div>
+    <div id="shoppingListOutput">
+      <div class="empty-note">Add a recipe above and your shopping list appears here.</div>
+    </div>
+  </section>
+
+  <hr class="divider no-print">
+
+  <!-- Package reference panel -->
+  <section class="panel no-print">
+    <div class="section-head">
+      <span class="section-eyebrow">Fine-Tune</span>
+      <h2 class="section-title">Package Reference</h2>
+    </div>
+    <p class="help">Edit package sizes, units, sections, and labels. Changes apply live and are saved in this browser.</p>
+    <div class="scroll-wrap">
+      <table id="packageRefTable">
+        <thead>
+          <tr>
+            <th>Ingredient</th>
+            <th>Section</th>
+            <th>Package Size</th>
+            <th>Package Unit</th>
+            <th>Package Label</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="row-actions">
+      <button id="addRefRowBtn" class="ghost">+ Add Ingredient</button>
+      <button id="resetRefBtn" class="ghost">Reset to Defaults</button>
+    </div>
+  </section>
+
+  <hr class="divider no-print">
+
+  <footer class="no-print">
+    THE PRESSURE COOKER &mdash; Serving both your brain and your taste buds!
+  </footer>
+
+  <!-- PDF preview -->
+  <div class="modal-overlay no-print" id="pdfModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <span class="modal-title">Shopping List Preview</span>
+        <div class="modal-actions">
+          <button class="ghost" id="pdfDownloadBtn">Download</button>
+          <button class="ghost" id="pdfCloseBtn">Close</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <iframe id="pdfFrame" title="Shopping list PDF preview"></iframe>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ======================= DOT FIELD BACKGROUND ======================= */
+  (function initDotField() {
+    var canvas = document.getElementById('dotfield');
+    var ctx = canvas.getContext('2d');
+    var dots = [];
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      var count = Math.floor((canvas.width * canvas.height) / 14000);
+      dots = [];
+      for (var i = 0; i < count; i++) {
+        dots.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 1.2 + 0.4,
+          o: Math.random() * 0.35 + 0.08,
+          dx: (Math.random() - 0.5) * 0.05,
+          dy: (Math.random() - 0.5) * 0.05
+        });
+      }
+    }
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (var i = 0; i < dots.length; i++) {
+        var d = dots[i];
+        d.x += d.dx; d.y += d.dy;
+        if (d.x < 0) d.x = canvas.width; if (d.x > canvas.width) d.x = 0;
+        if (d.y < 0) d.y = canvas.height; if (d.y > canvas.height) d.y = 0;
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(237, 230, 214, ' + d.o + ')';
+        ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    requestAnimationFrame(draw);
+  })();
+
+  /* ======================= SEED DATA ======================= */
+  var DEFAULT_PACKAGE_REFERENCE = {
+    "bacon": { section: "Meat", packageSize: 12, packageUnit: "oz", packageLabel: "package" },
+    "bacon slices": { section: "Meat", packageSize: 12, packageUnit: "slice", packageLabel: "package" },
+    "egg": { section: "Dairy", packageSize: 12, packageUnit: "ct", packageLabel: "dozen" },
+    "milk": { section: "Dairy", packageSize: 128, packageUnit: "fl oz", packageLabel: "gallon" },
+    "butter": { section: "Dairy", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "flour": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
+    "sugar": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
+    "brown sugar": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
+    "corn muffin mix": { section: "Bakery", packageSize: 8, packageUnit: "oz", packageLabel: "box" },
+    "cornmeal": { section: "Pantry", packageSize: 12, packageUnit: "cup", packageLabel: "bag" },
+    "chicken breast": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "ground beef": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "pork chop": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "sausage": { section: "Meat", packageSize: 16, packageUnit: "oz", packageLabel: "package" },
+    "onion": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "garlic": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bulb" },
+    "garlic cloves": { section: "Produce", packageSize: 10, packageUnit: "clove", packageLabel: "bulb" },
+    "potato": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "carrot": { section: "Produce", packageSize: 1, packageUnit: "lb", packageLabel: "bag" },
+    "celery": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
+    "bell pepper": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "tomato": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "lemon": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "lime": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
+    "canned tomato": { section: "Pantry", packageSize: 14.5, packageUnit: "oz", packageLabel: "can" },
+    "tomato sauce": { section: "Pantry", packageSize: 8, packageUnit: "oz", packageLabel: "can" },
+    "chicken broth": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
+    "beef broth": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "carton" },
+    "olive oil": { section: "Pantry", packageSize: 16, packageUnit: "fl oz", packageLabel: "bottle" },
+    "vegetable oil": { section: "Pantry", packageSize: 32, packageUnit: "fl oz", packageLabel: "bottle" },
+    "salt": { section: "Pantry", packageSize: 26, packageUnit: "oz", packageLabel: "container" },
+    "pepper": { section: "Pantry", packageSize: 4, packageUnit: "oz", packageLabel: "container" },
+    "black pepper": { section: "Pantry", packageSize: 4, packageUnit: "oz", packageLabel: "container" },
+    "rice": { section: "Pantry", packageSize: 32, packageUnit: "oz", packageLabel: "bag" },
+    "pasta": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "box" },
+    "cheddar cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "block" },
+    "mozzarella cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "bag" },
+    "parmesan cheese": { section: "Dairy", packageSize: 8, packageUnit: "oz", packageLabel: "container" },
+    "sour cream": { section: "Dairy", packageSize: 16, packageUnit: "oz", packageLabel: "container" },
+    "heavy cream": { section: "Dairy", packageSize: 16, packageUnit: "fl oz", packageLabel: "carton" },
+    "yogurt": { section: "Dairy", packageSize: 32, packageUnit: "oz", packageLabel: "container" },
+    "bread": { section: "Bakery", packageSize: 1, packageUnit: "ct", packageLabel: "loaf" },
+    "tortilla": { section: "Bakery", packageSize: 1, packageUnit: "ct", packageLabel: "package" },
+    "baking powder": { section: "Pantry", packageSize: 8.1, packageUnit: "oz", packageLabel: "container" },
+    "baking soda": { section: "Pantry", packageSize: 16, packageUnit: "oz", packageLabel: "box" },
+    "vanilla extract": { section: "Pantry", packageSize: 4, packageUnit: "fl oz", packageLabel: "bottle" },
+    "honey": { section: "Pantry", packageSize: 12, packageUnit: "fl oz", packageLabel: "bottle" },
+    "cinnamon": { section: "Pantry", packageSize: 2.37, packageUnit: "oz", packageLabel: "container" }
+  };
+
+  var SECTIONS = ["Produce", "Meat", "Dairy", "Pantry", "Bakery", "Other"];
+
+  var UNIT_FAMILIES = {
+    volume: { base: "tsp", units: { tsp: 1, tbsp: 3, "fl oz": 6, cup: 48, pint: 96, quart: 192, gallon: 768 } },
+    weight: { base: "oz", units: { oz: 1, lb: 16 } }
+  };
+
+  var UNIT_ALIASES = {
+    "tsp": "tsp", "tsps": "tsp", "teaspoon": "tsp", "teaspoons": "tsp",
+    "tbsp": "tbsp", "tbsps": "tbsp", "tablespoon": "tbsp", "tablespoons": "tbsp",
+    "cup": "cup", "cups": "cup",
+    "fl oz": "fl oz", "fl. oz": "fl oz", "fluid ounce": "fl oz", "fluid ounces": "fl oz", "floz": "fl oz",
+    "pint": "pint", "pints": "pint", "pt": "pint",
+    "quart": "quart", "quarts": "quart", "qt": "quart",
+    "gallon": "gallon", "gallons": "gallon", "gal": "gallon",
+    "oz": "oz", "ounce": "oz", "ounces": "oz",
+    "lb": "lb", "lbs": "lb", "pound": "lb", "pounds": "lb",
+    "g": "g", "gram": "g", "grams": "g",
+    "kg": "kg", "kilogram": "kg", "kilograms": "kg",
+    "slice": "slice", "slices": "slice",
+    "can": "can", "cans": "can",
+    "box": "box", "boxes": "box",
+    "count": "ct", "ct": "ct",
+    "clove": "clove", "cloves": "clove",
+    "bunch": "bunch", "bunches": "bunch",
+    "package": "package", "packages": "package", "pkg": "package", "pkgs": "package"
+  };
+
+  var UNIT_LIST_SORTED = Object.keys(UNIT_ALIASES).sort(function (a, b) { return b.length - a.length; });
+
+  var DESCRIPTORS = [
+    "chopped", "diced", "fresh", "large", "small", "medium", "thick", "boneless", "skinless",
+    "minced", "sliced", "shredded", "grated", "crushed", "peeled", "cored",
+    "seeded", "trimmed", "cooked", "uncooked", "raw", "ripe", "melted", "softened", "frozen",
+    "room temperature", "cold", "warm", "extra virgin", "unsalted", "salted", "packed",
+    "divided", "optional", "plus more", "to taste", "finely", "coarsely", "thinly",
+    "thickly", "roughly", "of", "the", "a", "an"
+  ];
+
+  // Container/packaging words that sometimes trail the unit token (e.g. "8 oz box corn
+  // muffin mix") and would otherwise leak into the matched ingredient name.
+  var CONTAINER_NOISE_WORDS = [
+    "box", "boxes", "can", "cans", "package", "packages", "pkg", "pkgs",
+    "bag", "bags", "jar", "jars", "bottle", "bottles", "carton", "cartons",
+    "container", "containers"
+  ];
+
+  // Count-family units that describe how the product itself is sold (a package of
+  // "bacon slices", a "garlic clove"), so they're folded into the normalized name
+  // instead of being treated as a pure measurement like "cup" or "tbsp".
+  var DESCRIPTIVE_COUNT_UNITS = { slice: "slices", clove: "cloves", bunch: "bunches" };
+
+  // Filler content so the page loads with a fully worked, clean example to scroll through —
+  // two batches of the same recipe, chosen so every line resolves cleanly against the
+  // package reference below (no manual-review flags in the default view).
+  var FOOD_NETWORK_SAMPLE_URL = "https://www.foodnetwork.com/recipes/food-network-kitchen/breakfast-cornbread-casserole-with-ham-and-kale-3363561";
+  // What Step 1's inputs show on load — the same source text the demo recipes below
+  // were built from, so the input and the resulting tables read as one worked example.
+  var DEMO_INPUT_NAME = 'Breakfast Cornbread Casserole';
+  var DEMO_INPUT_PASTE = [
+    'Recipe 1:',
+    '6 Slices of Bacon',
+    '8oz Box of Corn Muffin Mix',
+    'Recipe 2:',
+    '7 Slices of Bacon',
+    '12oz of Corn Muffin Mix'
+  ].join('\n');
+
+  var DEMO_RECIPES = [
+    {
+      name: "Breakfast Cornbread Casserole",
+      lines: [
+        { text: "6 Slices of Bacon", section: "Meat" },
+        { text: "8oz Box of Corn Muffin Mix", section: "Bakery" }
+      ]
+    },
+    {
+      name: "Breakfast Cornbread Casserole (2nd Batch)",
+      lines: [
+        { text: "7 Slices of Bacon", section: "Meat" },
+        { text: "12oz of Corn Muffin Mix", section: "Bakery" }
+      ]
+    }
+  ];
+
+  /* ======================= STATE ======================= */
+  var recipes = [];
+  var recipeIngredients = [];
+  var packageReference = {};
+  var shoppingList = [];
+  var nextRecipeId = 1;
+  var checkedItems = {};
+
+  var STORAGE_KEY = "pressureCooker.packageReference";
+
+  function loadPackageReference() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        packageReference = JSON.parse(raw);
+        return;
+      }
+    } catch (e) { /* fall through to defaults */ }
+    packageReference = JSON.parse(JSON.stringify(DEFAULT_PACKAGE_REFERENCE));
+  }
+
+  function savePackageReference() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(packageReference));
+    } catch (e) { /* localStorage unavailable; edits stay in-memory only */ }
+  }
+
+  /* ======================= PARSER ======================= */
+
+  var FRACTION_MAP = { "½": 0.5, "⅓": 1/3, "⅔": 2/3, "¼": 0.25, "¾": 0.75, "⅛": 0.125, "⅜": 0.375, "⅝": 0.625, "⅞": 0.875 };
+
+  function parseQuantityToken(str) {
+    str = str.trim();
+    if (FRACTION_MAP.hasOwnProperty(str)) return FRACTION_MAP[str];
+    var mixedMatch = str.match(/^(\d+)\s+(\d+)\/(\d+)$/);
+    if (mixedMatch) {
+      return parseInt(mixedMatch[1], 10) + (parseInt(mixedMatch[2], 10) / parseInt(mixedMatch[3], 10));
+    }
+    var fracMatch = str.match(/^(\d+)\/(\d+)$/);
+    if (fracMatch) {
+      return parseInt(fracMatch[1], 10) / parseInt(fracMatch[2], 10);
+    }
+    var decMatch = str.match(/^(\d+(\.\d+)?)$/);
+    if (decMatch) return parseFloat(decMatch[1]);
+    return null;
+  }
+
+  // Trailing lookahead (not a captured/consumed group) so a quantity glued directly to its
+  // unit — "8oz", "12oz" — still splits correctly, same as "8 oz" with a space.
+  var QTY_BOUNDARY = '(?=\\s|[a-zA-Z]|$)';
+
+  function extractLeadingQuantity(line) {
+    line = line.trim();
+    var mixedFracUnicode = line.match(new RegExp('^(\\d+)\\s*([½⅓⅔¼¾⅛⅜⅝⅞])' + QTY_BOUNDARY));
+    if (mixedFracUnicode) {
+      var whole = parseInt(mixedFracUnicode[1], 10);
+      var frac = FRACTION_MAP[mixedFracUnicode[2]];
+      return { qty: whole + frac, rest: line.slice(mixedFracUnicode[0].length).trim() };
+    }
+    var unicodeFrac = line.match(new RegExp('^([½⅓⅔¼¾⅛⅜⅝⅞])' + QTY_BOUNDARY));
+    if (unicodeFrac) {
+      return { qty: FRACTION_MAP[unicodeFrac[1]], rest: line.slice(unicodeFrac[0].length).trim() };
+    }
+    var mixed = line.match(new RegExp('^(\\d+)\\s+(\\d+)\\/(\\d+)' + QTY_BOUNDARY));
+    if (mixed) {
+      var q = parseInt(mixed[1], 10) + (parseInt(mixed[2], 10) / parseInt(mixed[3], 10));
+      return { qty: q, rest: line.slice(mixed[0].length).trim() };
+    }
+    var frac2 = line.match(new RegExp('^(\\d+)\\/(\\d+)' + QTY_BOUNDARY));
+    if (frac2) {
+      return { qty: parseInt(frac2[1], 10) / parseInt(frac2[2], 10), rest: line.slice(frac2[0].length).trim() };
+    }
+    var dec = line.match(new RegExp('^(\\d+(\\.\\d+)?)' + QTY_BOUNDARY));
+    if (dec) {
+      return { qty: parseFloat(dec[1]), rest: line.slice(dec[0].length).trim() };
+    }
+    return { qty: null, rest: line };
+  }
+
+  function extractUnit(str) {
+    str = str.trim();
+    var lower = str.toLowerCase();
+    for (var i = 0; i < UNIT_LIST_SORTED.length; i++) {
+      var candidate = UNIT_LIST_SORTED[i];
+      var re = new RegExp("^" + candidate.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + "\\.?(\\s+|$)", "i");
+      var m = lower.match(re);
+      if (m) {
+        return { unit: UNIT_ALIASES[candidate], rest: str.slice(m[0].length).trim() };
+      }
+    }
+    return { unit: null, rest: str };
+  }
+
+  function normalizeIngredientName(raw) {
+    var name = raw.toLowerCase();
+    name = name.replace(/\([^)]*\)/g, ' ');
+    name = name.replace(/[,;].*$/, '');
+    name = name.replace(/-/g, ' ');
+    var parts = name.split(/\s+/).filter(Boolean);
+    parts = parts.filter(function (word) {
+      return DESCRIPTORS.indexOf(word) === -1 && CONTAINER_NOISE_WORDS.indexOf(word) === -1;
+    });
+    name = parts.join(' ').trim();
+    name = name.replace(/[^a-z\s]/g, '').replace(/\s+/g, ' ').trim();
+    if (name.length > 3) {
+      if (name.endsWith('oes')) name = name.slice(0, -2);
+      else if (name.endsWith('ies')) name = name.slice(0, -3) + 'y';
+      else if (name.endsWith('ves')) name = name.slice(0, -3) + 'f';
+      else if (name.endsWith('ses')) name = name.slice(0, -2);
+      else if (name.endsWith('s') && !name.endsWith('ss') && !name.endsWith('us')) name = name.slice(0, -1);
+    }
+    return name.trim();
+  }
+
+  function parseIngredientLine(line) {
+    var original = line.trim();
+    if (!original) return null;
+    var qtyResult = extractLeadingQuantity(original);
+    var unitResult = extractUnit(qtyResult.rest);
+    // Drop the connector/packaging words left behind when a line reads "6 slices of bacon"
+    // or "8oz box of corn muffin mix", so the raw ingredient reads as just the food.
+    var ingredientRaw = unitResult.rest
+      .replace(/^(box|boxes|can|cans|bag|bags|jar|jars|bottle|bottles|carton|cartons|package|packages|pkg|pkgs|container|containers)\b\s*/i, '')
+      .replace(/^(of the|of)\b\s*/i, '')
+      .trim();
+    var flagged = (qtyResult.qty === null || unitResult.unit === null || ingredientRaw === '');
+    if (ingredientRaw === '') ingredientRaw = original;
+    var normalized = normalizeIngredientName(ingredientRaw);
+    if (unitResult.unit && DESCRIPTIVE_COUNT_UNITS.hasOwnProperty(unitResult.unit)) {
+      var suffix = DESCRIPTIVE_COUNT_UNITS[unitResult.unit];
+      var normWords = normalized.split(/\s+/);
+      if (normWords.indexOf(suffix) === -1 && normWords.indexOf(unitResult.unit) === -1) {
+        normalized = (normalized + ' ' + suffix).trim();
+      }
+    }
+    return {
+      ingredientRaw: ingredientRaw,
+      ingredientNormalized: normalized,
+      qty: qtyResult.qty,
+      unit: unitResult.unit,
+      flagged: flagged
+    };
+  }
+
+  function parseIngredientBlock(text) {
+    var lines = text.split(/\n/);
+    var results = [];
+    var currentSection = "Other";
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].trim();
+      if (!line) continue;
+      // "Recipe 1:" / "Recipe 2" group labels are separators, not ingredients or sections.
+      if (/^recipe\s*\d*\s*:?$/i.test(line)) continue;
+      var headingMatch = line.match(/^#+\s*(.+)$/) || (line.endsWith(':') && line.length < 40 ? [null, line.slice(0, -1)] : null);
+      if (headingMatch && !/\d/.test(headingMatch[1])) {
+        currentSection = headingMatch[1].trim();
+        continue;
+      }
+      var parsed = parseIngredientLine(line);
+      if (parsed) {
+        parsed.section = currentSection;
+        results.push(parsed);
+      }
+    }
+    return results;
+  }
+
+  /* ======================= UNIT CONVERSION ======================= */
+
+  function unitFamily(unit) {
+    if (UNIT_FAMILIES.volume.units.hasOwnProperty(unit)) return "volume";
+    if (UNIT_FAMILIES.weight.units.hasOwnProperty(unit)) return "weight";
+    return "count";
+  }
+
+  function toBase(qty, unit) {
+    var fam = unitFamily(unit);
+    if (fam === "volume") return qty * UNIT_FAMILIES.volume.units[unit];
+    if (fam === "weight") return qty * UNIT_FAMILIES.weight.units[unit];
+    return qty;
+  }
+
+  function convertQty(qty, fromUnit, toUnit) {
+    if (fromUnit === toUnit) return qty;
+    var famFrom = unitFamily(fromUnit);
+    var famTo = unitFamily(toUnit);
+    if (famFrom !== famTo) return null;
+    if (famFrom === "count") {
+      return fromUnit === toUnit ? qty : null;
+    }
+    var baseQty = toBase(qty, fromUnit);
+    var families = famFrom === "volume" ? UNIT_FAMILIES.volume.units : UNIT_FAMILIES.weight.units;
+    if (!families.hasOwnProperty(toUnit)) return null;
+    return baseQty / families[toUnit];
+  }
+
+  /* ======================= RECIPE MANAGEMENT ======================= */
+
+  function addRecipe(name, sourceType, sourceValue, parsedIngredients) {
+    var id = nextRecipeId++;
+    recipes.push({
+      id: id,
+      name: name || ("Recipe " + id),
+      sourceType: sourceType,
+      sourceValue: sourceValue,
+      servingsBase: null,
+      servingsScale: 1
+    });
+    parsedIngredients.forEach(function (ing) {
+      // An unknown section is filled in from the package reference when we recognise the
+      // ingredient, so categories read sensibly instead of a column of "Other".
+      var section = ing.section;
+      if (!section || section === 'Other') {
+        var known = packageReference[ing.ingredientNormalized];
+        if (known && known.section) section = known.section;
+      }
+      recipeIngredients.push({
+        recipeId: id,
+        section: section || "Other",
+        ingredientRaw: ing.ingredientRaw,
+        ingredientNormalized: ing.ingredientNormalized,
+        qty: ing.qty,
+        unit: ing.unit,
+        flagged: ing.flagged
+      });
+    });
+    renderAll();
+  }
+
+  function removeRecipe(id) {
+    recipes = recipes.filter(function (r) { return r.id !== id; });
+    recipeIngredients = recipeIngredients.filter(function (ri) { return ri.recipeId !== id; });
+    renderAll();
+  }
+
+  /* ======================= URL / JSON-LD HANDLING ======================= */
+
+  function findRecipeJsonLd(doc) {
+    var scripts = doc.querySelectorAll('script[type="application/ld+json"]');
+    for (var i = 0; i < scripts.length; i++) {
+      try {
+        var data = JSON.parse(scripts[i].textContent);
+        var candidates = Array.isArray(data) ? data : [data];
+        for (var j = 0; j < candidates.length; j++) {
+          var item = candidates[j];
+          if (item['@graph']) {
+            var found = findRecipeInGraph(item['@graph']);
+            if (found) return found;
+          }
+          var type = item['@type'];
+          if (type === 'Recipe' || (Array.isArray(type) && type.indexOf('Recipe') !== -1)) {
+            return item;
+          }
+        }
+      } catch (e) { /* skip malformed JSON-LD block */ }
+    }
+    return null;
+  }
+
+  function findRecipeInGraph(graph) {
+    for (var i = 0; i < graph.length; i++) {
+      var type = graph[i]['@type'];
+      if (type === 'Recipe' || (Array.isArray(type) && type.indexOf('Recipe') !== -1)) {
+        return graph[i];
+      }
+    }
+    return null;
+  }
+
+  function showUrlStatus(msg, isWarn) {
+    var el = document.getElementById('urlStatus');
+    el.style.display = 'block';
+    el.textContent = msg;
+    el.className = 'note-banner' + (isWarn ? ' warn' : '');
+  }
+
+  function switchToPasteTab(prefillText) {
+    document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+    document.querySelector('.tab-btn[data-tab="paste-tab"]').classList.add('active');
+    document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
+    document.getElementById('paste-tab').classList.add('active');
+    var pasteEl = document.getElementById('pasteInput');
+    if (prefillText) pasteEl.value = prefillText;
+    pasteEl.focus();
+  }
+
+  function handleAddUrl() {
+    var url = document.getElementById('urlInput').value.trim();
+    if (!url) return;
+    showUrlStatus('Fetching recipe data...', false);
+    fetch(url).then(function (resp) {
+      if (!resp.ok) throw new Error('bad response');
+      return resp.text();
+    }).then(function (html) {
+      var parser = new DOMParser();
+      var doc = parser.parseFromString(html, 'text/html');
+      var recipeData = findRecipeJsonLd(doc);
+      if (!recipeData || !recipeData.recipeIngredient) {
+        showUrlStatus("Couldn't read that page directly — paste the ingredients instead.", true);
+        switchToPasteTab('');
+        return;
+      }
+      var ingredientLines = recipeData.recipeIngredient;
+      var parsed = ingredientLines.map(function (line) {
+        var p = parseIngredientLine(line);
+        if (p) p.section = 'Other';
+        return p;
+      }).filter(Boolean);
+      var name = recipeData.name || url;
+      addRecipe(name, 'url', url, parsed);
+      document.getElementById('urlInput').value = '';
+      document.getElementById('urlStatus').style.display = 'none';
+    }).catch(function () {
+      showUrlStatus("Couldn't read that page directly — paste the ingredients instead.", true);
+      switchToPasteTab('');
+    });
+  }
+
+  function handleAddPaste() {
+    var text = document.getElementById('pasteInput').value;
+    if (!text.trim()) return;
+    var name = document.getElementById('pasteNameInput').value.trim();
+    var parsed = parseIngredientBlock(text);
+    addRecipe(name, 'paste', text, parsed);
+    document.getElementById('pasteInput').value = '';
+    document.getElementById('pasteNameInput').value = '';
+  }
+
+  /* ======================= SHOPPING LIST GENERATION ======================= */
+
+  // Leading words that don't distinguish one recipe from another, skipped when
+  // abbreviating a recipe name down to a short code for the fact table.
+  var NAME_STOPWORDS = ['breakfast', 'lunch', 'dinner', 'brunch', 'easy', 'quick',
+    'best', 'homemade', 'classic', 'simple', 'the', 'a', 'an', 'my', 'our'];
+
+  function recipeShortCode(recipe) {
+    var ordinal = recipes.indexOf(recipe) + 1;
+    var words = String(recipe && recipe.name || '').replace(/[^a-zA-Z0-9\s]/g, ' ').trim().split(/\s+/).filter(Boolean);
+    var pick = null;
+    for (var i = 0; i < words.length; i++) {
+      if (NAME_STOPWORDS.indexOf(words[i].toLowerCase()) === -1) { pick = words[i]; break; }
+    }
+    if (!pick) pick = words[0] || 'Recipe';
+    var stem = pick.slice(0, 5);
+    return stem.charAt(0).toUpperCase() + stem.slice(1).toLowerCase() + ordinal;
+  }
+
+  // Abbreviated units are never pluralized ("12 oz", not "12 ozs"), and "each" reads
+  // wrong with an -s ("Buy 2 each of Onion").
+  var NO_PLURAL_UNITS = { 'oz': 1, 'lb': 1, 'g': 1, 'kg': 1, 'fl oz': 1, 'tsp': 1, 'tbsp': 1, 'ct': 1 };
+  var NO_PLURAL_LABELS = { 'each': 1 };
+
+  function pluralizeWord(word) {
+    if (/(s|x|z|ch|sh)$/i.test(word)) return word + 'es';
+    if (/[^aeiou]y$/i.test(word)) return word.slice(0, -1) + 'ies';
+    return word + 's';
+  }
+
+  function pluralizeUnit(unit, qty) {
+    if (qty === 1 || !unit || NO_PLURAL_UNITS.hasOwnProperty(unit)) return unit;
+    return pluralizeWord(unit);
+  }
+
+  function pluralizeLabel(label, qty) {
+    if (qty === 1 || !label || NO_PLURAL_LABELS.hasOwnProperty(label.toLowerCase())) return label;
+    return pluralizeWord(label);
+  }
+
+  function ingredientDisplayName(normalized) {
+    if (!normalized) return '(unknown ingredient)';
+    return normalized.replace(/\b\w/g, function (c) { return c.toUpperCase(); });
+  }
+
+  function generateShoppingList() {
+    var grouped = {};
+    recipeIngredients.forEach(function (ri) {
+      var recipe = recipes.find(function (r) { return r.id === ri.recipeId; });
+      if (!recipe) return;
+      var scale = recipe.servingsScale || 1;
+      var key = ri.ingredientNormalized || ('(unparsed: ' + ri.ingredientRaw + ')');
+      if (!grouped[key]) grouped[key] = [];
+      grouped[key].push({ qty: (ri.qty === null ? null : ri.qty * scale), unit: ri.unit, flagged: ri.flagged });
+    });
+
+    var list = [];
+    Object.keys(grouped).forEach(function (key) {
+      var entries = grouped[key];
+      var ref = packageReference[key];
+      var hasUnparsed = entries.some(function (e) { return e.qty === null || e.unit === null || e.flagged; });
+
+      if (!ref) {
+        list.push({
+          ingredientNormalized: key,
+          section: 'Other',
+          totalQtyNeeded: null,
+          packageUnit: null,
+          packagesNeeded: null,
+          needsManualReview: true,
+          reviewReason: 'No package reference entry for "' + ingredientDisplayName(key) + '" — add one below.',
+          instruction: null
+        });
+        return;
+      }
+
+      if (hasUnparsed) {
+        list.push({
+          ingredientNormalized: key,
+          section: ref.section,
+          totalQtyNeeded: null,
+          packageUnit: ref.packageUnit,
+          packagesNeeded: null,
+          needsManualReview: true,
+          reviewReason: 'Quantity or unit could not be parsed for one or more lines — check the ingredient preview.',
+          instruction: null
+        });
+        return;
+      }
+
+      var totalInPackageUnit = 0;
+      var conversionFailed = false;
+      var failUnit = null;
+      entries.forEach(function (e) {
+        var converted = convertQty(e.qty, e.unit, ref.packageUnit);
+        if (converted === null) {
+          conversionFailed = true;
+          failUnit = e.unit;
+        } else {
+          totalInPackageUnit += converted;
+        }
+      });
+
+      if (conversionFailed) {
+        list.push({
+          ingredientNormalized: key,
+          section: ref.section,
+          totalQtyNeeded: null,
+          packageUnit: ref.packageUnit,
+          packagesNeeded: null,
+          needsManualReview: true,
+          reviewReason: 'Check quantity manually — recipe unit (' + failUnit + ") doesn't convert directly to package unit (" + ref.packageUnit + ').',
+          instruction: null
+        });
+        return;
+      }
+
+      var packagesNeeded = Math.ceil(totalInPackageUnit / ref.packageSize);
+      if (packagesNeeded < 1) packagesNeeded = 1;
+      var displayName = ingredientDisplayName(key);
+      var label = pluralizeLabel(ref.packageLabel, packagesNeeded);
+      var rounded = Math.round(totalInPackageUnit * 100) / 100;
+      list.push({
+        ingredientNormalized: key,
+        section: ref.section,
+        totalQtyNeeded: totalInPackageUnit,
+        packageUnit: ref.packageUnit,
+        packagesNeeded: packagesNeeded,
+        needsManualReview: false,
+        reviewReason: null,
+        instruction: 'Buy ' + packagesNeeded + ' ' + label + ' of ' + displayName,
+        detail: 'recipes need ' + rounded + ' ' + pluralizeUnit(ref.packageUnit, rounded) +
+          ' · ' + ref.packageSize + ' ' + pluralizeUnit(ref.packageUnit, ref.packageSize) + ' per ' + ref.packageLabel
+      });
+    });
+
+    list.sort(function (a, b) {
+      return ingredientDisplayName(a.ingredientNormalized).localeCompare(ingredientDisplayName(b.ingredientNormalized));
+    });
+
+    shoppingList = list;
+  }
+
+  /* ======================= RENDERING ======================= */
+
+  function renderRecipeList() {
+    var container = document.getElementById('recipeList');
+    var emptyNote = document.getElementById('recipeListEmpty');
+    container.innerHTML = '';
+    if (recipes.length === 0) {
+      emptyNote.style.display = 'block';
+      return;
+    }
+    emptyNote.style.display = 'none';
+    recipes.forEach(function (r) {
+      var card = document.createElement('div');
+      card.className = 'recipe-card';
+
+      var nameInput = document.createElement('input');
+      nameInput.className = 'name-input';
+      nameInput.type = 'text';
+      nameInput.value = r.name;
+      nameInput.addEventListener('input', function () {
+        r.name = nameInput.value;
+        renderDataTable();
+      });
+
+      var meta = document.createElement('span');
+      meta.className = 'recipe-meta';
+      meta.textContent = r.sourceType === 'url' ? 'from URL' : 'pasted';
+
+      var scaleWrap = document.createElement('div');
+      scaleWrap.className = 'scale-wrap';
+      var scaleLabel = document.createElement('span');
+      scaleLabel.textContent = '×';
+      var scaleInput = document.createElement('input');
+      scaleInput.type = 'number';
+      scaleInput.min = '0.25';
+      scaleInput.step = '0.25';
+      scaleInput.value = r.servingsScale;
+      scaleInput.addEventListener('input', function () {
+        var v = parseFloat(scaleInput.value);
+        r.servingsScale = (isNaN(v) || v <= 0) ? 1 : v;
+        generateAndRenderAll();
+      });
+      scaleWrap.appendChild(scaleLabel);
+      scaleWrap.appendChild(scaleInput);
+
+      var removeBtn = document.createElement('button');
+      removeBtn.className = 'icon-btn';
+      removeBtn.textContent = '×';
+      removeBtn.title = 'Remove recipe';
+      removeBtn.addEventListener('click', function () { removeRecipe(r.id); });
+
+      card.appendChild(nameInput);
+      card.appendChild(meta);
+      card.appendChild(scaleWrap);
+      card.appendChild(removeBtn);
+      container.appendChild(card);
+    });
+  }
+
+  function renderDataTable() {
+    var tbody = document.querySelector('#dataTable tbody');
+    var table = document.getElementById('dataTable');
+    var emptyNote = document.getElementById('dataTableEmpty');
+    tbody.innerHTML = '';
+
+    if (recipeIngredients.length === 0) {
+      table.style.display = 'none';
+      emptyNote.style.display = 'block';
+      return;
+    }
+    table.style.display = '';
+    emptyNote.style.display = 'none';
+
+    recipeIngredients.forEach(function (ri) {
+      var recipe = recipes.find(function (r) { return r.id === ri.recipeId; });
+      var recipeIndex = recipes.indexOf(recipe);
+      var tr = document.createElement('tr');
+      tr.className = (recipeIndex % 2 === 1 ? 'recipe-band-b' : '') + (ri.flagged ? ' flagged' : '');
+
+      var recipeTd = document.createElement('td');
+      recipeTd.textContent = recipe ? recipeShortCode(recipe) : ('R' + ri.recipeId);
+      recipeTd.title = recipe ? recipe.name : ('Recipe ' + ri.recipeId);
+      recipeTd.style.color = 'var(--gray)';
+      recipeTd.style.fontSize = '12px';
+
+      var sectionTd = document.createElement('td');
+      var sectionInput = document.createElement('input');
+      sectionInput.type = 'text';
+      sectionInput.value = ri.section;
+      sectionInput.addEventListener('input', function () { ri.section = sectionInput.value; generateAndRenderAll(); });
+      sectionTd.appendChild(sectionInput);
+
+      var rawTd = document.createElement('td');
+      var rawInput = document.createElement('input');
+      rawInput.type = 'text';
+      rawInput.value = ri.ingredientRaw;
+      rawInput.addEventListener('input', function () {
+        ri.ingredientRaw = rawInput.value;
+        ri.ingredientNormalized = normalizeIngredientName(rawInput.value);
+        normInput.value = ri.ingredientNormalized;
+        ri.flagged = false;
+        tr.classList.remove('flagged');
+        generateAndRenderAll();
+      });
+      rawTd.appendChild(rawInput);
+
+      var normTd = document.createElement('td');
+      normTd.className = 'normalized-cell';
+      var normInput = document.createElement('input');
+      normInput.type = 'text';
+      normInput.value = ri.ingredientNormalized;
+      normInput.title = 'This is the key used to match the Package Reference below — edit it directly if you want to force a match.';
+      normInput.addEventListener('input', function () {
+        ri.ingredientNormalized = normInput.value;
+        generateAndRenderAll();
+      });
+      normTd.appendChild(normInput);
+
+      var qtyTd = document.createElement('td');
+      var qtyInput = document.createElement('input');
+      qtyInput.type = 'text';
+      qtyInput.value = ri.qty === null ? '' : ri.qty;
+      qtyInput.addEventListener('input', function () {
+        var v = parseFloat(qtyInput.value);
+        ri.qty = isNaN(v) ? null : v;
+        ri.flagged = (ri.qty === null || ri.unit === null);
+        tr.classList.toggle('flagged', ri.flagged);
+        generateAndRenderAll();
+      });
+      qtyTd.appendChild(qtyInput);
+
+      var unitTd = document.createElement('td');
+      var unitSelect = document.createElement('select');
+      var noneOpt = document.createElement('option');
+      noneOpt.value = ''; noneOpt.textContent = '(none)';
+      unitSelect.appendChild(noneOpt);
+      var seenUnits = {};
+      Object.keys(UNIT_ALIASES).forEach(function (k) {
+        var canon = UNIT_ALIASES[k];
+        if (seenUnits[canon]) return;
+        seenUnits[canon] = true;
+        var opt = document.createElement('option');
+        opt.value = canon; opt.textContent = canon;
+        if (ri.unit === canon) opt.selected = true;
+        unitSelect.appendChild(opt);
+      });
+      if (!ri.unit) noneOpt.selected = true;
+      unitSelect.addEventListener('change', function () {
+        ri.unit = unitSelect.value || null;
+        ri.flagged = (ri.qty === null || ri.unit === null);
+        tr.classList.toggle('flagged', ri.flagged);
+        generateAndRenderAll();
+      });
+      unitTd.appendChild(unitSelect);
+
+      tr.appendChild(recipeTd);
+      tr.appendChild(sectionTd);
+      tr.appendChild(rawTd);
+      tr.appendChild(normTd);
+      tr.appendChild(qtyTd);
+      tr.appendChild(unitTd);
+      tbody.appendChild(tr);
+    });
+  }
+
+  function renderShoppingList() {
+    var container = document.getElementById('shoppingListOutput');
+    container.innerHTML = '';
+    if (shoppingList.length === 0) {
+      container.innerHTML = '<div class="empty-note">Add a recipe above and your shopping list appears here.</div>';
+      return;
+    }
+
+    var bySection = {};
+    shoppingList.forEach(function (item) {
+      var sec = item.section || 'Other';
+      if (!bySection[sec]) bySection[sec] = [];
+      bySection[sec].push(item);
+    });
+
+    var orderedSections = SECTIONS.filter(function (s) { return bySection[s]; })
+      .concat(Object.keys(bySection).filter(function (s) { return SECTIONS.indexOf(s) === -1; }));
+
+    orderedSections.forEach(function (sec) {
+      var secDiv = document.createElement('div');
+      secDiv.className = 'shop-section';
+      var h3 = document.createElement('h3');
+      h3.textContent = sec;
+      secDiv.appendChild(h3);
+
+      bySection[sec].forEach(function (item, idx) {
+        var itemDiv = document.createElement('div');
+        var checkKey = sec + '::' + item.ingredientNormalized;
+        var isChecked = !!checkedItems[checkKey];
+        itemDiv.className = 'shop-item' + (isChecked ? ' checked' : '');
+
+        var checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = isChecked;
+        var checkboxId = 'chk-' + sec.replace(/\W/g, '') + '-' + idx;
+        checkbox.id = checkboxId;
+        checkbox.addEventListener('change', function () {
+          checkedItems[checkKey] = checkbox.checked;
+          itemDiv.classList.toggle('checked', checkbox.checked);
+        });
+
+        var label = document.createElement('label');
+        label.setAttribute('for', checkboxId);
+
+        if (item.needsManualReview) {
+          label.appendChild(document.createTextNode(ingredientDisplayName(item.ingredientNormalized)));
+          var note = document.createElement('span');
+          note.className = 'manual-note';
+          note.textContent = item.reviewReason;
+          label.appendChild(note);
+        } else {
+          label.appendChild(document.createTextNode(item.instruction));
+          if (item.detail) {
+            var detail = document.createElement('span');
+            detail.className = 'item-detail';
+            detail.textContent = item.detail;
+            label.appendChild(detail);
+          }
+        }
+
+        itemDiv.appendChild(checkbox);
+        itemDiv.appendChild(label);
+        secDiv.appendChild(itemDiv);
+      });
+
+      container.appendChild(secDiv);
+    });
+  }
+
+  function renderPackageRefTable() {
+    var tbody = document.querySelector('#packageRefTable tbody');
+    tbody.innerHTML = '';
+    var keys = Object.keys(packageReference).sort();
+    keys.forEach(function (key) {
+      var ref = packageReference[key];
+      var tr = document.createElement('tr');
+
+      var nameTd = document.createElement('td');
+      var nameInput = document.createElement('input');
+      nameInput.type = 'text';
+      nameInput.value = key;
+      nameInput.addEventListener('change', function () {
+        var newKey = normalizeIngredientName(nameInput.value) || nameInput.value.trim().toLowerCase();
+        if (!newKey || newKey === key) { nameInput.value = key; return; }
+        var data = packageReference[key];
+        delete packageReference[key];
+        packageReference[newKey] = data;
+        savePackageReference();
+        renderPackageRefTable();
+        generateAndRenderAll();
+      });
+      nameTd.appendChild(nameInput);
+
+      var sectionTd = document.createElement('td');
+      var sectionSelect = document.createElement('select');
+      SECTIONS.forEach(function (s) {
+        var opt = document.createElement('option');
+        opt.value = s; opt.textContent = s;
+        if (ref.section === s) opt.selected = true;
+        sectionSelect.appendChild(opt);
+      });
+      sectionSelect.addEventListener('change', function () {
+        ref.section = sectionSelect.value;
+        savePackageReference();
+        generateAndRenderAll();
+      });
+      sectionTd.appendChild(sectionSelect);
+
+      var sizeTd = document.createElement('td');
+      var sizeInput = document.createElement('input');
+      sizeInput.type = 'number';
+      sizeInput.step = 'any';
+      sizeInput.value = ref.packageSize;
+      sizeInput.addEventListener('input', function () {
+        var v = parseFloat(sizeInput.value);
+        ref.packageSize = isNaN(v) || v <= 0 ? 1 : v;
+        savePackageReference();
+        generateAndRenderAll();
+      });
+      sizeTd.appendChild(sizeInput);
+
+      var unitTd = document.createElement('td');
+      var unitSelect = document.createElement('select');
+      var seenUnits = {};
+      Object.keys(UNIT_ALIASES).forEach(function (k) {
+        var canon = UNIT_ALIASES[k];
+        if (seenUnits[canon]) return;
+        seenUnits[canon] = true;
+        var opt = document.createElement('option');
+        opt.value = canon; opt.textContent = canon;
+        if (ref.packageUnit === canon) opt.selected = true;
+        unitSelect.appendChild(opt);
+      });
+      unitSelect.addEventListener('change', function () {
+        ref.packageUnit = unitSelect.value;
+        savePackageReference();
+        generateAndRenderAll();
+      });
+      unitTd.appendChild(unitSelect);
+
+      var labelTd = document.createElement('td');
+      var labelInput = document.createElement('input');
+      labelInput.type = 'text';
+      labelInput.value = ref.packageLabel;
+      labelInput.addEventListener('input', function () {
+        ref.packageLabel = labelInput.value;
+        savePackageReference();
+        generateAndRenderAll();
+      });
+      labelTd.appendChild(labelInput);
+
+      var actionTd = document.createElement('td');
+      var delBtn = document.createElement('button');
+      delBtn.className = 'icon-btn';
+      delBtn.textContent = '×';
+      delBtn.addEventListener('click', function () {
+        delete packageReference[key];
+        savePackageReference();
+        renderPackageRefTable();
+        generateAndRenderAll();
+      });
+      actionTd.appendChild(delBtn);
+
+      tr.appendChild(nameTd);
+      tr.appendChild(sectionTd);
+      tr.appendChild(sizeTd);
+      tr.appendChild(unitTd);
+      tr.appendChild(labelTd);
+      tr.appendChild(actionTd);
+      tbody.appendChild(tr);
+    });
+  }
+
+  function renderRollupTable() {
+    var rollupBody = document.querySelector('#rollupTable tbody');
+    rollupBody.innerHTML = '';
+    shoppingList.forEach(function (item) {
+      var tr = document.createElement('tr');
+      if (item.needsManualReview) tr.className = 'flagged';
+      tr.innerHTML = '<td>' + escapeHtml(ingredientDisplayName(item.ingredientNormalized)) + '</td>' +
+        '<td>' + escapeHtml(item.section || '') + '</td>' +
+        '<td>' + (item.totalQtyNeeded === null ? '—' : Math.round(item.totalQtyNeeded * 100) / 100) + '</td>' +
+        '<td>' + (item.packageUnit || '—') + '</td>' +
+        '<td>' + (item.packagesNeeded === null ? '—' : item.packagesNeeded) + '</td>' +
+        '<td>' + escapeHtml(item.instruction || item.reviewReason || '') + '</td>';
+      rollupBody.appendChild(tr);
+    });
+  }
+
+  /* ======================= PDF EXPORT ======================= */
+  // Hand-rolled minimal PDF writer. PDF is a text-based format, so a plain text
+  // shopping list needs no library — which keeps this a single self-contained file.
+
+  function pdfAscii(str) {
+    return String(str === null || str === undefined ? '' : str)
+      .replace(/[‘’]/g, "'")
+      .replace(/[“”]/g, '"')
+      .replace(/[–—]/g, '-')
+      .replace(/·/g, '-')
+      .replace(/×/g, 'x')
+      .replace(/[^\x20-\x7E]/g, '');
+  }
+
+  function pdfEscape(str) { return str.replace(/([\\()])/g, '\\$1'); }
+
+  function padLeft10(num) {
+    var s = String(num);
+    while (s.length < 10) s = '0' + s;
+    return s;
+  }
+
+  function buildPdfLines() {
+    var lines = [];
+    lines.push({ text: 'SHOPPING LIST', size: 22, bold: true, leading: 30 });
+    lines.push({ text: 'The Pressure Cooker  -  ' + new Date().toLocaleDateString(), size: 10, leading: 28 });
+
+    var bySection = {};
+    shoppingList.forEach(function (item) {
+      var sec = item.section || 'Other';
+      if (!bySection[sec]) bySection[sec] = [];
+      bySection[sec].push(item);
+    });
+    var ordered = SECTIONS.filter(function (s) { return bySection[s]; })
+      .concat(Object.keys(bySection).filter(function (s) { return SECTIONS.indexOf(s) === -1; }));
+
+    ordered.forEach(function (sec) {
+      lines.push({ text: sec.toUpperCase(), size: 12, bold: true, leading: 24, rule: true });
+      bySection[sec].forEach(function (item) {
+        if (item.needsManualReview) {
+          lines.push({ text: ingredientDisplayName(item.ingredientNormalized), size: 13, checkbox: true, leading: 19 });
+          lines.push({ text: item.reviewReason, size: 9, indent: 20, leading: 15 });
+        } else {
+          lines.push({ text: item.instruction, size: 13, checkbox: true, leading: 19 });
+          if (item.detail) lines.push({ text: item.detail, size: 9, indent: 20, leading: 15 });
+        }
+      });
+      lines.push({ text: '', size: 10, leading: 10 });
+    });
+    return lines;
+  }
+
+  function buildShoppingListPdf() {
+    var PAGE_W = 612, PAGE_H = 792, M = 54;
+    var lines = buildPdfLines();
+
+    var pages = [], cur = [], y = PAGE_H - M;
+    lines.forEach(function (ln) {
+      if (y - ln.leading < M) { pages.push(cur); cur = []; y = PAGE_H - M; }
+      cur.push({ ln: ln, y: y });
+      y -= ln.leading;
+    });
+    if (cur.length) pages.push(cur);
+    if (!pages.length) pages.push([]);
+
+    var streams = pages.map(function (page) {
+      var ops = [];
+      page.forEach(function (entry) {
+        var ln = entry.ln;
+        var x = M + (ln.indent || 0);
+        if (ln.rule) {
+          ops.push('q 0.6 w 0.79 0.65 0.42 RG ' + M + ' ' + (entry.y - 6) + ' m ' +
+            (PAGE_W - M) + ' ' + (entry.y - 6) + ' l S Q');
+        }
+        if (ln.checkbox) {
+          ops.push('q 0.9 w 0.25 0.25 0.25 RG ' + M + ' ' + (entry.y - 2) + ' 11 11 re S Q');
+          x = M + 20;
+        }
+        var t = pdfEscape(pdfAscii(ln.text));
+        if (t) {
+          ops.push('BT /' + (ln.bold ? 'F1' : 'F2') + ' ' + ln.size + ' Tf ' +
+            (ln.size <= 9 ? '0.45 0.45 0.45 rg' : '0 0 0 rg') +
+            ' 1 0 0 1 ' + x + ' ' + entry.y + ' Tm (' + t + ') Tj ET');
+        }
+      });
+      return ops.join('\n');
+    });
+
+    var n = pages.length;
+    var kids = [];
+    for (var i = 0; i < n; i++) kids.push((5 + i * 2) + ' 0 R');
+
+    var objs = {};
+    objs[1] = '<< /Type /Catalog /Pages 2 0 R >>';
+    objs[2] = '<< /Type /Pages /Kids [' + kids.join(' ') + '] /Count ' + n + ' >>';
+    objs[3] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
+    objs[4] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
+    for (var j = 0; j < n; j++) {
+      objs[5 + j * 2] = '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + PAGE_W + ' ' + PAGE_H + ']' +
+        ' /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ' + (6 + j * 2) + ' 0 R >>';
+      objs[6 + j * 2] = '<< /Length ' + streams[j].length + ' >>\nstream\n' + streams[j] + '\nendstream';
+    }
+
+    var maxId = 4 + n * 2;
+    var out = '%PDF-1.4\n';
+    var offsets = {};
+    for (var id = 1; id <= maxId; id++) {
+      offsets[id] = out.length;
+      out += id + ' 0 obj\n' + objs[id] + '\nendobj\n';
+    }
+    var xrefPos = out.length;
+    out += 'xref\n0 ' + (maxId + 1) + '\n0000000000 65535 f \n';
+    for (var k = 1; k <= maxId; k++) out += padLeft10(offsets[k]) + ' 00000 n \n';
+    out += 'trailer\n<< /Size ' + (maxId + 1) + ' /Root 1 0 R >>\nstartxref\n' + xrefPos + '\n%%EOF';
+
+    return new Blob([out], { type: 'application/pdf' });
+  }
+
+  function savePdf(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'shopping-list.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+
+  // Previewed inline rather than in a popup: a blocked popup, or a top-level blob:
+  // navigation from a file:// page, is exactly what makes a browser download instead
+  // of display. Nothing is saved unless Download is clicked.
+  var pdfPreviewUrl = null;
+
+  function showPdfPreview() {
+    if (pdfPreviewUrl) URL.revokeObjectURL(pdfPreviewUrl);
+    pdfPreviewUrl = URL.createObjectURL(buildShoppingListPdf());
+    document.getElementById('pdfFrame').src = pdfPreviewUrl;
+    document.getElementById('pdfModal').classList.add('open');
+  }
+
+  function closePdfPreview() {
+    document.getElementById('pdfModal').classList.remove('open');
+    document.getElementById('pdfFrame').removeAttribute('src');
+    if (pdfPreviewUrl) {
+      URL.revokeObjectURL(pdfPreviewUrl);
+      pdfPreviewUrl = null;
+    }
+  }
+
+  function escapeHtml(str) {
+    if (str === null || str === undefined) return '';
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function generateAndRenderAll() {
+    generateShoppingList();
+    renderShoppingList();
+    renderRollupTable();
+  }
+
+  function renderAll() {
+    renderRecipeList();
+    renderDataTable();
+    renderPackageRefTable();
+    generateAndRenderAll();
+  }
+
+  /* ======================= EVENT WIRING ======================= */
+
+  document.querySelectorAll('.tab-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+      document.querySelectorAll('.tab-panel').forEach(function (p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  document.getElementById('addUrlBtn').addEventListener('click', handleAddUrl);
+  document.getElementById('addPasteBtn').addEventListener('click', handleAddPaste);
+
+  document.getElementById('addRefRowBtn').addEventListener('click', function () {
+    var newKey = 'new item';
+    var i = 1;
+    while (packageReference.hasOwnProperty(newKey)) { newKey = 'new item ' + (++i); }
+    packageReference[newKey] = { section: 'Other', packageSize: 1, packageUnit: 'ct', packageLabel: 'item' };
+    savePackageReference();
+    renderPackageRefTable();
+    generateAndRenderAll();
+  });
+
+  document.getElementById('resetRefBtn').addEventListener('click', function () {
+    packageReference = JSON.parse(JSON.stringify(DEFAULT_PACKAGE_REFERENCE));
+    savePackageReference();
+    renderPackageRefTable();
+    generateAndRenderAll();
+  });
+
+  document.getElementById('pdfBtn').addEventListener('click', showPdfPreview);
+  document.getElementById('pdfCloseBtn').addEventListener('click', closePdfPreview);
+
+  document.getElementById('pdfDownloadBtn').addEventListener('click', function () {
+    if (pdfPreviewUrl) savePdf(pdfPreviewUrl);
+  });
+
+  document.getElementById('pdfModal').addEventListener('click', function (e) {
+    if (e.target === this) closePdfPreview();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closePdfPreview();
+  });
+
+  document.getElementById('printBtn').addEventListener('click', function () {
+    window.print();
+  });
+
+  document.getElementById('clearAllBtn').addEventListener('click', function () {
+    recipes = [];
+    recipeIngredients = [];
+    checkedItems = {};
+    document.getElementById('pasteNameInput').value = '';
+    document.getElementById('pasteInput').value = '';
+    document.getElementById('urlStatus').style.display = 'none';
+    renderAll();
+  });
+
+  /* ======================= INIT ======================= */
+
+  function seedDemoRecipes() {
+    DEMO_RECIPES.forEach(function (demo) {
+      var parsed = demo.lines.map(function (entry) {
+        var p = parseIngredientLine(entry.text);
+        if (p) p.section = entry.section;
+        return p;
+      }).filter(Boolean);
+      var pasteText = demo.lines.map(function (entry) { return entry.text; }).join('\n');
+      addRecipe(demo.name, 'paste', pasteText, parsed);
+    });
+  }
+
+  loadPackageReference();
+  document.getElementById('urlInput').value = FOOD_NETWORK_SAMPLE_URL;
+  document.getElementById('pasteNameInput').value = DEMO_INPUT_NAME;
+  document.getElementById('pasteInput').value = DEMO_INPUT_PASTE;
+  seedDemoRecipes();
+
+})();
+</script>
+
+</body>
+</html>
