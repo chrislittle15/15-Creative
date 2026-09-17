@@ -770,7 +770,7 @@
   var BASE_PACKAGE_REFERENCE = {
     "onion": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "red onion": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
-    "green onion": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
+    "green onion": { section: "Produce", packageSize: 1, packageUnit: "bunch", packageLabel: "bunch" },
     "shallot": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "garlic": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bulb" },
     "garlic cloves": { section: "Produce", packageSize: 10, packageUnit: "clove", packageLabel: "bulb" },
@@ -778,14 +778,14 @@
     "potato": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "sweet potato": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "carrot": { section: "Produce", packageSize: 16, packageUnit: "oz", packageLabel: "bag" },
-    "celery": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
+    "celery": { section: "Produce", packageSize: 1, packageUnit: "bunch", packageLabel: "bunch" },
     "bell pepper": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "jalapeno": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "tomato": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "cherry tomatoes": { section: "Produce", packageSize: 10, packageUnit: "oz", packageLabel: "container" },
     "lettuce": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "head" },
     "spinach": { section: "Produce", packageSize: 5, packageUnit: "oz", packageLabel: "bag" },
-    "kale": { section: "Produce", packageSize: 8, packageUnit: "oz", packageLabel: "bunch" },
+    "kale": { section: "Produce", packageSize: 1, packageUnit: "bunch", packageLabel: "bunch" },
     "broccoli": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "head" },
     "cauliflower": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "head" },
     "cabbage": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "head" },
@@ -795,7 +795,7 @@
     "corn": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "ear" },
     "green beans": { section: "Produce", packageSize: 12, packageUnit: "oz", packageLabel: "bag" },
     "peas": { section: "Produce", packageSize: 16, packageUnit: "oz", packageLabel: "bag" },
-    "asparagus": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
+    "asparagus": { section: "Produce", packageSize: 1, packageUnit: "bunch", packageLabel: "bunch" },
     "avocado": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "lemon": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "lime": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
@@ -804,8 +804,8 @@
     "orange": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "each" },
     "strawberries": { section: "Produce", packageSize: 16, packageUnit: "oz", packageLabel: "container" },
     "blueberries": { section: "Produce", packageSize: 6, packageUnit: "oz", packageLabel: "container" },
-    "parsley": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
-    "cilantro": { section: "Produce", packageSize: 1, packageUnit: "ct", packageLabel: "bunch" },
+    "parsley": { section: "Produce", packageSize: 1, packageUnit: "bunch", packageLabel: "bunch" },
+    "cilantro": { section: "Produce", packageSize: 1, packageUnit: "bunch", packageLabel: "bunch" },
     "basil": { section: "Produce", packageSize: 0.75, packageUnit: "oz", packageLabel: "package" },
     "rosemary": { section: "Produce", packageSize: 0.75, packageUnit: "oz", packageLabel: "package" },
     "thyme": { section: "Produce", packageSize: 0.75, packageUnit: "oz", packageLabel: "package" },
@@ -1053,7 +1053,9 @@
   // Count-family units that describe how the product itself is sold (a package of
   // "bacon slices", a "garlic clove"), so they're folded into the normalized name
   // instead of being treated as a pure measurement like "cup" or "tbsp".
-  var DESCRIPTIVE_COUNT_UNITS = { slice: "slices", clove: "cloves", bunch: "bunches" };
+  // "bacon slices" and "garlic cloves" name the product itself; a bunch is just how
+  // greens are bundled, so it stays a plain unit and the name is left alone.
+  var DESCRIPTIVE_COUNT_UNITS = { slice: "slices", clove: "cloves" };
 
   // Filler content so the page loads with a fully worked, clean example to scroll through —
   // two batches of the same recipe, chosen so every line resolves cleanly against the
@@ -1155,6 +1157,11 @@
 
   function extractLeadingQuantity(line) {
     line = line.trim();
+    // "2-3 cloves garlic" — take the upper bound so the list never under-buys.
+    var range = line.match(new RegExp('^(\\d+(?:\\.\\d+)?)\\s*[-–—]\\s*(\\d+(?:\\.\\d+)?)' + QTY_BOUNDARY));
+    if (range) {
+      return { qty: parseFloat(range[2]), rest: line.slice(range[0].length).trim() };
+    }
     var mixedFracUnicode = line.match(new RegExp('^(\\d+)\\s*([½⅓⅔¼¾⅛⅜⅝⅞])' + QTY_BOUNDARY));
     if (mixedFracUnicode) {
       var whole = parseInt(mixedFracUnicode[1], 10);
@@ -1219,7 +1226,9 @@
   function parseIngredientLine(line) {
     var original = line.trim();
     if (!original) return null;
-    var qtyResult = extractLeadingQuantity(original);
+    // "1 (14.5 oz) can diced tomatoes" — the aside would otherwise block unit detection.
+    var forParsing = original.replace(/\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim() || original;
+    var qtyResult = extractLeadingQuantity(forParsing);
     var unitResult = extractUnit(qtyResult.rest);
     // Drop the connector/packaging words left behind when a line reads "6 slices of bacon"
     // or "8oz box of corn muffin mix", so the raw ingredient reads as just the food.
