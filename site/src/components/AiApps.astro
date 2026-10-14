@@ -16,7 +16,7 @@ const { raised = false } = Astro.props;
     <p class="ai-creds">{site.certifications.filter((c) => /AI/.test(c)).join(" · ")}</p>
     <div class="ai-grid">
       {aiApps.map((app) => (
-        <div class="card ai-card">
+        <div class:list={["card", "ai-card", { "ai-card--link": app.href }]}>
           {app.image ? (
             <img class="ai-card__img" src={app.image} alt={app.name} loading="lazy" />
           ) : (
@@ -46,7 +46,12 @@ const { raised = false } = Astro.props;
   .ai-creds { font-size: 0.85rem; color: var(--ink-soft); letter-spacing: 0.02em; margin-top: -0.25rem; }
   .ai-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin-top: 1.75rem; }
   @media (max-width: 760px) { .ai-grid { grid-template-columns: 1fr; } }
-  .ai-card { display: flex; flex-direction: column; overflow: hidden; }
+  .ai-card { display: flex; flex-direction: column; overflow: hidden; position: relative; }
+  /* The whole card is clickable: the button's link stretches over it. The button stays the keyboard target. */
+  .ai-card--link { transition: transform 0.15s, box-shadow 0.15s; }
+  .ai-card--link:hover { transform: translateY(-2px); box-shadow: 0 10px 24px -14px rgba(28, 26, 23, 0.35); }
+  .ai-card--link:hover h3 { color: var(--accent); }
+  a.ai-card__btn::after { content: ""; position: absolute; inset: 0; }
   .ai-card__img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
   .ai-card__img--placeholder { display: grid; place-content: center; gap: 0.3rem; text-align: center; background: var(--paper-raised); border-bottom: 1px dashed var(--line); }
   .ai-card__ph-name { font-family: var(--font-display); font-size: 1.25rem; color: var(--ink); }
