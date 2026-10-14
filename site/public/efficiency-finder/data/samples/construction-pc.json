@@ -1,0 +1,328 @@
+{
+ "meta": {
+  "id": "construction-pc",
+  "title": "Project coordinator at a commercial construction firm",
+  "industry": "Commercial construction, mid-size general contractor",
+  "blurb": "Keeps documents, submittals and schedules moving between the site, subcontractors and the owner.",
+  "team": false,
+  "traps": [],
+  "approved": true
+ },
+ "report": {
+  "version": 1,
+  "weekHours": 45,
+  "summary": {
+   "weekCovered": 0.5068376068376068,
+   "mapped": {
+    "low": 19.692307692307693,
+    "high": 25.923076923076923
+   },
+   "saved": {
+    "low": 3.6,
+    "high": 10.8
+   },
+   "tasksMapped": 8
+  },
+  "opportunities": [
+   {
+    "taskId": "t4",
+    "taskName": "Track submittals and RFIs",
+    "quote": "Procore items and email from subs; I keep the log",
+    "why": "You read items in Procore and email and then keep them by hand in your Excel log, which is the same records being retyped between systems.",
+    "patternId": "retyping-data",
+    "patternName": "Retyping data between systems",
+    "level": "automation",
+    "tool": {
+     "id": "power-automate",
+     "name": "Microsoft Power Automate",
+     "url": "https://www.microsoft.com/en-us/power-platform/products/power-automate",
+     "checked": "2026-10-11",
+     "owned": true
+    },
+    "math": {
+     "durationLabel": "2 hours",
+     "duration": {
+      "low": 2,
+      "high": 2
+     },
+     "frequencyLabel": "A few times a week",
+     "frequency": {
+      "low": 2,
+      "high": 4
+     },
+     "hoursPerWeek": {
+      "low": 4,
+      "high": 8
+     },
+     "share": {
+      "low": 0.5,
+      "high": 0.8
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 2,
+      "high": 6.4
+     }
+    },
+    "saved": {
+     "low": 2,
+     "high": 6.4
+    },
+    "effort": "medium",
+    "firstStep": "List the fields you retype and where each one comes from, then connect the two systems on one record type.",
+    "failureMode": "Field formats differ between systems, so the first runs need a person checking every record.",
+    "rank": 1
+   },
+   {
+    "taskId": "t5",
+    "taskName": "Chase subcontractors for paperwork",
+    "quote": "I check the Excel log for missing items",
+    "why": "You check your log for missing paperwork and then follow up with subcontractors until it arrives.",
+    "patternId": "chasing-status",
+    "patternName": "Chasing status updates and approvals",
+    "level": "automation",
+    "tool": {
+     "id": "power-automate-approvals",
+     "name": "Approvals in Microsoft Power Automate",
+     "url": "https://www.microsoft.com/en-us/power-platform/products/power-automate",
+     "checked": "2026-10-11",
+     "owned": true
+    },
+    "math": {
+     "durationLabel": "1 hour",
+     "duration": {
+      "low": 1,
+      "high": 1
+     },
+     "frequencyLabel": "A few times a week",
+     "frequency": {
+      "low": 2,
+      "high": 4
+     },
+     "hoursPerWeek": {
+      "low": 2,
+      "high": 4
+     },
+     "share": {
+      "low": 0.3,
+      "high": 0.6
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 0.6,
+      "high": 2.4
+     }
+    },
+    "saved": {
+     "low": 0.6,
+     "high": 2.4
+    },
+    "effort": "medium",
+    "firstStep": "Move one recurring request into a form or workflow that sends reminders by itself.",
+    "failureMode": "People ignore automated reminders that arrive too often.",
+    "rank": 2
+   },
+   {
+    "taskId": "t1",
+    "taskName": "Triage the inbox",
+    "quote": "many from subcontractors and the architect",
+    "why": "You get a high volume of email in Outlook from the same senders that you sort and log by hand.",
+    "patternId": "inbox-triage",
+    "patternName": "Inbox triage and routine replies",
+    "level": "ai_agent",
+    "tool": {
+     "id": "m365-copilot",
+     "name": "Microsoft 365 Copilot in Outlook",
+     "url": "https://www.microsoft.com/en-us/microsoft-365/copilot",
+     "checked": "2026-10-11",
+     "owned": true
+    },
+    "math": {
+     "durationLabel": "1 hour",
+     "duration": {
+      "low": 1,
+      "high": 1
+     },
+     "frequencyLabel": "Daily",
+     "frequency": {
+      "low": 5,
+      "high": 5
+     },
+     "hoursPerWeek": {
+      "low": 5,
+      "high": 5
+     },
+     "share": {
+      "low": 0.2,
+      "high": 0.4
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 1,
+      "high": 2
+     }
+    },
+    "saved": {
+     "low": 1,
+     "high": 2
+    },
+    "effort": "small",
+    "firstStep": "Turn on the inbox summary each morning and copy its action items into your to-do list for a week.",
+    "failureMode": "Summaries miss the one message that mattered, so important senders still need a rule that flags them.",
+    "rank": 3
+   }
+  ],
+  "habits": [],
+  "noFit": [
+   {
+    "taskName": "Log daily reports from the site"
+   },
+   {
+    "taskName": "Owner-architect-contractor meeting"
+   },
+   {
+    "taskName": "Pay application backup"
+   }
+  ],
+  "thin": [
+   {
+    "taskName": "Find drawings and documents for the team",
+    "patternName": "Finding files and information",
+    "missing": [
+     "volume"
+    ]
+   },
+   {
+    "taskName": "Write meeting minutes and action items",
+    "patternName": "Meeting notes to action items",
+    "missing": [
+     "output"
+    ]
+   }
+  ],
+  "notCounted": [],
+  "checked": {
+   "proposals": 5,
+   "passed": 3,
+   "heldForDetail": 2,
+   "rejected": [],
+   "rules": [
+    {
+     "id": 1,
+     "name": "Task is in the task map",
+     "failures": 0
+    },
+    {
+     "id": 2,
+     "name": "Quoted evidence appears word for word in the visitor's answers",
+     "failures": 0
+    },
+    {
+     "id": 3,
+     "name": "Pattern is in the catalog and every required signal was recorded",
+     "failures": 0
+    },
+    {
+     "id": 4,
+     "name": "Tool is listed on the pattern, with a working link checked within the limit",
+     "failures": 0
+    },
+    {
+     "id": 5,
+     "name": "Hours figures are the ones code computed",
+     "failures": 0
+    },
+    {
+     "id": 6,
+     "name": "Model-written sentences contain no numbers",
+     "failures": 0
+    },
+    {
+     "id": 7,
+     "name": "A working-habit suggestion carries no hours unless the catalog supplies a share",
+     "failures": 0
+    }
+   ]
+  },
+  "catalogDraft": false
+ },
+ "transcript": [
+  {
+   "question": "About how many submittals and RFIs do you track in \"Track submittals and RFIs\" in a typical week?",
+   "options": [
+    "Under 10",
+    "10 to 25",
+    "26 to 50",
+    "Over 50"
+   ],
+   "answer": "About 60 open items in my Excel log, so I'd say over 50.",
+   "taskName": "Track submittals and RFIs"
+  },
+  {
+   "question": "For \"Track submittals and RFIs\", where do updates come from, and who receives the log?",
+   "options": [
+    "Email from subs; sent to architect",
+    "Procore items; shared with project team",
+    "Meetings and calls; sent to owner",
+    "Email from architect; kept for myself"
+   ],
+   "answer": "Procore items and email from subs; I keep the log and share it with the project team.",
+   "taskName": "Track submittals and RFIs"
+  },
+  {
+   "question": "About how many emails land in your Outlook inbox for \"Triage the inbox\" each day?",
+   "options": [
+    "Under 25",
+    "25-50",
+    "50-100",
+    "Over 100"
+   ],
+   "answer": "About 90 a day, many from subcontractors and the architect. I'd say 50-100.",
+   "taskName": "Triage the inbox"
+  },
+  {
+   "question": "For \"Triage the inbox\", where do most emails come from, and where do they go after you sort them?",
+   "options": [
+    "Subs and architect; I forward to team",
+    "Subs and architect; I file in folders",
+    "Subs and architect; I log in Procore/Excel",
+    "Mixed senders; I reply myself"
+   ],
+   "answer": "Subs and architect; I log in Procore/Excel",
+   "taskName": "Triage the inbox"
+  },
+  {
+   "question": "About how many subcontractors do you chase for paperwork in \"Chase subcontractors for paperwork\" in a typical week?",
+   "options": [
+    "1-5",
+    "6-15",
+    "16-30",
+    "More than 30"
+   ],
+   "answer": "6-15",
+   "taskName": "Chase subcontractors for paperwork"
+  },
+  {
+   "question": "For \"Chase subcontractors for paperwork\", how do you learn what's missing, and where does the paperwork go once received?",
+   "options": [
+    "Missing list in Excel; filed in Procore",
+    "Project manager tells me; filed on SharePoint",
+    "Contract requirements; sent to the accounting team",
+    "Subs' emails; sent to the owner or architect"
+   ],
+   "answer": "I check the Excel log for missing items, then file them in SharePoint once received.",
+   "taskName": "Chase subcontractors for paperwork"
+  }
+ ],
+ "run": {
+  "questions": 6,
+  "finishReason": "limit",
+  "overWeek": false,
+  "cost": 0.06862779999999999,
+  "model": {
+   "answers": "claude-haiku-5-5",
+   "agent": "claude-sonnet-5-5",
+   "match": "claude-sonnet-5-5"
+  }
+ }
+}

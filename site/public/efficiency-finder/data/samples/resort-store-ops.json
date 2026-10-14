@@ -1,0 +1,262 @@
+{
+ "meta": {
+  "id": "resort-store-ops",
+  "title": "Store operations manager at a multi-location resort retailer",
+  "industry": "Resort retail, six shops across two resorts",
+  "blurb": "Runs day-to-day operations across the shops: staffing, schedules, standards and issues.",
+  "team": true,
+  "traps": [],
+  "approved": true
+ },
+ "report": {
+  "version": 1,
+  "weekHours": 48,
+  "summary": {
+   "weekCovered": 0.5096153846153846,
+   "mapped": {
+    "low": 21.96153846153846,
+    "high": 26.96153846153846
+   },
+   "saved": {
+    "low": 1,
+    "high": 2
+   },
+   "tasksMapped": 9
+  },
+  "opportunities": [
+   {
+    "taskId": "t2",
+    "taskName": "Triage the inbox",
+    "quote": "About 60 emails a day, a lot of them notifications and approvals",
+    "why": "You get a high volume of email in Outlook, much of it notifications and approvals that you sort and archive.",
+    "patternId": "inbox-triage",
+    "patternName": "Inbox triage and routine replies",
+    "level": "ai_agent",
+    "tool": {
+     "id": "m365-copilot",
+     "name": "Microsoft 365 Copilot in Outlook",
+     "url": "https://www.microsoft.com/en-us/microsoft-365/copilot",
+     "checked": "2026-10-11",
+     "owned": true
+    },
+    "math": {
+     "durationLabel": "1 hour",
+     "duration": {
+      "low": 1,
+      "high": 1
+     },
+     "frequencyLabel": "Daily",
+     "frequency": {
+      "low": 5,
+      "high": 5
+     },
+     "hoursPerWeek": {
+      "low": 5,
+      "high": 5
+     },
+     "share": {
+      "low": 0.2,
+      "high": 0.4
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 1,
+      "high": 2
+     }
+    },
+    "saved": {
+     "low": 1,
+     "high": 2
+    },
+    "effort": "small",
+    "firstStep": "Turn on the inbox summary each morning and copy its action items into your to-do list for a week.",
+    "failureMode": "Summaries miss the one message that mattered, so important senders still need a rule that flags them.",
+    "rank": 1
+   }
+  ],
+  "habits": [
+   {
+    "patternId": "group-similar",
+    "name": "Grouping similar tasks",
+    "effort": "small",
+    "becauseTasks": [
+     "Teams: Morning shop check-ins, Answer shop managers' questions, Operations review with leadership"
+    ],
+    "firstStep": "Put the tasks that use the same tool into one block on your calendar.",
+    "failureMode": "Blocks get booked over unless they are marked busy.",
+    "saved": null
+   }
+  ],
+  "noFit": [
+   {
+    "taskName": "Morning shop check-ins"
+   },
+   {
+    "taskName": "Fix staffing gaps"
+   },
+   {
+    "taskName": "Build next week's staff schedule"
+   },
+   {
+    "taskName": "Walk the shops"
+   }
+  ],
+  "thin": [
+   {
+    "taskName": "Answer shop managers' questions",
+    "patternName": "Answering repeat questions",
+    "missing": [
+     "volume",
+     "input"
+    ]
+   },
+   {
+    "taskName": "Collect shop status updates",
+    "patternName": "Chasing status updates and approvals",
+    "missing": [
+     "volume"
+    ]
+   },
+   {
+    "taskName": "Operations review with leadership",
+    "patternName": "Meeting notes to action items",
+    "missing": [
+     "output"
+    ]
+   },
+   {
+    "taskName": "Monthly labor cost report",
+    "patternName": "Assembling a recurring report",
+    "missing": [
+     "input",
+     "output"
+    ]
+   }
+  ],
+  "notCounted": [],
+  "checked": {
+   "proposals": 5,
+   "passed": 1,
+   "heldForDetail": 4,
+   "rejected": [],
+   "rules": [
+    {
+     "id": 1,
+     "name": "Task is in the task map",
+     "failures": 0
+    },
+    {
+     "id": 2,
+     "name": "Quoted evidence appears word for word in the visitor's answers",
+     "failures": 0
+    },
+    {
+     "id": 3,
+     "name": "Pattern is in the catalog and every required signal was recorded",
+     "failures": 0
+    },
+    {
+     "id": 4,
+     "name": "Tool is listed on the pattern, with a working link checked within the limit",
+     "failures": 0
+    },
+    {
+     "id": 5,
+     "name": "Hours figures are the ones code computed",
+     "failures": 0
+    },
+    {
+     "id": 6,
+     "name": "Model-written sentences contain no numbers",
+     "failures": 0
+    },
+    {
+     "id": 7,
+     "name": "A working-habit suggestion carries no hours unless the catalog supplies a share",
+     "failures": 0
+    }
+   ]
+  },
+  "catalogDraft": false
+ },
+ "transcript": [
+  {
+   "question": "For \"Walk the shops\", how many shops do you visit in a typical week, and what do you use while there?",
+   "options": [
+    "1-2 shops, nothing but eyes",
+    "3-5 shops, paper checklist",
+    "3-5 shops, phone or tablet",
+    "6+ shops, phone or tablet",
+    "6+ shops, paper checklist"
+   ],
+   "answer": "Not sure",
+   "taskName": "Walk the shops"
+  },
+  {
+   "question": "How many emails do you triage in the inbox on a typical day?",
+   "options": [
+    "Under 25",
+    "25 to 50",
+    "50 to 100",
+    "Over 100"
+   ],
+   "answer": "About 60 emails a day, a lot of them notifications and approvals. That's over 50, so 50 to 100.",
+   "taskName": "Triage the inbox"
+  },
+  {
+   "question": "For \"Triage the inbox\", where do most emails come from, and where do they go once handled?",
+   "options": [
+    "Shop managers; replies back to them",
+    "Systems notifications; approved or archived",
+    "Leadership; forwarded to my team",
+    "Mixed senders; filed in folders"
+   ],
+   "answer": "Systems notifications; approved or archived",
+   "taskName": "Triage the inbox"
+  },
+  {
+   "question": "For \"Walk the shops\", what prompts a visit, and who receives your findings afterward?",
+   "options": [
+    "Fixed weekly route; notes to leadership",
+    "Fixed route; notes to shop managers",
+    "Issues reported; follow-up with managers",
+    "Ad hoc; nothing written down"
+   ],
+   "answer": "Fixed route; notes to shop managers",
+   "taskName": "Walk the shops"
+  },
+  {
+   "question": "For \"Build next week's staff schedule\", where do the availability details come from, and who receives the finished schedule?",
+   "options": [
+    "Manager requests; posted to staff",
+    "Last week's sheet; sent to shop managers",
+    "Staff texts and emails; shared in Teams",
+    "HR system data; sent to payroll"
+   ],
+   "answer": "Staff texts and emails; shared in Teams",
+   "taskName": "Build next week's staff schedule"
+  },
+  {
+   "question": "For \"Build next week's staff schedule\", how many staff members are on the schedule each week?",
+   "options": [
+    "Under 10",
+    "10 to 25",
+    "26 to 50",
+    "Over 50"
+   ],
+   "answer": "26 to 50",
+   "taskName": "Build next week's staff schedule"
+  }
+ ],
+ "run": {
+  "questions": 6,
+  "finishReason": "limit",
+  "overWeek": false,
+  "cost": 0.05092,
+  "model": {
+   "answers": "claude-haiku-5-5",
+   "agent": "claude-sonnet-5-5",
+   "match": "claude-sonnet-5-5"
+  }
+ }
+}

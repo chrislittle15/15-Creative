@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Pressure Cooker">
+  <rect width="64" height="64" rx="14" fill="#0F5132"/>
+  <path d="M14 28h36v14a9 9 0 0 1-9 9H23a9 9 0 0 1-9-9V28Z" fill="#fff"/>
+  <rect x="11" y="22" width="42" height="6" rx="3" fill="#fff"/>
+  <path d="M32 34c0 4.4 3.2 7.4 7.4 7.4C39.4 37 36.4 34 32 34Z" fill="#0F5132"/>
+  <path d="M32 34c-4.4 0-7.4 3-7.4 7.4C28.8 41.4 32 38.4 32 34Z" fill="#0F5132" opacity=".7"/>
+  <circle cx="41" cy="14" r="3.6" fill="#FF7A3C"/>
+  <circle cx="48" cy="10" r="2.2" fill="#FF7A3C" opacity=".85"/>
+</svg>

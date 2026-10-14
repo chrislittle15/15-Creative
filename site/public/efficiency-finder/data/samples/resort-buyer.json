@@ -1,0 +1,267 @@
+{
+ "meta": {
+  "id": "resort-buyer",
+  "title": "Buyer at a multi-location resort retailer",
+  "industry": "Resort retail, six shops across two resorts",
+  "blurb": "Buys apparel, gifts and sundries for the resort shops and manages vendor relationships.",
+  "team": true,
+  "traps": [],
+  "approved": true
+ },
+ "report": {
+  "version": 1,
+  "weekHours": 45,
+  "summary": {
+   "weekCovered": 0.44017094017094016,
+   "mapped": {
+    "low": 17.692307692307693,
+    "high": 21.923076923076923
+   },
+   "saved": {
+    "low": 1,
+    "high": 2
+   },
+   "tasksMapped": 9
+  },
+  "opportunities": [
+   {
+    "taskId": "t1",
+    "taskName": "Triage the inbox",
+    "quote": "50 to 100",
+    "why": "You get a high volume of email from vendors and shop managers in Outlook and answer similar repeat questions yourself.",
+    "patternId": "inbox-triage",
+    "patternName": "Inbox triage and routine replies",
+    "level": "ai_agent",
+    "tool": {
+     "id": "m365-copilot",
+     "name": "Microsoft 365 Copilot in Outlook",
+     "url": "https://www.microsoft.com/en-us/microsoft-365/copilot",
+     "checked": "2026-10-11",
+     "owned": true
+    },
+    "math": {
+     "durationLabel": "1 hour",
+     "duration": {
+      "low": 1,
+      "high": 1
+     },
+     "frequencyLabel": "Daily",
+     "frequency": {
+      "low": 5,
+      "high": 5
+     },
+     "hoursPerWeek": {
+      "low": 5,
+      "high": 5
+     },
+     "share": {
+      "low": 0.2,
+      "high": 0.4
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 1,
+      "high": 2
+     }
+    },
+    "saved": {
+     "low": 1,
+     "high": 2
+    },
+    "effort": "small",
+    "firstStep": "Turn on the inbox summary each morning and copy its action items into your to-do list for a week.",
+    "failureMode": "Summaries miss the one message that mattered, so important senders still need a rule that flags them.",
+    "rank": 1
+   }
+  ],
+  "habits": [
+   {
+    "patternId": "group-similar",
+    "name": "Grouping similar tasks",
+    "effort": "small",
+    "becauseTasks": [
+     "Outlook: Triage the inbox, Answer vendor questions, Chase late shipments",
+     "Excel: Check sell-through by shop, Build the weekly sales report, Reconcile vendor invoices against receipts"
+    ],
+    "firstStep": "Put the tasks that use the same tool into one block on your calendar.",
+    "failureMode": "Blocks get booked over unless they are marked busy.",
+    "saved": null
+   }
+  ],
+  "noFit": [
+   {
+    "taskName": "Check sell-through by shop"
+   },
+   {
+    "taskName": "Write purchase orders"
+   }
+  ],
+  "thin": [
+   {
+    "taskName": "Answer vendor questions",
+    "patternName": "Answering repeat questions",
+    "missing": [
+     "volume",
+     "input"
+    ]
+   },
+   {
+    "taskName": "Build the weekly sales report",
+    "patternName": "Assembling a recurring report",
+    "missing": [
+     "input",
+     "output"
+    ]
+   },
+   {
+    "taskName": "Chase late shipments",
+    "patternName": "Chasing status updates and approvals",
+    "missing": [
+     "volume"
+    ]
+   },
+   {
+    "taskName": "Merchandising team meeting",
+    "patternName": "Meeting notes to action items",
+    "missing": [
+     "output"
+    ]
+   },
+   {
+    "taskName": "Reconcile vendor invoices against receipts",
+    "patternName": "Reconciling two lists or records",
+    "missing": [
+     "input"
+    ]
+   }
+  ],
+  "notCounted": [
+   {
+    "taskName": "Seasonal line review with vendors"
+   }
+  ],
+  "checked": {
+   "proposals": 6,
+   "passed": 1,
+   "heldForDetail": 5,
+   "rejected": [],
+   "rules": [
+    {
+     "id": 1,
+     "name": "Task is in the task map",
+     "failures": 0
+    },
+    {
+     "id": 2,
+     "name": "Quoted evidence appears word for word in the visitor's answers",
+     "failures": 0
+    },
+    {
+     "id": 3,
+     "name": "Pattern is in the catalog and every required signal was recorded",
+     "failures": 0
+    },
+    {
+     "id": 4,
+     "name": "Tool is listed on the pattern, with a working link checked within the limit",
+     "failures": 0
+    },
+    {
+     "id": 5,
+     "name": "Hours figures are the ones code computed",
+     "failures": 0
+    },
+    {
+     "id": 6,
+     "name": "Model-written sentences contain no numbers",
+     "failures": 0
+    },
+    {
+     "id": 7,
+     "name": "A working-habit suggestion carries no hours unless the catalog supplies a share",
+     "failures": 0
+    }
+   ]
+  },
+  "catalogDraft": false
+ },
+ "transcript": [
+  {
+   "question": "How many emails do you go through for \"Triage the inbox\" on a typical day?",
+   "options": [
+    "Under 25",
+    "25 to 50",
+    "50 to 100",
+    "Over 100"
+   ],
+   "answer": "50 to 100",
+   "taskName": "Triage the inbox"
+  },
+  {
+   "question": "For \"Triage the inbox\", who do most emails come from, and where do they go after sorting?",
+   "options": [
+    "Vendors; I reply myself",
+    "Shops; I forward to teammates",
+    "Internal staff; I file into folders",
+    "Mixed senders; I reply or forward"
+   ],
+   "answer": "Vendors and shop managers; I reply myself to the repeat questions on ship dates and reorder status.",
+   "taskName": "Triage the inbox"
+  },
+  {
+   "question": "How many purchase orders do you write per week in \"Write purchase orders\", and what do you base them on?",
+   "options": [
+    "Under 10, from shop manager requests",
+    "10 to 30, from reorder reports",
+    "10 to 30, from vendor quotes",
+    "Over 30, from stock levels in NetSuite"
+   ],
+   "answer": "Not sure",
+   "taskName": "Write purchase orders"
+  },
+  {
+   "question": "For \"Chase late shipments\", how many shipments do you chase per week, and how do you learn they're late?",
+   "options": [
+    "Under 5, vendors tell me",
+    "5 to 15, from NetSuite order dates",
+    "15 to 30, from shop managers' reports",
+    "Over 30, from a tracking spreadsheet"
+   ],
+   "answer": "Not sure",
+   "taskName": "Chase late shipments"
+  },
+  {
+   "question": "In \"Write purchase orders\", where do the finished orders go?",
+   "options": [
+    "Emailed to vendors",
+    "Sent for manager approval",
+    "Stay in NetSuite only",
+    "Sent to the warehouse"
+   ],
+   "answer": "Stay in NetSuite only",
+   "taskName": "Write purchase orders"
+  },
+  {
+   "question": "For \"Chase late shipments\", who receives your follow-ups once you've chased a shipment?",
+   "options": [
+    "Vendors",
+    "Shop managers",
+    "Warehouse or receiving",
+    "Internal team or boss"
+   ],
+   "answer": "Vendors and freight carriers, mostly. I track their replies in a spreadsheet.",
+   "taskName": "Chase late shipments"
+  }
+ ],
+ "run": {
+  "questions": 6,
+  "finishReason": "limit",
+  "overWeek": false,
+  "cost": 0.0556458,
+  "model": {
+   "answers": "claude-haiku-5-5",
+   "agent": "claude-sonnet-5-5",
+   "match": "claude-sonnet-5-5"
+  }
+ }
+}

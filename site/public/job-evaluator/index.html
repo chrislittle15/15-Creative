@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Job Evaluator · Chris Little</title>
+<meta name="description" content="Job Evaluator: a four-stage AI workflow that researches a company, scores your fit, benchmarks the pay, and writes a pursue-or-pass memo. A case study and live demo by Chris Little.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">
+<style>
+/* Job Evaluator brand: Deep Navy, Insight Teal, Analytical Blue, Cool Gray, Caution Gold. */
+:root {
+  --navy: #101C2D; --navy-2: #1B2A40; --teal: #35C5B0; --teal-ink: #0B7F70; --blue: #3978F6; --gray: #F3F5F8; --gold: #E6B65C;
+  --white: #fff; --ink: #101C2D; --ink-2: #4A5A6E; --line: #E3E8EF; --risk: #B3392F; --ok-bg: #E3F4F1;
+  --display: "Plus Jakarta Sans", "Inter", system-ui, sans-serif; --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--gray); color: var(--ink); font: 16.5px/1.65 var(--body); -webkit-font-smoothing: antialiased; }
+img, svg { max-width: 100%; }
+a { color: var(--blue); }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+h1, h2, h3 { font-family: var(--display); letter-spacing: -.02em; margin: 0; line-height: 1.12; }
+h2 { font-size: clamp(26px, 3.6vw, 36px); }
+h3 { font-size: 19px; }
+p { margin: 0; max-width: 68ch; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-inline: max(20px, env(safe-area-inset-left)); }
+.eyebrow { font: 700 12px var(--body); letter-spacing: .2em; text-transform: uppercase; color: var(--teal-ink); }
+
+.bar { background: var(--navy); font-size: 13.5px; padding-top: env(safe-area-inset-top, 0); }
+.bar .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-block: 10px; flex-wrap: wrap; }
+.bar a { color: #E8EEF6; text-decoration: none; }
+.bar a:hover { color: var(--teal); }
+
+/* hero */
+.hero { background: var(--navy); color: #fff; position: relative; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(60% 90% at 88% 0%, rgba(53, 197, 176, .30), transparent 70%), radial-gradient(45% 70% at 0% 100%, rgba(57, 120, 246, .22), transparent 70%); }
+.hero .wrap { position: relative; display: grid; gap: 20px; padding-block: 56px 78px; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand img { width: 56px; height: 56px; border-radius: 14px; }
+.brand b { font: 800 26px var(--display); }
+.brand span { display: block; font: 700 11px var(--body); letter-spacing: .26em; color: var(--teal); text-transform: uppercase; }
+.hero h1 { font-size: clamp(36px, 6vw, 62px); max-width: 16ch; }
+.hero h1 span { color: var(--teal); }
+.hero .lede { color: #C5D2E0; font-size: 18.5px; max-width: 58ch; }
+.cta { display: flex; gap: 14px 20px; flex-wrap: wrap; align-items: center; margin-top: 6px; }
+.go { display: inline-block; background: var(--teal); color: var(--navy); font: 800 17px var(--display); text-decoration: none; padding: 14px 26px; border-radius: 12px; box-shadow: 0 12px 28px -14px rgba(0, 0, 0, .6); transition: transform .15s, background .15s; }
+.go:hover { background: #4AD3BF; transform: translateY(-1px); }
+.how { color: #E8EEF6; }
+@media (prefers-reduced-motion: reduce) { .go { transition: none; } html { scroll-behavior: auto; } }
+
+/* stats */
+.stats { background: #fff; border: 1px solid var(--line); border-radius: 14px; margin-top: -40px; position: relative; padding: 22px 26px; box-shadow: 0 14px 34px -22px rgba(16, 28, 45, .5);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
+.stats div { padding-inline: 20px; display: grid; gap: 2px; align-content: start; }
+.stats div:first-child { padding-left: 0; }
+.stats div + div { border-left: 1px solid var(--line); }
+.stats .v { font: 800 36px/1 var(--display); color: var(--navy); }
+.stats .v i { font-style: normal; color: var(--teal-ink); }
+.stats .l { font-size: 14px; color: var(--ink-2); line-height: 1.45; }
+@media (max-width: 760px) { .stats { grid-template-columns: 1fr; gap: 16px; } .stats div { padding-inline: 0; } .stats div + div { border-left: 0; border-top: 1px solid var(--line); padding-top: 16px; } }
+
+main { display: grid; gap: 72px; padding-block: 64px 80px; }
+section { display: grid; gap: 22px; }
+.head { display: grid; gap: 8px; }
+.prose { display: grid; gap: 14px; color: var(--ink-2); }
+.prose strong { color: var(--ink); }
+
+/* workflow */
+.flow { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; counter-reset: s; list-style: none; padding: 0; margin: 0; }
+.flow li { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 16px 14px 14px; display: grid; gap: 6px; align-content: start; position: relative; }
+.flow li:not(:last-child)::after { content: "\2192"; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); color: var(--teal-ink); font-weight: 800; background: var(--gray); width: 12px; text-align: center; z-index: 1; }
+.flow .n { font: 800 12px var(--body); letter-spacing: .14em; color: var(--teal-ink); }
+.flow h3 { font-size: 16px; }
+.flow p { font-size: 13.5px; line-height: 1.5; color: var(--ink-2); }
+.tag { display: inline-block; font: 600 11px/1.3 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; padding: 4px 9px; border-radius: 6px; background: var(--ok-bg); color: var(--teal-ink); justify-self: start; }
+.flow li.out { background: var(--navy); border-color: var(--navy); }
+.flow li.out h3, .flow li.out .n { color: var(--teal); }
+.flow li.out p { color: #C5D2E0; }
+@media (max-width: 880px) { .flow { grid-template-columns: 1fr; } .flow li:not(:last-child)::after { content: "\2193"; right: auto; left: 50%; top: auto; bottom: -15px; transform: translateX(-50%); width: auto; height: 14px; line-height: 14px; } }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 640px; }
+th, td { text-align: left; padding: 11px 14px; vertical-align: top; border-bottom: 1px solid var(--line); }
+th { background: var(--navy); color: #E8EEF6; font: 700 12px var(--body); letter-spacing: .1em; text-transform: uppercase; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 700; white-space: nowrap; }
+
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 760px) { .cols { grid-template-columns: 1fr; } }
+.panel { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: grid; gap: 10px; align-content: start; }
+.panel ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: var(--ink-2); font-size: 15.5px; }
+.panel--dark { background: var(--navy); border-color: var(--navy); }
+.panel--dark h3 { color: var(--teal); }
+.panel--dark ul { color: #C5D2E0; }
+.callout { border-left: 4px solid var(--gold); background: #FFF9EA; border-radius: 0 12px 12px 0; padding: 16px 20px; color: #5E4710; max-width: none; }
+.callout p { max-width: 74ch; }
+.callout strong { color: #3F2F08; }
+
+.stack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 760px) { .stack { grid-template-columns: 1fr; } }
+dl { margin: 0; display: grid; gap: 10px; }
+dt { font-weight: 700; font-size: 14.5px; }
+dd { margin: 0; color: var(--ink-2); font-size: 15px; }
+code { background: var(--gray); padding: 1px 6px; border-radius: 4px; font-size: .9em; }
+
+/* short, scannable blocks */
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 760px) { .tiles { grid-template-columns: 1fr; } }
+.tile { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 6px; align-content: start; }
+.tile b { font: 800 17px/1.25 var(--display); letter-spacing: -.01em; }
+.tile p { font-size: 14.5px; line-height: 1.5; color: var(--ink-2); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font: 600 13px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #fff; border: 1px solid var(--line); border-radius: 8px; padding: 6px 11px; color: var(--ink); }
+.chip::before { content: "\203A"; color: var(--teal-ink); margin-right: 7px; font-weight: 800; }
+details.more summary { cursor: pointer; font-weight: 700; color: var(--teal-ink); width: fit-content; }
+details.more[open] summary { margin-bottom: 14px; }
+
+/* expected pay vs. the industry range */
+.pay { display: grid; gap: 8px; border-top: 1px solid var(--line); padding-top: 14px; }
+.pay__row { display: flex; justify-content: space-between; align-items: baseline; gap: 4px 12px; flex-wrap: wrap; }
+.pay__row h3 { margin: 0; font-size: 15px; }
+.pay__val { font: 800 17px var(--display); }
+.pay__val small { font: 500 13px var(--body); color: var(--ink-2); }
+.pay__bar { height: 10px; border-radius: 999px; background: #E3E8EF; position: relative; }
+.pay__bar i { position: absolute; top: 0; bottom: 0; left: 30%; width: 38%; border-radius: 999px; background: linear-gradient(90deg, var(--teal), var(--blue)); }
+
+/* sample result */
+.sample { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: grid; gap: 14px; box-shadow: 0 14px 34px -24px rgba(16, 28, 45, .5); }
+.sample .top { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center; }
+.sample .role { font: 800 22px var(--display); }
+.sample .co { color: var(--ink-2); font-size: 15px; }
+.badges { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.b { font: 800 11.5px var(--body); letter-spacing: .08em; text-transform: uppercase; padding: 4px 11px; border-radius: 999px; }
+.b--good { background: var(--ok-bg); color: var(--teal-ink); }
+.b--build { background: var(--navy); color: var(--teal); }
+.sample ul { margin: 0; padding-left: 20px; color: var(--ink-2); font-size: 15px; display: grid; gap: 4px; }
+.sample h3 { font-size: 15px; margin-bottom: 4px; }
+.note { font-size: 13px; color: var(--ink-2); }
+
+.final { background: var(--navy); color: #fff; border-radius: 16px; padding: 38px 32px; display: grid; gap: 14px; justify-items: start; }
+.final h2 { color: #fff; }
+.final p { color: #C5D2E0; }
+footer { background: var(--navy); color: #9FB3C8; font-size: 14px; }
+footer .wrap { padding-block: 22px; display: flex; gap: 12px 24px; justify-content: space-between; flex-wrap: wrap; }
+footer a { color: #E8EEF6; }
+</style>
+</head>
+<body>
+<div class="bar"><div class="wrap">
+  <a href="/services/#ai">&larr; Chris Little &middot; AI work</a>
+  <a href="app/">Launch the demo &rarr;</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="brand"><img src="icon.png" alt="" width="56" height="56"><div><b>Job Evaluator</b><span>Career Intelligence</span></div></div>
+  <h1>Know the opportunity <span>before you pursue it.</span></h1>
+  <p class="lede">Paste a job posting. Four AI stages research the company, score your fit, benchmark the pay, and return a one-page memo with a clear pursue-or-pass verdict.</p>
+  <div class="cta">
+    <a class="go" href="app/">Launch the demo &rarr;</a>
+    <a class="how" href="#how">See how it works</a>
+  </div>
+</div></header>
+
+<div class="wrap">
+  <div class="stats" role="list">
+    <div role="listitem"><span class="v">4<i>+1</i></span><span class="l">Evaluation stages, plus a quick role-ID step</span></div>
+    <div role="listitem"><span class="v">2</span><span class="l">Stages with live web search, up to six searches each</span></div>
+    <div role="listitem"><span class="v">Opus 5</span><span class="l">Claude model behind every stage, via the Anthropic API</span></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <section id="why">
+    <div class="head"><span class="eyebrow">Why it exists</span><h2>A decision memo before the first interview</h2></div>
+    <div class="tiles">
+      <div class="tile"><b>Is the company stable?</b><p>Funding, news and employee sentiment.</p></div>
+      <div class="tile"><b>Are you a real fit?</b><p>Genuine overlaps and honest gaps.</p></div>
+      <div class="tile"><b>How does the pay compare?</b><p>Industry benchmarks, or an expected salary when none is posted.</p></div>
+    </div>
+    <p><strong>Blunt by design.</strong> It flags red flags, names the gaps, and recommends PASS when the evidence says so. Its job is to protect my time, not cheer me on.</p>
+  </section>
+
+  <section id="how">
+    <div class="head"><span class="eyebrow">The workflow</span><h2>Five steps</h2></div>
+    <ol class="flow">
+      <li><span class="n">STEP 0</span><h3>Identify</h3><p>Pulls the company and role from the posting.</p><span class="tag">Claude &middot; low effort</span></li>
+      <li><span class="n">STAGE 1</span><h3>Research</h3><p>Funding, recent news, employee sentiment.</p><span class="tag">Claude + web search</span></li>
+      <li><span class="n">STAGE 2</span><h3>Fit</h3><p>Compares your background to the role and scores it out of 10.</p><span class="tag">Claude &middot; reasoning</span></li>
+      <li><span class="n">STAGE 3</span><h3>Compensation</h3><p>Benchmarks pay against the industry. Estimates a salary when none is posted.</p><span class="tag">Claude + web search</span></li>
+      <li class="out"><span class="n">STAGE 4</span><h3>Recommendation</h3><p>Combines all three into a PURSUE or PASS memo.</p><span class="tag">Claude + regex</span></li>
+    </ol>
+
+    <details class="more">
+      <summary>What each stage is told</summary>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Stage</th><th>The brief</th><th>Why</th></tr></thead>
+        <tbody>
+          <tr><td>Research</td><td>Cite what you found. Say so plainly when something can't be found. Flag red flags.</td><td>Company facts come from search, so this stage stays separate and its brief is easy to read.</td></tr>
+          <tr><td>Fit</td><td>Act as a skeptical hiring manager. Never infer experience the profile doesn't state. Separate disqualifying gaps from learnable ones.</td><td>Works only from your profile and the posting, so its judgment is independent of the research.</td></tr>
+          <tr><td>Compensation</td><td>Quote any listed range, or note that none is posted. Estimate market pay from public salary data and say where it came from.</td><td>Pay needs its own discipline: numeric, sourced and checkable.</td></tr>
+          <tr><td>Recommendation</td><td>Use only the three inputs. Name any tension between fit, company and pay.</td><td>Every line of the verdict traces back to an input you can open.</td></tr>
+        </tbody>
+      </table></div>
+    </details>
+  </section>
+
+  <section id="split">
+    <div class="head"><span class="eyebrow">AI and code</span><h2>Model vs. Code</h2></div>
+    <div class="cols">
+      <div class="panel panel--dark"><h3>The model does</h3><ul>
+        <li>Reads a messy posting</li>
+        <li>Searches the web and summarizes</li>
+        <li>Judges how well you match</li>
+        <li>Writes the memo in plain language</li>
+      </ul></div>
+      <div class="panel"><h3>Code does</h3><ul>
+        <li>Sets the step order and each step's inputs</li>
+        <li>Reads the score and verdict with a pattern match</li>
+        <li>Tracks token usage and cost</li>
+        <li>Enforces access, the daily cap and input limits</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <div class="head"><span class="eyebrow">Under the hood</span><h2>The AI and coding elements</h2></div>
+    <div class="chips" aria-label="Technologies used">
+      <span class="chip">Claude Opus 5</span><span class="chip">Anthropic API</span><span class="chip">Web search</span><span class="chip">Python</span><span class="chip">Streamlit</span><span class="chip">TypeScript</span><span class="chip">Netlify Functions</span>
+    </div>
+    <div class="stack">
+      <div class="panel"><h3>AI</h3><dl>
+        <dt>Model</dt><dd>Claude Opus 5 through the Anthropic API. The model name is a setting.</dd>
+        <dt>Web search</dt><dd>Anthropic's server-side search tool, up to six searches per stage.</dd>
+        <dt>Effort</dt><dd>High on the four stages, low on role identification.</dd>
+        <dt>Prompts</dt><dd>One system prompt per stage, with explicit honesty and sourcing rules.</dd>
+      </dl></div>
+      <div class="panel"><h3>Code</h3><dl>
+        <dt>Original app</dt><dd>Python and Streamlit with the Anthropic SDK: dashboard, command line, saved jobs and a usage tracker.</dd>
+        <dt>Hosted demo</dt><dd>The same prompts, word for word, in TypeScript on Netlify Functions. A background job runs the stages and the page polls its progress.</dd>
+        <dt>Guardrails</dt><dd>Server-side key, daily spend cap, input limits, lockout after repeated wrong codes, and output shown as plain text.</dd>
+        <dt>Tests</dt><dd>Automated tests cover access checks, the lockout, the daily cap, signed background calls and a full run with a stand-in model.</dd>
+      </dl></div>
+    </div>
+  </section>
+
+  <section id="output">
+    <div class="head"><span class="eyebrow">What you get</span><h2>A one-page memo</h2></div>
+    <div class="sample" aria-label="Illustration of an evaluation result">
+      <div class="top">
+        <svg width="104" height="104" viewBox="0 0 104 104" role="img" aria-label="Match score 7 out of 10">
+          <defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#35C5B0"/><stop offset="1" stop-color="#3978F6"/></linearGradient></defs>
+          <circle cx="52" cy="52" r="44" fill="none" stroke="#E3E8EF" stroke-width="10"/>
+          <circle cx="52" cy="52" r="44" fill="none" stroke="url(#rg)" stroke-width="10" stroke-linecap="round" stroke-dasharray="193.5 276.5" transform="rotate(-90 52 52)"/>
+          <text x="52" y="60" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, sans-serif" font-weight="800" font-size="28" fill="#101C2D">7<tspan font-size="13" font-weight="600" fill="#5B6B80">/10</tspan></text>
+        </svg>
+        <div><div class="role">Operations Manager</div><div class="co">Lanternfish Robotics (fictional sample company)</div>
+          <div class="badges"><span class="b b--good">Good match</span><span class="b b--build">Pursue</span></div></div>
+      </div>
+      <div class="cols">
+        <div><h3>Key strengths</h3><ul><li>Built and ran a weekly operating review at a freight company</li><li>Managed a vendor and fleet budget of similar size</li></ul></div>
+        <div><h3>Honest gaps</h3><ul><li>No hardware or robotics background (learnable)</li><li>No direct experience at a Series B startup</li></ul></div>
+      </div>
+      <div class="pay">
+        <div class="pay__row"><h3>Pay</h3><span class="pay__val">$128K&ndash;$150K expected <small>(not posted in the listing)</small></span></div>
+        <div class="pay__bar" role="img" aria-label="Expected pay falls in the middle of the industry range"><i></i></div>
+        <p class="note">Mid-range for operations managers at similar-sized companies.</p>
+      </div>
+      <p class="note">Illustration with a fictional company and candidate. The demo opens the full research, fit and pay outputs beneath each memo.</p>
+    </div>
+  </section>
+
+  <section id="limits">
+    <div class="head"><span class="eyebrow">Scorecard and limits</span><h2>What gets checked</h2></div>
+    <div class="tiles">
+      <div class="tile"><b>Usage</b><p>Tracks token usage and cost for every run.</p></div>
+      <div class="tile"><b>Prompts</b><p>Every stage prompt in the hosted demo matches the original app, checked character by character.</p></div>
+      <div class="tile"><b>Limits</b><p>The daily cap, input limits and lockout are covered by automated tests.</p></div>
+    </div>
+    <div class="callout"><p><strong>Use it as a second opinion.</strong> Company and pay facts come from open web search, so confirm the ones that matter before you act. Fit is judged from the text you paste.</p></div>
+  </section>
+
+  <section>
+    <div class="final">
+      <h2>Try it on a real posting</h2>
+      <p>Bring a posting and your own background, or use the built-in sample. Results take a few minutes.</p>
+      <div class="cta"><a class="go" href="app/">Launch the demo &rarr;</a></div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>Built by Chris Little with Claude Code.</span><a href="/services/#ai">Back to the AI section</a></div></footer>
+</body>
+</html>

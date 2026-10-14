@@ -1,0 +1,314 @@
+{
+ "meta": {
+  "id": "clinic-manager",
+  "title": "Practice manager at a multi-provider outpatient clinic",
+  "industry": "Healthcare, outpatient clinic with eight providers",
+  "blurb": "Runs the front office, schedules and staff for a busy clinic. This role carries planted traps.",
+  "team": false,
+  "traps": [
+   "No pattern fit: covering the front desk at lunch is hands-on work no catalog pattern fits.",
+   "Not enough detail: the facts sheet says nothing about how insurance payments are reconciled.",
+   "Hours over the week: the cards add up to more than the stated 40 hours.",
+   "Back-to-back meetings: three meeting cards in a row on most days."
+  ],
+  "approved": true
+ },
+ "report": {
+  "version": 1,
+  "weekHours": 50,
+  "summary": {
+   "weekCovered": 0.8311538461538461,
+   "mapped": {
+    "low": 38.94230769230769,
+    "high": 44.17307692307692
+   },
+   "saved": {
+    "low": 2.2,
+    "high": 6.8
+   },
+   "tasksMapped": 10
+  },
+  "opportunities": [
+   {
+    "taskId": "t9",
+    "taskName": "Chase prior authorizations",
+    "quote": "About 20 open prior authorizations",
+    "why": "You follow up by phone and portal on many open prior authorizations, which is the shape of chasing sign-offs and tracking replies.",
+    "patternId": "chasing-status",
+    "patternName": "Chasing status updates and approvals",
+    "level": "automation",
+    "tool": {
+     "id": "power-automate-approvals",
+     "name": "Approvals in Microsoft Power Automate",
+     "url": "https://www.microsoft.com/en-us/power-platform/products/power-automate",
+     "checked": "2026-10-11",
+     "owned": false
+    },
+    "math": {
+     "durationLabel": "2 hours",
+     "duration": {
+      "low": 2,
+      "high": 2
+     },
+     "frequencyLabel": "A few times a week",
+     "frequency": {
+      "low": 2,
+      "high": 4
+     },
+     "hoursPerWeek": {
+      "low": 4,
+      "high": 8
+     },
+     "share": {
+      "low": 0.3,
+      "high": 0.6
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 1.2,
+      "high": 4.8
+     }
+    },
+    "saved": {
+     "low": 1.2,
+     "high": 4.8
+    },
+    "effort": "medium",
+    "firstStep": "Move one recurring request into a form or workflow that sends reminders by itself.",
+    "failureMode": "People ignore automated reminders that arrive too often.",
+    "rank": 1
+   },
+   {
+    "taskId": "t4",
+    "taskName": "Triage the inbox",
+    "quote": "About 70 a day, mixed senders: referrals, insurance notices, and staff requests.",
+    "why": "You sort a high volume of mixed email in Outlook each day, which fits routine inbox triage.",
+    "patternId": "inbox-triage",
+    "patternName": "Inbox triage and routine replies",
+    "level": "ai_agent",
+    "tool": {
+     "id": "m365-copilot",
+     "name": "Microsoft 365 Copilot in Outlook",
+     "url": "https://www.microsoft.com/en-us/microsoft-365/copilot",
+     "checked": "2026-10-11",
+     "owned": true
+    },
+    "math": {
+     "durationLabel": "1 hour",
+     "duration": {
+      "low": 1,
+      "high": 1
+     },
+     "frequencyLabel": "Daily",
+     "frequency": {
+      "low": 5,
+      "high": 5
+     },
+     "hoursPerWeek": {
+      "low": 5,
+      "high": 5
+     },
+     "share": {
+      "low": 0.2,
+      "high": 0.4
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 1,
+      "high": 2
+     }
+    },
+    "saved": {
+     "low": 1,
+     "high": 2
+    },
+    "effort": "small",
+    "firstStep": "Turn on the inbox summary each morning and copy its action items into your to-do list for a week.",
+    "failureMode": "Summaries miss the one message that mattered, so important senders still need a rule that flags them.",
+    "rank": 2
+   }
+  ],
+  "habits": [
+   {
+    "patternId": "meeting-gaps",
+    "name": "Gaps after back-to-back meetings",
+    "effort": "small",
+    "becauseTasks": [
+     "Provider huddle",
+     "Front office stand-up",
+     "Scheduling calls with patients"
+    ],
+    "firstStep": "Set meetings you own to end five minutes early by default.",
+    "failureMode": "Other people's meetings still run to the hour.",
+    "saved": null
+   }
+  ],
+  "noFit": [
+   {
+    "taskName": "Provider huddle"
+   },
+   {
+    "taskName": "Front office stand-up"
+   },
+   {
+    "taskName": "Scheduling calls with patients"
+   },
+   {
+    "taskName": "Cover the front desk at lunch"
+   },
+   {
+    "taskName": "Rebuild provider schedules"
+   }
+  ],
+  "thin": [
+   {
+    "taskName": "Answer staff policy questions",
+    "patternName": "Answering repeat questions",
+    "missing": [
+     "volume",
+     "input"
+    ]
+   },
+   {
+    "taskName": "Weekly KPI report for the owners",
+    "patternName": "Assembling a recurring report",
+    "missing": [
+     "input",
+     "output"
+    ]
+   },
+   {
+    "taskName": "Reconcile insurance payments against claims",
+    "patternName": "Reconciling two lists or records",
+    "missing": [
+     "tool",
+     "input"
+    ]
+   }
+  ],
+  "notCounted": [],
+  "checked": {
+   "proposals": 5,
+   "passed": 2,
+   "heldForDetail": 3,
+   "rejected": [],
+   "rules": [
+    {
+     "id": 1,
+     "name": "Task is in the task map",
+     "failures": 0
+    },
+    {
+     "id": 2,
+     "name": "Quoted evidence appears word for word in the visitor's answers",
+     "failures": 0
+    },
+    {
+     "id": 3,
+     "name": "Pattern is in the catalog and every required signal was recorded",
+     "failures": 0
+    },
+    {
+     "id": 4,
+     "name": "Tool is listed on the pattern, with a working link checked within the limit",
+     "failures": 0
+    },
+    {
+     "id": 5,
+     "name": "Hours figures are the ones code computed",
+     "failures": 0
+    },
+    {
+     "id": 6,
+     "name": "Model-written sentences contain no numbers",
+     "failures": 0
+    },
+    {
+     "id": 7,
+     "name": "A working-habit suggestion carries no hours unless the catalog supplies a share",
+     "failures": 0
+    }
+   ]
+  },
+  "catalogDraft": false
+ },
+ "transcript": [
+  {
+   "question": "For \"Rebuild provider schedules\", what triggers a rebuild, and who receives the finished schedule?",
+   "options": [
+    "Provider requests; sent to staff",
+    "Leave or time-off notices; posted in EHR",
+    "Clinic policy changes; sent to providers",
+    "Patient cancellations; goes to front desk"
+   ],
+   "answer": "When providers call out or add sessions, I rebuild the schedule by hand in the EHR scheduler.",
+   "taskName": "Rebuild provider schedules"
+  },
+  {
+   "question": "How many times a week do you rebuild provider schedules in \"Rebuild provider schedules\"?",
+   "options": [
+    "1–2 times",
+    "3–5 times",
+    "6–10 times",
+    "More than 10 times"
+   ],
+   "answer": "Not sure",
+   "taskName": "Rebuild provider schedules"
+  },
+  {
+   "question": "How many prior authorizations do you chase in \"Chase prior authorizations\" in a typical week?",
+   "options": [
+    "Under 10",
+    "10–25",
+    "26–50",
+    "More than 50"
+   ],
+   "answer": "About 20 open prior authorizations, so I'd tap 10–25.",
+   "taskName": "Chase prior authorizations"
+  },
+  {
+   "question": "For \"Chase prior authorizations\", where do the requests come from, and where do the results go?",
+   "options": [
+    "Provider orders; results to EHR",
+    "Referral requests; results to providers",
+    "Insurer portal; results to patients",
+    "Staff emails; results to scheduling team"
+   ],
+   "answer": "Provider orders; results to EHR",
+   "taskName": "Chase prior authorizations"
+  },
+  {
+   "question": "For \"Scheduling calls with patients\", how many calls do you handle per day, and how do they come in?",
+   "options": [
+    "Under 20, patients call in",
+    "20–50, patients call in",
+    "50+, patients call in",
+    "Mostly outbound calls from a list"
+   ],
+   "answer": "20–50, patients call in",
+   "taskName": "Scheduling calls with patients"
+  },
+  {
+   "question": "For \"Triage the inbox\", about how many emails arrive per day, and who mostly sends them?",
+   "options": [
+    "Under 25, mostly staff",
+    "25–50, mostly staff",
+    "50–100, mixed senders",
+    "100+, mostly outside parties"
+   ],
+   "answer": "About 70 a day, mixed senders: referrals, insurance notices, and staff requests.",
+   "taskName": "Triage the inbox"
+  }
+ ],
+ "run": {
+  "questions": 6,
+  "finishReason": "limit",
+  "overWeek": true,
+  "cost": 0.058913099999999996,
+  "model": {
+   "answers": "claude-haiku-5-5",
+   "agent": "claude-sonnet-5-5",
+   "match": "claude-sonnet-5-5"
+  }
+ }
+}

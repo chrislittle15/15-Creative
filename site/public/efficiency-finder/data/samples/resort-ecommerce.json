@@ -1,0 +1,347 @@
+{
+ "meta": {
+  "id": "resort-ecommerce",
+  "title": "E-commerce coordinator at a multi-location resort retailer",
+  "industry": "Resort retail, six shops and an online store",
+  "blurb": "Keeps the online store's products, content and orders running.",
+  "team": true,
+  "traps": [],
+  "approved": true
+ },
+ "report": {
+  "version": 1,
+  "weekHours": 40,
+  "summary": {
+   "weekCovered": 0.5115384615384615,
+   "mapped": {
+    "low": 17.46153846153846,
+    "high": 23.46153846153846
+   },
+   "saved": {
+    "low": 3.6,
+    "high": 10.4
+   },
+   "tasksMapped": 8
+  },
+  "opportunities": [
+   {
+    "taskId": "t3",
+    "taskName": "Update product listings",
+    "quote": "typed into Shopify by hand from the buyer's spreadsheet",
+    "why": "You read product rows in the buyer's spreadsheet and type them into Shopify by hand each week.",
+    "patternId": "retyping-data",
+    "patternName": "Retyping data between systems",
+    "level": "automation",
+    "tool": {
+     "id": "zapier",
+     "name": "Zapier",
+     "url": "https://zapier.com/",
+     "checked": "2026-10-11",
+     "owned": false
+    },
+    "math": {
+     "durationLabel": "2 hours",
+     "duration": {
+      "low": 2,
+      "high": 2
+     },
+     "frequencyLabel": "A few times a week",
+     "frequency": {
+      "low": 2,
+      "high": 4
+     },
+     "hoursPerWeek": {
+      "low": 4,
+      "high": 8
+     },
+     "share": {
+      "low": 0.5,
+      "high": 0.8
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 2,
+      "high": 6.4
+     }
+    },
+    "saved": {
+     "low": 2,
+     "high": 6.4
+    },
+    "effort": "medium",
+    "firstStep": "List the fields you retype and where each one comes from, then connect the two systems on one record type.",
+    "failureMode": "Field formats differ between systems, so the first runs need a person checking every record.",
+    "rank": 1
+   },
+   {
+    "taskId": "t1",
+    "taskName": "Answer customer emails",
+    "quote": "About 40 a day, all in my own Gmail inbox.",
+    "why": "You get a high volume of customer emails in Gmail and reply straight back to each customer.",
+    "patternId": "inbox-triage",
+    "patternName": "Inbox triage and routine replies",
+    "level": "ai_agent",
+    "tool": {
+     "id": "gemini-workspace",
+     "name": "Gemini in Gmail",
+     "url": "https://workspace.google.com/solutions/ai/",
+     "checked": "2026-10-11",
+     "owned": true
+    },
+    "math": {
+     "durationLabel": "1 hour",
+     "duration": {
+      "low": 1,
+      "high": 1
+     },
+     "frequencyLabel": "Daily",
+     "frequency": {
+      "low": 5,
+      "high": 5
+     },
+     "hoursPerWeek": {
+      "low": 5,
+      "high": 5
+     },
+     "share": {
+      "low": 0.2,
+      "high": 0.4
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 1,
+      "high": 2
+     }
+    },
+    "saved": {
+     "low": 1,
+     "high": 2
+    },
+    "effort": "small",
+    "firstStep": "Turn on the inbox summary each morning and copy its action items into your to-do list for a week.",
+    "failureMode": "Summaries miss the one message that mattered, so important senders still need a rule that flags them.",
+    "rank": 2
+   },
+   {
+    "taskId": "t5",
+    "taskName": "Write product descriptions",
+    "quote": "written up in the same structure each time",
+    "why": "You write descriptions in Google Docs from vendor notes using the same structure every time.",
+    "patternId": "template-drafting",
+    "patternName": "Drafting documents from a template",
+    "level": "ai_agent",
+    "tool": {
+     "id": "gemini-docs",
+     "name": "Gemini in Google Docs",
+     "url": "https://workspace.google.com/solutions/ai/",
+     "checked": "2026-10-11",
+     "owned": true
+    },
+    "math": {
+     "durationLabel": "1 hour",
+     "duration": {
+      "low": 1,
+      "high": 1
+     },
+     "frequencyLabel": "A few times a week",
+     "frequency": {
+      "low": 2,
+      "high": 4
+     },
+     "hoursPerWeek": {
+      "low": 2,
+      "high": 4
+     },
+     "share": {
+      "low": 0.3,
+      "high": 0.5
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 0.6,
+      "high": 2
+     }
+    },
+    "saved": {
+     "low": 0.6,
+     "high": 2
+    },
+    "effort": "small",
+    "firstStep": "Save your best past document as the template and write down the three inputs that change each time.",
+    "failureMode": "Drafts read as generic when the inputs are thin, so the time moves from writing to editing.",
+    "rank": 3
+   }
+  ],
+  "habits": [
+   {
+    "patternId": "group-similar",
+    "name": "Grouping similar tasks",
+    "effort": "small",
+    "becauseTasks": [
+     "Shopify: Process online orders, Update product listings, Copy new products from the buying sheet into the store"
+    ],
+    "firstStep": "Put the tasks that use the same tool into one block on your calendar.",
+    "failureMode": "Blocks get booked over unless they are marked busy.",
+    "saved": null
+   }
+  ],
+  "noFit": [
+   {
+    "taskName": "Process online orders"
+   },
+   {
+    "taskName": "Photo shoot planning"
+   }
+  ],
+  "thin": [
+   {
+    "taskName": "Copy new products from the buying sheet into the store",
+    "patternName": "Retyping data between systems",
+    "missing": [
+     "input",
+     "output"
+    ]
+   },
+   {
+    "taskName": "Weekly web sales report",
+    "patternName": "Assembling a recurring report",
+    "missing": [
+     "input",
+     "output"
+    ]
+   },
+   {
+    "taskName": "Marketing sync",
+    "patternName": "Meeting notes to action items",
+    "missing": [
+     "output"
+    ]
+   }
+  ],
+  "notCounted": [],
+  "checked": {
+   "proposals": 6,
+   "passed": 3,
+   "heldForDetail": 3,
+   "rejected": [],
+   "rules": [
+    {
+     "id": 1,
+     "name": "Task is in the task map",
+     "failures": 0
+    },
+    {
+     "id": 2,
+     "name": "Quoted evidence appears word for word in the visitor's answers",
+     "failures": 0
+    },
+    {
+     "id": 3,
+     "name": "Pattern is in the catalog and every required signal was recorded",
+     "failures": 0
+    },
+    {
+     "id": 4,
+     "name": "Tool is listed on the pattern, with a working link checked within the limit",
+     "failures": 0
+    },
+    {
+     "id": 5,
+     "name": "Hours figures are the ones code computed",
+     "failures": 0
+    },
+    {
+     "id": 6,
+     "name": "Model-written sentences contain no numbers",
+     "failures": 0
+    },
+    {
+     "id": 7,
+     "name": "A working-habit suggestion carries no hours unless the catalog supplies a share",
+     "failures": 0
+    }
+   ]
+  },
+  "catalogDraft": false
+ },
+ "transcript": [
+  {
+   "question": "How many products do you update in \"Update product listings\" in a typical week?",
+   "options": [
+    "Under 20",
+    "20–50",
+    "50–200",
+    "Over 200"
+   ],
+   "answer": "About 30 new products a week, typed into Shopify by hand from the buyer's spreadsheet.",
+   "taskName": "Update product listings"
+  },
+  {
+   "question": "How many customer emails do you answer in \"Answer customer emails\" per day, and where do they come from?",
+   "options": [
+    "Under 10/day, shared support inbox",
+    "10–30/day, shared support inbox",
+    "10–30/day, my own inbox",
+    "30+/day, shared support inbox",
+    "30+/day, contact form and inbox"
+   ],
+   "answer": "About 40 a day, all in my own Gmail inbox.",
+   "taskName": "Answer customer emails"
+  },
+  {
+   "question": "Once a product is typed in for \"Update product listings\", where does it go or who sees it next?",
+   "options": [
+    "Straight live on the store",
+    "Saved as draft for someone to review",
+    "Goes to the buyer to check",
+    "Goes to marketing"
+   ],
+   "answer": "Not sure. Once I type it in Shopify by hand, I don't see it going anywhere else.",
+   "taskName": "Update product listings"
+  },
+  {
+   "question": "After you answer a customer email in \"Answer customer emails\", where does the reply go or who sees it next?",
+   "options": [
+    "Straight back to the customer",
+    "Customer, plus logged in a help system",
+    "Passed to a colleague or manager",
+    "Depends on the question"
+   ],
+   "answer": "Straight back to the customer",
+   "taskName": "Answer customer emails"
+  },
+  {
+   "question": "For \"Write product descriptions\", where do the product details come from, and where do finished descriptions go?",
+   "options": [
+    "From buyer's spreadsheet, pasted into Shopify",
+    "From supplier info, sent to a colleague to review",
+    "From product photos or samples, into Shopify",
+    "From a brief by marketing, back to marketing"
+   ],
+   "answer": "From the vendor's notes, written up in the same structure each time, then into Shopify.",
+   "taskName": "Write product descriptions"
+  },
+  {
+   "question": "How many descriptions do you write in \"Write product descriptions\" in a typical week?",
+   "options": [
+    "Under 10",
+    "10 to 20",
+    "20 to 40",
+    "More than 40"
+   ],
+   "answer": "About 30 new products a week, so roughly 30 descriptions, though I work from the vendor's notes.",
+   "taskName": "Write product descriptions"
+  }
+ ],
+ "run": {
+  "questions": 6,
+  "finishReason": "limit",
+  "overWeek": false,
+  "cost": 0.06529309999999999,
+  "model": {
+   "answers": "claude-haiku-5-5",
+   "agent": "claude-sonnet-5-5",
+   "match": "claude-sonnet-5-5"
+  }
+ }
+}

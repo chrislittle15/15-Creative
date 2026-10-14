@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pressure Cooker</title>
+<meta name="description" content="Real recipes for what's in your kitchen, turned into a shopping list.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./app.css">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="shell">
+
+  <!-- Sidebar: desktop and tablet. Becomes a bottom bar on phones. -->
+  <nav class="sidebar" aria-label="Sections">
+    <a class="brand" href="../">
+      <img src="./logo.svg" alt="" width="34" height="34">
+      <span class="brand__text">
+        <strong>Pressure</strong><span>Cooker</span>
+      </span>
+    </a>
+    <ul class="nav" role="list">
+      <li><button class="nav__item is-active" data-screen="use"      type="button"><span class="nav__icon" aria-hidden="true">◍</span><span>Use what I have</span></button></li>
+      <li><button class="nav__item"           data-screen="recipes"  type="button"><span class="nav__icon" aria-hidden="true">❏</span><span>Recipes</span></button></li>
+      <li><button class="nav__item"           data-screen="week"     type="button"><span class="nav__icon" aria-hidden="true">▤</span><span>This week</span></button></li>
+      <li><button class="nav__item"           data-screen="list"     type="button"><span class="nav__icon" aria-hidden="true">✓</span><span>Shopping list</span><span class="nav__count" id="navListCount" hidden></span></button></li>
+      <li><button class="nav__item"           data-screen="pantry"   type="button"><span class="nav__icon" aria-hidden="true">⌂</span><span>Pantry</span></button></li>
+      <li><button class="nav__item"           data-screen="profile"  type="button"><span class="nav__icon" aria-hidden="true">☺</span><span>Profile</span></button></li>
+    </ul>
+    <p class="sidebar__foot">
+      Sample household. Your data stays in this browser.<br>
+      Recipes from <a href="https://www.themealdb.com" target="_blank" rel="noopener">TheMealDB</a>.
+    </p>
+  </nav>
+
+  <main class="main" id="main">
+
+    <!-- USE WHAT I HAVE -->
+    <section class="screen is-active" data-screen="use">
+      <header class="screen__head">
+        <h1>Use what I have</h1>
+        <p class="lede">Add what's in your kitchen. We'll find real recipes that use it, and tell you what's still missing.</p>
+      </header>
+
+      <div class="card">
+        <label class="field__label" for="haveInput">Ingredients you want to use up</label>
+        <div class="chipfield" id="haveField">
+          <ul class="chips" id="haveChips" role="list"></ul>
+          <input id="haveInput" class="chipfield__input" type="text" autocomplete="off"
+                 placeholder="Start typing — chicken, rice, tomato…" aria-describedby="haveHelp"
+                 role="combobox" aria-expanded="false" aria-controls="haveSuggest" aria-autocomplete="list">
+          <ul class="autocomplete" id="haveSuggest" role="listbox" hidden></ul>
+        </div>
+        <p class="help" id="haveHelp">Type to search the store list. Press Enter to add.</p>
+
+        <div class="suggested" id="suggestedWrap" hidden>
+          <span class="suggested__label">Often used with these</span>
+          <ul class="chips chips--suggest" id="suggestedChips" role="list"></ul>
+        </div>
+      </div>
+
+      <div id="useResults" class="results"></div>
+    </section>
+
+    <!-- RECIPES -->
+    <section class="screen" data-screen="recipes">
+      <header class="screen__head">
+        <h1>Recipes</h1>
+        <p class="lede">Browse the pool, save favorites, or add your own.</p>
+      </header>
+
+      <div class="toolbar">
+        <div class="search">
+          <span class="search__icon" aria-hidden="true">⌕</span>
+          <input id="recipeSearch" type="search" placeholder="Search recipes, ingredients, or cuisines…" aria-label="Search recipes">
+        </div>
+        <button class="btn btn--ghost" id="addRecipeBtn" type="button">Add a recipe</button>
+      </div>
+
+      <ul class="filters" id="cuisineFilters" role="list"></ul>
+      <div class="grid" id="recipeGrid"></div>
+    </section>
+
+    <!-- THIS WEEK -->
+    <section class="screen" data-screen="week">
+      <header class="screen__head">
+        <h1>This week</h1>
+        <p class="lede">Drop in the recipes you're cooking. One combined list, no duplicates.</p>
+      </header>
+      <div id="weekBody"></div>
+    </section>
+
+    <!-- SHOPPING LIST -->
+    <section class="screen" data-screen="list">
+      <header class="screen__head">
+        <h1>Shopping list</h1>
+        <p class="lede">Grouped the way the store is laid out. Tap to cross off.</p>
+      </header>
+      <div id="listBody"></div>
+    </section>
+
+    <!-- PANTRY -->
+    <section class="screen" data-screen="pantry">
+      <header class="screen__head">
+        <h1>Pantry</h1>
+        <p class="lede">What you usually have. These move to "probably have" instead of your buy list. No quantities.</p>
+      </header>
+      <div class="card">
+        <label class="field__label" for="pantryInput">Pantry staples</label>
+        <div class="chipfield" id="pantryField">
+          <ul class="chips" id="pantryChips" role="list"></ul>
+          <input id="pantryInput" class="chipfield__input" type="text" autocomplete="off"
+                 placeholder="Add a staple…" role="combobox" aria-expanded="false" aria-controls="pantrySuggest" aria-autocomplete="list">
+          <ul class="autocomplete" id="pantrySuggest" role="listbox" hidden></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section class="screen" data-screen="profile">
+      <header class="screen__head">
+        <h1>Profile</h1>
+        <p class="lede">One screen. Used to rank recipes, and to rule some out.</p>
+      </header>
+
+      <div class="card">
+        <h2 class="card__title">Dietary restrictions</h2>
+        <p class="help">Checked in code against a reviewed ingredient table. Anything we can't vouch for says so rather than guessing.</p>
+        <ul class="toggles" id="restrictionToggles" role="list"></ul>
+      </div>
+
+      <div class="card">
+        <h2 class="card__title">Cuisines you lean towards</h2>
+        <p class="help">A nudge in the ranking. Never a filter.</p>
+        <ul class="chips chips--pick" id="cuisinePicks" role="list"></ul>
+      </div>
+
+      <div class="card">
+        <h2 class="card__title">Never serve this</h2>
+        <p class="help">A hard filter, same as a restriction.</p>
+        <div class="chipfield" id="neverField">
+          <ul class="chips" id="neverChips" role="list"></ul>
+          <input id="neverInput" class="chipfield__input" type="text" autocomplete="off" placeholder="Add an ingredient…"
+                 role="combobox" aria-expanded="false" aria-controls="neverSuggest" aria-autocomplete="list">
+          <ul class="autocomplete" id="neverSuggest" role="listbox" hidden></ul>
+        </div>
+      </div>
+
+      <div class="card card--muted">
+        <h2 class="card__title">In development</h2>
+        <p class="help">Planned, not built. These controls do nothing yet.</p>
+        <ul class="devlist" role="list">
+          <li><span class="badge badge--dev">In development</span> Add ingredients from a fridge, pantry or receipt photo</li>
+          <li><span class="badge badge--dev">In development</span> Automatic weekly meal planner</li>
+          <li><span class="badge badge--dev">In development</span> Household accounts shared across devices</li>
+          <li><span class="badge badge--dev">In development</span> Send the list to Instacart</li>
+          <li><span class="badge badge--dev">In development</span> Learning your tastes from ratings</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2 class="card__title">This demo's data</h2>
+        <p class="help">Everything you change lives in this browser only. Nothing about you is sent to the server.</p>
+        <button class="btn btn--ghost" id="resetBtn" type="button">Reset to the sample household</button>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Add a recipe -->
+<dialog class="modal" id="addRecipeModal" aria-labelledby="addRecipeTitle">
+  <form method="dialog" class="modal__inner">
+    <h2 id="addRecipeTitle" class="modal__title">Add a recipe</h2>
+    <div class="tabs" role="tablist">
+      <button class="tab is-active" type="button" role="tab" data-tab="paste">Paste ingredients</button>
+      <button class="tab" type="button" role="tab" data-tab="link">From a link</button>
+      <button class="tab" type="button" role="tab" data-tab="type">Type it</button>
+    </div>
+
+    <div class="tabpanel is-active" data-tab="paste">
+      <label class="field__label" for="pasteName">Recipe name</label>
+      <input id="pasteName" type="text" placeholder="Weeknight chili">
+      <label class="field__label" for="pasteText">Ingredients, one per line</label>
+      <textarea id="pasteText" rows="7" placeholder="1 lb ground beef&#10;2 cloves of garlic&#10;15 oz can of black beans"></textarea>
+    </div>
+
+    <div class="tabpanel" data-tab="link">
+      <label class="field__label" for="linkUrl">Recipe page address</label>
+      <input id="linkUrl" type="url" inputmode="url" placeholder="https://www.themealdb.com/meal/…">
+      <p class="help">Links from TheMealDB work today. We read the recipe data it publishes; a page without it is refused rather than guessed at.</p>
+      <div class="note" id="linkNote" hidden></div>
+    </div>
+
+    <div class="tabpanel" data-tab="type">
+      <label class="field__label" for="typeName">Recipe name</label>
+      <input id="typeName" type="text" placeholder="Grandma's casserole">
+      <label class="field__label" for="typeIngredients">Ingredients</label>
+      <div class="chipfield" id="typeField">
+        <ul class="chips" id="typeChips" role="list"></ul>
+        <input id="typeIngredients" class="chipfield__input" type="text" autocomplete="off" placeholder="Add an ingredient…"
+               role="combobox" aria-expanded="false" aria-controls="typeSuggest" aria-autocomplete="list">
+        <ul class="autocomplete" id="typeSuggest" role="listbox" hidden></ul>
+      </div>
+    </div>
+
+    <div class="modal__actions">
+      <button class="btn btn--ghost" value="cancel" type="submit">Cancel</button>
+      <button class="btn" id="addRecipeSave" value="save" type="submit">Add recipe</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="mappanel" id="mapPanel" role="dialog" aria-labelledby="mapPanelTitle" hidden>
+  <p class="mappanel__title" id="mapPanelTitle">Match to the store list?</p>
+  <p class="mappanel__help">Suggested by AI. Nothing changes until you confirm.</p>
+  <ul class="mappanel__rows" id="mapRows"></ul>
+  <div class="mappanel__actions">
+    <button class="btn btn--ghost btn--sm" type="button" id="mapKeep">Keep as typed</button>
+    <button class="btn btn--sm" type="button" id="mapUse">Use these</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script type="module" src="./app.js"></script>
+</body>
+</html>

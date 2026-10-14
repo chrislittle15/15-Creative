@@ -1,0 +1,292 @@
+{
+ "meta": {
+  "id": "resort-marketing",
+  "title": "Marketing coordinator at a multi-location resort retailer",
+  "industry": "Resort retail, six shops and an online store",
+  "blurb": "Runs email campaigns, social posts and in-shop signage.",
+  "team": true,
+  "traps": [],
+  "approved": true
+ },
+ "report": {
+  "version": 1,
+  "weekHours": 40,
+  "summary": {
+   "weekCovered": 0.36923076923076925,
+   "mapped": {
+    "low": 12.653846153846153,
+    "high": 16.884615384615383
+   },
+   "saved": {
+    "low": 1.35,
+    "high": 3.9
+   },
+   "tasksMapped": 8
+  },
+  "opportunities": [
+   {
+    "taskId": "t5",
+    "taskName": "Track competitor promotions",
+    "quote": "About eight competitor sites and two local news sites, a few times a week, by hand.",
+    "why": "You check several competitor sites and local news sites by hand to stay current, which fits a feed-based briefing.",
+    "patternId": "daily-briefing",
+    "patternName": "Monitoring news and sources as a daily briefing",
+    "level": "ai_agent",
+    "tool": {
+     "id": "feedly",
+     "name": "Feedly",
+     "url": "https://feedly.com/",
+     "checked": "2026-10-11",
+     "owned": false
+    },
+    "math": {
+     "durationLabel": "1 hour",
+     "duration": {
+      "low": 1,
+      "high": 1
+     },
+     "frequencyLabel": "A few times a week",
+     "frequency": {
+      "low": 2,
+      "high": 4
+     },
+     "hoursPerWeek": {
+      "low": 2,
+      "high": 4
+     },
+     "share": {
+      "low": 0.3,
+      "high": 0.6
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 0.6,
+      "high": 2.4
+     }
+    },
+    "saved": {
+     "low": 0.6,
+     "high": 2.4
+    },
+    "effort": "small",
+    "firstStep": "List the sources you check and set alerts for the topics, then read one digest a day.",
+    "failureMode": "Too many alerts and the digest becomes another inbox.",
+    "rank": 1
+   },
+   {
+    "taskId": "t1",
+    "taskName": "Check social media comments",
+    "quote": "many of which are the same hours and shipping questions",
+    "why": "You answer the same hours and shipping questions in comments again and again.",
+    "patternId": "repeat-questions",
+    "patternName": "Answering repeat questions",
+    "level": "ai_agent",
+    "tool": {
+     "id": "slack-ai",
+     "name": "Slack AI answers",
+     "url": "https://slack.com/features/ai",
+     "checked": "2026-10-11",
+     "owned": false
+    },
+    "math": {
+     "durationLabel": "30 min",
+     "duration": {
+      "low": 0.5,
+      "high": 0.5
+     },
+     "frequencyLabel": "Daily",
+     "frequency": {
+      "low": 5,
+      "high": 5
+     },
+     "hoursPerWeek": {
+      "low": 2.5,
+      "high": 2.5
+     },
+     "share": {
+      "low": 0.3,
+      "high": 0.6
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 0.75,
+      "high": 1.5
+     }
+    },
+    "saved": {
+     "low": 0.75,
+     "high": 1.5
+    },
+    "effort": "medium",
+    "firstStep": "Collect the ten questions you answered most last month and put the answers on one shared page.",
+    "failureMode": "Answers go stale when the source page is not owned by anyone.",
+    "rank": 2
+   }
+  ],
+  "habits": [],
+  "noFit": [
+   {
+    "taskName": "Write social posts"
+   },
+   {
+    "taskName": "Design shop signage"
+   }
+  ],
+  "thin": [
+   {
+    "taskName": "Triage the inbox",
+    "patternName": "Inbox triage and routine replies",
+    "missing": [
+     "volume"
+    ]
+   },
+   {
+    "taskName": "Draft the weekly promo email",
+    "patternName": "Drafting documents from a template",
+    "missing": [
+     "input"
+    ]
+   },
+   {
+    "taskName": "Marketing sync",
+    "patternName": "Meeting notes to action items",
+    "missing": [
+     "output"
+    ]
+   },
+   {
+    "taskName": "Campaign results report",
+    "patternName": "Assembling a recurring report",
+    "missing": [
+     "input",
+     "output"
+    ]
+   }
+  ],
+  "notCounted": [],
+  "checked": {
+   "proposals": 6,
+   "passed": 2,
+   "heldForDetail": 4,
+   "rejected": [],
+   "rules": [
+    {
+     "id": 1,
+     "name": "Task is in the task map",
+     "failures": 0
+    },
+    {
+     "id": 2,
+     "name": "Quoted evidence appears word for word in the visitor's answers",
+     "failures": 0
+    },
+    {
+     "id": 3,
+     "name": "Pattern is in the catalog and every required signal was recorded",
+     "failures": 0
+    },
+    {
+     "id": 4,
+     "name": "Tool is listed on the pattern, with a working link checked within the limit",
+     "failures": 0
+    },
+    {
+     "id": 5,
+     "name": "Hours figures are the ones code computed",
+     "failures": 0
+    },
+    {
+     "id": 6,
+     "name": "Model-written sentences contain no numbers",
+     "failures": 0
+    },
+    {
+     "id": 7,
+     "name": "A working-habit suggestion carries no hours unless the catalog supplies a share",
+     "failures": 0
+    }
+   ]
+  },
+  "catalogDraft": false
+ },
+ "transcript": [
+  {
+   "question": "For \"Write social posts\", how many posts do you write per week, and where do they go?",
+   "options": [
+    "1-5 posts, Instagram/Facebook",
+    "6-10 posts, Instagram/Facebook",
+    "10+ posts, several platforms",
+    "Drafts go to manager for approval"
+   ],
+   "answer": "Not sure",
+   "taskName": "Write social posts"
+  },
+  {
+   "question": "For \"Write social posts\", where do the ideas or information for each post come from?",
+   "options": [
+    "Promo calendar",
+    "Product or stock updates",
+    "Manager's requests",
+    "Competitor or trend ideas",
+    "My own ideas"
+   ],
+   "answer": "Mostly from the competitor deals and news I note in my doc a few times a week.",
+   "taskName": "Write social posts"
+  },
+  {
+   "question": "For \"Track competitor promotions\", where do you find the promotions, and where do your notes end up?",
+   "options": [
+    "Competitor websites, notes in a doc",
+    "Competitor emails, notes in a spreadsheet",
+    "Social pages, notes in a doc",
+    "Mix of sources, shared with the team"
+   ],
+   "answer": "Competitor websites, notes in a doc",
+   "taskName": "Track competitor promotions"
+  },
+  {
+   "question": "For \"Track competitor promotions\", how many competitors or promotions do you check each week?",
+   "options": [
+    "1–3 competitors",
+    "4–6 competitors",
+    "7–10 competitors",
+    "More than 10"
+   ],
+   "answer": "About eight competitor sites and two local news sites, a few times a week, by hand.",
+   "taskName": "Track competitor promotions"
+  },
+  {
+   "question": "For \"Check social media comments\", roughly how many comments do you go through per week?",
+   "options": [
+    "Under 20",
+    "20 to 50",
+    "50 to 100",
+    "Over 100"
+   ],
+   "answer": "Over 100",
+   "taskName": "Check social media comments"
+  },
+  {
+   "question": "For \"Check social media comments\", where do comments come from, and what do you do with them afterward?",
+   "options": [
+    "Facebook/Instagram; reply directly",
+    "Facebook/Instagram; pass issues to teammates",
+    "Facebook/Instagram; log in a sheet",
+    "Several platforms; reply and escalate"
+   ],
+   "answer": "Facebook/Instagram; reply directly. I answer the about 30 daily comments, many of which are the same hours and shipping questions.",
+   "taskName": "Check social media comments"
+  }
+ ],
+ "run": {
+  "questions": 6,
+  "finishReason": "limit",
+  "overWeek": false,
+  "cost": 0.050253000000000006,
+  "model": {
+   "answers": "claude-haiku-5-5",
+   "agent": "claude-sonnet-5-5",
+   "match": "claude-sonnet-5-5"
+  }
+ }
+}

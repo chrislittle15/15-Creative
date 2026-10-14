@@ -1,0 +1,296 @@
+{
+ "meta": {
+  "id": "resort-inventory",
+  "title": "Inventory and allocation analyst at a multi-location resort retailer",
+  "industry": "Resort retail, six shops across two resorts",
+  "blurb": "Decides how stock moves between the warehouse and the shops, and keeps counts accurate.",
+  "team": true,
+  "traps": [],
+  "approved": true
+ },
+ "report": {
+  "version": 1,
+  "weekHours": 40,
+  "summary": {
+   "weekCovered": 0.43269230769230765,
+   "mapped": {
+    "low": 16.692307692307693,
+    "high": 17.923076923076923
+   },
+   "saved": {
+    "low": 3.2,
+    "high": 6.3
+   },
+   "tasksMapped": 7
+  },
+  "opportunities": [
+   {
+    "taskId": "t1",
+    "taskName": "Check stock levels by shop",
+    "quote": "Into the replenishment report",
+    "why": "You pull stock levels from NetSuite for each shop and feed them into the replenishment report, so the same exports are reshaped each cycle.",
+    "patternId": "recurring-report",
+    "patternName": "Assembling a recurring report",
+    "level": "existing_tool",
+    "tool": {
+     "id": "excel-power-query",
+     "name": "Power Query in Microsoft Excel",
+     "url": "https://www.microsoft.com/en-us/microsoft-365/excel",
+     "checked": "2026-10-11",
+     "owned": false
+    },
+    "math": {
+     "durationLabel": "1 hour",
+     "duration": {
+      "low": 1,
+      "high": 1
+     },
+     "frequencyLabel": "Daily",
+     "frequency": {
+      "low": 5,
+      "high": 5
+     },
+     "hoursPerWeek": {
+      "low": 5,
+      "high": 5
+     },
+     "share": {
+      "low": 0.4,
+      "high": 0.7
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 2,
+      "high": 3.5
+     }
+    },
+    "saved": {
+     "low": 2,
+     "high": 3.5
+    },
+    "effort": "medium",
+    "firstStep": "Save the steps you repeat each cycle as a query, so next time the report refreshes from the new export.",
+    "failureMode": "A change in the source export's columns silently breaks the refresh.",
+    "rank": 1
+   },
+   {
+    "taskId": "t4",
+    "taskName": "Build the weekly replenishment report",
+    "quote": "every Monday",
+    "why": "You rebuild the replenishment report in Excel on a schedule and email it to the buyer and store operations.",
+    "patternId": "recurring-report",
+    "patternName": "Assembling a recurring report",
+    "level": "existing_tool",
+    "tool": {
+     "id": "excel-power-query",
+     "name": "Power Query in Microsoft Excel",
+     "url": "https://www.microsoft.com/en-us/microsoft-365/excel",
+     "checked": "2026-10-11",
+     "owned": true
+    },
+    "math": {
+     "durationLabel": "3 or more",
+     "duration": {
+      "low": 3,
+      "high": 4
+     },
+     "frequencyLabel": "Weekly",
+     "frequency": {
+      "low": 1,
+      "high": 1
+     },
+     "hoursPerWeek": {
+      "low": 3,
+      "high": 4
+     },
+     "share": {
+      "low": 0.4,
+      "high": 0.7
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 1.2000000000000002,
+      "high": 2.8
+     }
+    },
+    "saved": {
+     "low": 1.2000000000000002,
+     "high": 2.8
+    },
+    "effort": "medium",
+    "firstStep": "Save the steps you repeat each cycle as a query, so next time the report refreshes from the new export.",
+    "failureMode": "A change in the source export's columns silently breaks the refresh.",
+    "rank": 2
+   }
+  ],
+  "habits": [
+   {
+    "patternId": "group-similar",
+    "name": "Grouping similar tasks",
+    "effort": "small",
+    "becauseTasks": [
+     "Excel: Plan transfers between shops, Build the weekly replenishment report, Reconcile shop counts with the system, Month-end inventory valuation"
+    ],
+    "firstStep": "Put the tasks that use the same tool into one block on your calendar.",
+    "failureMode": "Blocks get booked over unless they are marked busy.",
+    "saved": null
+   }
+  ],
+  "noFit": [
+   {
+    "taskName": "Plan transfers between shops"
+   },
+   {
+    "taskName": "Month-end inventory valuation"
+   }
+  ],
+  "thin": [
+   {
+    "taskName": "Triage the inbox",
+    "patternName": "Inbox triage and routine replies",
+    "missing": [
+     "volume"
+    ]
+   },
+   {
+    "taskName": "Reconcile shop counts with the system",
+    "patternName": "Reconciling two lists or records",
+    "missing": [
+     "input"
+    ]
+   },
+   {
+    "taskName": "Merchandising team meeting",
+    "patternName": "Meeting notes to action items",
+    "missing": [
+     "output"
+    ]
+   }
+  ],
+  "notCounted": [],
+  "checked": {
+   "proposals": 5,
+   "passed": 2,
+   "heldForDetail": 3,
+   "rejected": [],
+   "rules": [
+    {
+     "id": 1,
+     "name": "Task is in the task map",
+     "failures": 0
+    },
+    {
+     "id": 2,
+     "name": "Quoted evidence appears word for word in the visitor's answers",
+     "failures": 0
+    },
+    {
+     "id": 3,
+     "name": "Pattern is in the catalog and every required signal was recorded",
+     "failures": 0
+    },
+    {
+     "id": 4,
+     "name": "Tool is listed on the pattern, with a working link checked within the limit",
+     "failures": 0
+    },
+    {
+     "id": 5,
+     "name": "Hours figures are the ones code computed",
+     "failures": 0
+    },
+    {
+     "id": 6,
+     "name": "Model-written sentences contain no numbers",
+     "failures": 0
+    },
+    {
+     "id": 7,
+     "name": "A working-habit suggestion carries no hours unless the catalog supplies a share",
+     "failures": 0
+    }
+   ]
+  },
+  "catalogDraft": false
+ },
+ "transcript": [
+  {
+   "question": "How many shops do you cover when you \"Check stock levels by shop\"?",
+   "options": [
+    "1–5 shops",
+    "6–15 shops",
+    "16–30 shops",
+    "More than 30 shops"
+   ],
+   "answer": "6 shops",
+   "taskName": "Check stock levels by shop"
+  },
+  {
+   "question": "For \"Check stock levels by shop\", where do you send or record what you find?",
+   "options": [
+    "Into the replenishment report",
+    "Email to shop managers",
+    "Excel transfer plan",
+    "Nowhere, just for me"
+   ],
+   "answer": "Into the replenishment report",
+   "taskName": "Check stock levels by shop"
+  },
+  {
+   "question": "For \"Build the weekly replenishment report\", who receives the finished report?",
+   "options": [
+    "Buying team",
+    "Shop managers",
+    "My manager",
+    "Warehouse/supply team",
+    "Senior leadership"
+   ],
+   "answer": "The buyer and store operations, by email, every Monday.",
+   "taskName": "Build the weekly replenishment report"
+  },
+  {
+   "question": "How many product lines or rows does the \"Build the weekly replenishment report\" usually cover?",
+   "options": [
+    "Under 100",
+    "100 to 500",
+    "500 to 2,000",
+    "Over 2,000"
+   ],
+   "answer": "Not sure",
+   "taskName": "Build the weekly replenishment report"
+  },
+  {
+   "question": "For \"Plan transfers between shops\", where does the information come from, and who receives the plan?",
+   "options": [
+    "From the replenishment report; sent to shops",
+    "From NetSuite stock data; sent to store operations",
+    "From shop managers' requests; sent to the warehouse",
+    "From the buyer; entered into NetSuite"
+   ],
+   "answer": "I pull NetSuite stock data and send the plan to store operations.",
+   "taskName": "Plan transfers between shops"
+  },
+  {
+   "question": "How many transfers do you usually plan each week for \"Plan transfers between shops\"?",
+   "options": [
+    "Under 10",
+    "10 to 25",
+    "26 to 50",
+    "More than 50"
+   ],
+   "answer": "Not sure",
+   "taskName": "Plan transfers between shops"
+  }
+ ],
+ "run": {
+  "questions": 6,
+  "finishReason": "limit",
+  "overWeek": false,
+  "cost": 0.0470745,
+  "model": {
+   "answers": "claude-haiku-5-5",
+   "agent": "claude-sonnet-5-5",
+   "match": "claude-sonnet-5-5"
+  }
+ }
+}

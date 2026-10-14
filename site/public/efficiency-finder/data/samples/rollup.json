@@ -1,0 +1,265 @@
+{
+ "team": "A multi-location resort retailer",
+ "members": [
+  {
+   "person": "Buyer",
+   "saved": {
+    "low": 1,
+    "high": 2
+   },
+   "opportunities": 1
+  },
+  {
+   "person": "E-commerce coordinator",
+   "saved": {
+    "low": 3.6,
+    "high": 10.4
+   },
+   "opportunities": 3
+  },
+  {
+   "person": "Inventory and allocation analyst",
+   "saved": {
+    "low": 3.2,
+    "high": 6.3
+   },
+   "opportunities": 2
+  },
+  {
+   "person": "Marketing coordinator",
+   "saved": {
+    "low": 1.35,
+    "high": 3.9
+   },
+   "opportunities": 2
+  },
+  {
+   "person": "Store operations manager",
+   "saved": {
+    "low": 1,
+    "high": 2
+   },
+   "opportunities": 1
+  }
+ ],
+ "rows": [
+  {
+   "patternId": "retyping-data",
+   "patternName": "Retyping data between systems",
+   "level": "automation",
+   "effort": "medium",
+   "people": [
+    "E-commerce coordinator"
+   ],
+   "tasks": [
+    {
+     "person": "E-commerce coordinator",
+     "taskName": "Update product listings",
+     "saved": {
+      "low": 2,
+      "high": 6.4
+     }
+    }
+   ],
+   "saved": {
+    "low": 2,
+    "high": 6.4
+   },
+   "taskName": "Retyping data between systems"
+  },
+  {
+   "patternId": "recurring-report",
+   "patternName": "Assembling a recurring report",
+   "level": "existing_tool",
+   "effort": "medium",
+   "people": [
+    "Inventory and allocation analyst"
+   ],
+   "tasks": [
+    {
+     "person": "Inventory and allocation analyst",
+     "taskName": "Check stock levels by shop",
+     "saved": {
+      "low": 2,
+      "high": 3.5
+     }
+    },
+    {
+     "person": "Inventory and allocation analyst",
+     "taskName": "Build the weekly replenishment report",
+     "saved": {
+      "low": 1.2000000000000002,
+      "high": 2.8
+     }
+    }
+   ],
+   "saved": {
+    "low": 3.2,
+    "high": 6.3
+   },
+   "taskName": "Assembling a recurring report"
+  },
+  {
+   "patternId": "inbox-triage",
+   "patternName": "Inbox triage and routine replies",
+   "level": "ai_agent",
+   "effort": "small",
+   "people": [
+    "Buyer",
+    "E-commerce coordinator",
+    "Store operations manager"
+   ],
+   "tasks": [
+    {
+     "person": "Buyer",
+     "taskName": "Triage the inbox",
+     "saved": {
+      "low": 1,
+      "high": 2
+     }
+    },
+    {
+     "person": "E-commerce coordinator",
+     "taskName": "Answer customer emails",
+     "saved": {
+      "low": 1,
+      "high": 2
+     }
+    },
+    {
+     "person": "Store operations manager",
+     "taskName": "Triage the inbox",
+     "saved": {
+      "low": 1,
+      "high": 2
+     }
+    }
+   ],
+   "saved": {
+    "low": 3,
+    "high": 6
+   },
+   "taskName": "Inbox triage and routine replies"
+  },
+  {
+   "patternId": "daily-briefing",
+   "patternName": "Monitoring news and sources as a daily briefing",
+   "level": "ai_agent",
+   "effort": "small",
+   "people": [
+    "Marketing coordinator"
+   ],
+   "tasks": [
+    {
+     "person": "Marketing coordinator",
+     "taskName": "Track competitor promotions",
+     "saved": {
+      "low": 0.6,
+      "high": 2.4
+     }
+    }
+   ],
+   "saved": {
+    "low": 0.6,
+    "high": 2.4
+   },
+   "taskName": "Monitoring news and sources as a daily briefing"
+  },
+  {
+   "patternId": "template-drafting",
+   "patternName": "Drafting documents from a template",
+   "level": "ai_agent",
+   "effort": "small",
+   "people": [
+    "E-commerce coordinator"
+   ],
+   "tasks": [
+    {
+     "person": "E-commerce coordinator",
+     "taskName": "Write product descriptions",
+     "saved": {
+      "low": 0.6,
+      "high": 2
+     }
+    }
+   ],
+   "saved": {
+    "low": 0.6,
+    "high": 2
+   },
+   "taskName": "Drafting documents from a template"
+  },
+  {
+   "patternId": "repeat-questions",
+   "patternName": "Answering repeat questions",
+   "level": "ai_agent",
+   "effort": "medium",
+   "people": [
+    "Marketing coordinator"
+   ],
+   "tasks": [
+    {
+     "person": "Marketing coordinator",
+     "taskName": "Check social media comments",
+     "saved": {
+      "low": 0.75,
+      "high": 1.5
+     }
+    }
+   ],
+   "saved": {
+    "low": 0.75,
+    "high": 1.5
+   },
+   "taskName": "Answering repeat questions"
+  }
+ ],
+ "shared": [
+  {
+   "patternId": "inbox-triage",
+   "patternName": "Inbox triage and routine replies",
+   "level": "ai_agent",
+   "effort": "small",
+   "people": [
+    "Buyer",
+    "E-commerce coordinator",
+    "Store operations manager"
+   ],
+   "tasks": [
+    {
+     "person": "Buyer",
+     "taskName": "Triage the inbox",
+     "saved": {
+      "low": 1,
+      "high": 2
+     }
+    },
+    {
+     "person": "E-commerce coordinator",
+     "taskName": "Answer customer emails",
+     "saved": {
+      "low": 1,
+      "high": 2
+     }
+    },
+    {
+     "person": "Store operations manager",
+     "taskName": "Triage the inbox",
+     "saved": {
+      "low": 1,
+      "high": 2
+     }
+    }
+   ],
+   "saved": {
+    "low": 3,
+    "high": 6
+   },
+   "taskName": "Inbox triage and routine replies"
+  }
+ ],
+ "total": {
+  "low": 10.149999999999999,
+  "high": 24.599999999999998
+ }
+}

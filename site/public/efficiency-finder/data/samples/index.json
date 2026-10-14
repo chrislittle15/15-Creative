@@ -1,0 +1,123 @@
+{
+ "generatedAt": "2026-10-14T10:07:53.253Z",
+ "rollup": true,
+ "roles": [
+  {
+   "id": "clinic-manager",
+   "title": "Practice manager at a multi-provider outpatient clinic",
+   "industry": "Healthcare, outpatient clinic with eight providers",
+   "blurb": "Runs the front office, schedules and staff for a busy clinic. This role carries planted traps.",
+   "team": false,
+   "traps": [
+    "No pattern fit: covering the front desk at lunch is hands-on work no catalog pattern fits.",
+    "Not enough detail: the facts sheet says nothing about how insurance payments are reconciled.",
+    "Hours over the week: the cards add up to more than the stated 40 hours.",
+    "Back-to-back meetings: three meeting cards in a row on most days."
+   ],
+   "approved": true,
+   "saved": {
+    "low": 2.2,
+    "high": 6.8
+   },
+   "opportunities": 2
+  },
+  {
+   "id": "construction-pc",
+   "title": "Project coordinator at a commercial construction firm",
+   "industry": "Commercial construction, mid-size general contractor",
+   "blurb": "Keeps documents, submittals and schedules moving between the site, subcontractors and the owner.",
+   "team": false,
+   "traps": [],
+   "approved": true,
+   "saved": {
+    "low": 3.6,
+    "high": 10.8
+   },
+   "opportunities": 3
+  },
+  {
+   "id": "resort-buyer",
+   "title": "Buyer at a multi-location resort retailer",
+   "industry": "Resort retail, six shops across two resorts",
+   "blurb": "Buys apparel, gifts and sundries for the resort shops and manages vendor relationships.",
+   "team": true,
+   "traps": [],
+   "approved": true,
+   "saved": {
+    "low": 1,
+    "high": 2
+   },
+   "opportunities": 1
+  },
+  {
+   "id": "resort-ecommerce",
+   "title": "E-commerce coordinator at a multi-location resort retailer",
+   "industry": "Resort retail, six shops and an online store",
+   "blurb": "Keeps the online store's products, content and orders running.",
+   "team": true,
+   "traps": [],
+   "approved": true,
+   "saved": {
+    "low": 3.6,
+    "high": 10.4
+   },
+   "opportunities": 3
+  },
+  {
+   "id": "resort-inventory",
+   "title": "Inventory and allocation analyst at a multi-location resort retailer",
+   "industry": "Resort retail, six shops across two resorts",
+   "blurb": "Decides how stock moves between the warehouse and the shops, and keeps counts accurate.",
+   "team": true,
+   "traps": [],
+   "approved": true,
+   "saved": {
+    "low": 3.2,
+    "high": 6.3
+   },
+   "opportunities": 2
+  },
+  {
+   "id": "resort-marketing",
+   "title": "Marketing coordinator at a multi-location resort retailer",
+   "industry": "Resort retail, six shops and an online store",
+   "blurb": "Runs email campaigns, social posts and in-shop signage.",
+   "team": true,
+   "traps": [],
+   "approved": true,
+   "saved": {
+    "low": 1.35,
+    "high": 3.9
+   },
+   "opportunities": 2
+  },
+  {
+   "id": "resort-store-ops",
+   "title": "Store operations manager at a multi-location resort retailer",
+   "industry": "Resort retail, six shops across two resorts",
+   "blurb": "Runs day-to-day operations across the shops: staffing, schedules, standards and issues.",
+   "team": true,
+   "traps": [],
+   "approved": true,
+   "saved": {
+    "low": 1,
+    "high": 2
+   },
+   "opportunities": 1
+  },
+  {
+   "id": "saas-am",
+   "title": "Account manager at a B2B software company",
+   "industry": "B2B software, mid-market customers",
+   "blurb": "Looks after about forty customer accounts: renewals, check-ins and expansion.",
+   "team": false,
+   "traps": [],
+   "approved": true,
+   "saved": {
+    "low": 1.75,
+    "high": 3.5
+   },
+   "opportunities": 2
+  }
+ ]
+}
