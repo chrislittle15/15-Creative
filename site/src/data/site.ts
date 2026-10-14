@@ -14,15 +14,13 @@ export const site = {
   throughline:
     "Early digital signage and streaming tech in 2004 (Allodic) through hands-on creative and platform building (15 Creative) through enterprise operations and AI workflow automation today (Pebble Beach) — one 20-year arc of building with emerging technology, not three unrelated jobs.",
   founderStory:
-    "Chris Little established 15 Creative, bringing expertise in videography, web design, graphic design, and marketing since 2004. Co-founded five companies. Previously Vice President of Creative for a San Diego digital signage firm (Allodic).",
+    "Chris Little established 15 Creative, bringing expertise in videography, web design, graphic design, and marketing since 2004. Founded or co-founded four companies. Previously Vice President of Creative for a San Diego digital signage firm (Allodic).",
   education: "B.S. Mechanical Engineering, UC Santa Barbara, Dean's Honors, 2002",
   certifications: [
-    "Google AI Essentials",
-    "Google AI Professional Certificate",
-    "Google Data Analytics Certificate",
-    "UC Davis SQL for Data Science",
-    "AI Agents for Leaders",
-    "Google Project Management Certificate",
+    "Agentic AI and AI Agents: A Primer for Leaders (Vanderbilt University)",
+    "AI Fundamentals (Google)",
+    "Google Data Analytics (Coursera)",
+    "SQL for Data Science (UC Davis)",
   ],
   technology: [
     "Adobe Creative Suite", "Figma", "Microsoft 365", "SharePoint", "Google Workspace",
@@ -43,8 +41,8 @@ export const site = {
   ],
   stats: [
     { value: "20+", label: "Years building companies and brands" },
-    { value: "5", label: "Companies co-founded" },
-    { value: "$45M+", label: "Annual revenue management" },
+    { value: "4", label: "Companies founded or co-founded" },
+    { value: "$45M+", label: "Retail division operations supported" },
     { value: "2004", label: "Building with emerging technology since" },
   ],
   tagline: "In the pursuit of excellence, we build identity by means of creativity and design.",

@@ -1,0 +1,60 @@
+---
+import { aiApps } from "../data/aiApps";
+import { site } from "../data/site";
+
+interface Props {
+  raised?: boolean;
+}
+const { raised = false } = Astro.props;
+---
+<section id="ai" class:list={["section", { "section--raised": raised }]}>
+  <div class="wrap">
+    <h2>Artificial Intelligence (AI)</h2>
+    <p class="ai-tagline">The model proposes. Code decides.</p>
+    <p class="ai-lede">Chris actively uses a variety of AI tools across business operations and holds multiple AI/data certifications. He designs processes to be AI-ready so individuals and businesses can improve efficiency and workflows.</p>
+    <p class="ai-lede">The Applications below are working tools that Chris built end to end.</p>
+    <p class="ai-creds">{site.certifications.filter((c) => /AI/.test(c)).join(" · ")}</p>
+    <div class="ai-grid">
+      {aiApps.map((app) => (
+        <div class="card ai-card">
+          {app.image ? (
+            <img class="ai-card__img" src={app.image} alt={app.name} loading="lazy" />
+          ) : (
+            <div class="ai-card__img ai-card__img--placeholder" role="img" aria-label={`${app.name} image coming soon`}>
+              <span class="ai-card__ph-name">{app.name}</span>
+              <span class="ai-card__ph-note">Image coming soon</span>
+            </div>
+          )}
+          <div class="card__body">
+            <h3>{app.name}</h3>
+            <p>{app.summary}</p>
+            {app.href ? (
+              <a class="btn ai-card__btn" href={app.href}>See how it works</a>
+            ) : (
+              <span class="btn ai-card__btn ai-card__btn--soon" aria-disabled="true">Coming soon</span>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .ai-tagline { font-family: var(--font-display); font-style: italic; font-size: 1.2rem; color: var(--accent); margin: -0.2rem 0 0.9rem; }
+  .ai-lede { font-size: 1.05rem; max-width: 65ch; }
+  .ai-creds { font-size: 0.85rem; color: var(--ink-soft); letter-spacing: 0.02em; margin-top: -0.25rem; }
+  .ai-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; margin-top: 1.75rem; }
+  @media (max-width: 760px) { .ai-grid { grid-template-columns: 1fr; } }
+  .ai-card { display: flex; flex-direction: column; overflow: hidden; }
+  .ai-card__img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+  .ai-card__img--placeholder { display: grid; place-content: center; gap: 0.3rem; text-align: center; background: var(--paper-raised); border-bottom: 1px dashed var(--line); }
+  .ai-card__ph-name { font-family: var(--font-display); font-size: 1.25rem; color: var(--ink); }
+  .ai-card__ph-note { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft); }
+  .ai-card .card__body { flex: 1; display: flex; flex-direction: column; gap: 0.45rem; }
+  .ai-card h3 { margin: 0; }
+  .ai-card p { font-size: 0.98rem; margin: 0; max-width: 60ch; }
+  .ai-card__btn { align-self: flex-start; margin-top: auto; }
+  .ai-card__btn--soon { background: var(--paper-raised); color: var(--ink-soft); cursor: default; }
+  .ai-card__btn--soon:hover { background: var(--paper-raised); color: var(--ink-soft); }
+</style>

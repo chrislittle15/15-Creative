@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Testimonial from "../components/Testimonial.astro";
 import StatStrip from "../components/StatStrip.astro";
+import AiApps from "../components/AiApps.astro";
 import { site } from "../data/site";
 import { videoProjects } from "../data/video";
 ---
@@ -60,7 +60,9 @@ import { videoProjects } from "../data/video";
     </div>
   </section>
 
-  <section class="section section--raised">
+  <AiApps raised />
+
+  <section class="section">
     <div class="wrap">
       <span class="eyebrow">Selected video work</span>
       <div class="grid grid--3">
@@ -75,12 +77,6 @@ import { videoProjects } from "../data/video";
         ))}
       </div>
       <p class="see-more"><a href="/portfolio">See the full portfolio &rarr;</a></p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <Testimonial />
     </div>
   </section>
 </BaseLayout>

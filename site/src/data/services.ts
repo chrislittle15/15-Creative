@@ -65,12 +65,6 @@ export const services: Service[] = [
     features: ["Search engine optimization (SEO)", "Paid search & social (SEM/PPC)", "Email marketing", "Social media strategy"],
   },
   {
-    title: "Mobile App Development",
-    description: "Mobile applications for iOS and Android, built for real business use cases.",
-    icon: "mobile",
-    features: ["iOS & Android development", "UX/UI design", "App store submission & launch support"],
-  },
-  {
     title: "Website / Application Development",
     description:
       "Custom websites and web applications, designed and built end-to-end — from a marketing site to a full ecommerce platform.",

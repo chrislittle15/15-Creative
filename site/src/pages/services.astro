@@ -1,12 +1,25 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "../components/Icon.astro";
-import Testimonial from "../components/Testimonial.astro";
 import { services } from "../data/services";
 import { site } from "../data/site";
+import AiApps from "../components/AiApps.astro";
 
 const featured = services.filter((s) => s.featured);
 const rest = services.filter((s) => !s.featured);
+
+const slug = (t: string) => t.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+// The list at the top mirrors the page below: the lead service, the AI section, the other featured
+// services, then the "more ways" cards. It is built from the same data, so names and order stay in sync.
+const [lead, ...otherFeatured] = featured;
+const entry = (s: (typeof services)[number]) => ({ id: slug(s.title), title: s.title, icon: s.icon });
+const index = [
+  ...(lead ? [entry(lead)] : []),
+  { id: "ai", title: "Artificial Intelligence (AI)", icon: "spark" as const },
+  ...otherFeatured.map(entry),
+  ...rest.map(entry),
+];
 ---
 <BaseLayout title="Services">
   <section class="section decor">
@@ -14,14 +27,25 @@ const rest = services.filter((s) => !s.featured);
       <span class="eyebrow">15 Creative</span>
       <h1>Services</h1>
       <p class="tagline">&ldquo;{site.tagline}&rdquo;</p>
-      <p class="lede">Graphic design, photography, website/app development, AI and workflow automation, and startup business consulting.</p>
-      <p class="note">Chris is currently taking client work on a limited basis. Please reach out if you're interested in a service.</p>
+      <p class="lede">Operator-led strategy and consulting, AI workflow design, and hands-on creative and web production.</p>
+      <nav class="service-index" aria-label="Services on this page">
+        <ul>
+          {index.map((item) => (
+            <li>
+              <a href={`#${item.id}`}>
+                <span class="service-index__icon"><Icon name={item.icon} /></span>
+                <span>{item.title}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
     </div>
   </section>
 
-  <section class="section--tight">
-    {featured.map((s, i) => (
-      <div class:list={["service-block", { "service-block--alt": i % 2 === 1, "service-block--raised": i % 2 === 0 }]}>
+  {featured.map((s, i) => (
+    <>
+      <div id={slug(s.title)} class:list={["service-block", { "service-block--alt": i % 2 === 1, "service-block--raised": i === 0 || i % 2 === 1 }]}>
         <div class="wrap service-block__inner">
           <div class="service-block__text">
             <div class="service-block__icon"><Icon name={s.icon} /></div>
@@ -42,16 +66,17 @@ const rest = services.filter((s) => !s.featured);
           )}
         </div>
       </div>
-    ))}
-  </section>
+      {i === 0 && <AiApps />}
+    </>
+  ))}
 
-  <section class="section section--raised">
+  <section class="section">
     <div class="wrap">
       <span class="eyebrow">Also available</span>
       <h2>More ways to work together</h2>
       <div class="grid grid--3 service-cards">
         {rest.map((s) => (
-          <div class="service-card">
+          <div class="service-card" id={slug(s.title)}>
             <div class="service-card__icon"><Icon name={s.icon} /></div>
             <h3>{s.title}</h3>
             <p>{s.description}</p>
@@ -61,12 +86,6 @@ const rest = services.filter((s) => !s.featured);
           </div>
         ))}
       </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <Testimonial />
     </div>
   </section>
 
@@ -100,6 +119,16 @@ const rest = services.filter((s) => !s.featured);
     max-width: 60ch;
   }
   ul { color: var(--ink-soft); padding-left: 1.2rem; margin-bottom: 1.5rem; }
+
+  .service-index { margin-top: 1.5rem; }
+  .service-index ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .service-index li { margin: 0; }
+  .service-index a { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0.85rem 0.3rem 0.3rem; background: rgba(255, 255, 255, 0.75); border: 1px solid var(--line); border-radius: 999px; color: var(--ink); font-weight: 500; font-size: 0.86rem; line-height: 1.2; transition: border-color 0.15s, background 0.15s, color 0.15s; }
+  .service-index a:hover { text-decoration: none; background: white; border-color: var(--accent); color: var(--accent); }
+  .service-index__icon { flex: none; width: 26px; height: 26px; padding: 5px; border-radius: 50%; background: var(--navy); color: var(--paper); transition: background 0.15s; }
+  .service-index a:hover .service-index__icon { background: var(--accent); }
+  .service-block, .service-card, :global(#ai) { scroll-margin-top: 9rem; }
+
   .partner-grid { margin: 1.5rem 0 2rem; }
   .partner-logo {
     width: 100%;
@@ -186,6 +215,11 @@ const rest = services.filter((s) => !s.featured);
     margin-bottom: 1rem;
   }
   .service-card h3 { margin-bottom: 0.4rem; }
+  @media (min-width: 761px) {
+    .service-card:only-child { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); column-gap: 2.5rem; align-items: start; }
+    .service-card:only-child > * { grid-column: 1; }
+    .service-card:only-child > .feature-list { grid-column: 2; grid-row: 1 / span 3; align-self: center; margin: 0; }
+  }
 
   .service-block__media video {
     width: 100%;
