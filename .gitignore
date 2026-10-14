@@ -15,3 +15,6 @@ site/.astro/
 # Full hosting-account backup — contains personal/legal files, never commit
 15creative.com/
 15creative.com.zip
+
+# Local Netlify folder
+.netlify

@@ -12,6 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "@netlify/blobs": "^11.1.4",
     "astro": "^7.2.10"
   },
   "allowScripts": {
@@ -19,6 +21,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@types/node": "^24.19.2",
     "typescript": "^6.0.3"
   }
 }
