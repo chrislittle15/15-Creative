@@ -11,9 +11,9 @@ const { raised = false } = Astro.props;
   <div class="wrap">
     <h2>Artificial Intelligence (AI)</h2>
     <p class="ai-tagline">The model proposes. Code decides.</p>
-    <p class="ai-lede">Chris actively uses a variety of AI tools across business operations and holds multiple AI/data certifications. He designs processes to be AI-ready so individuals and businesses can improve efficiency and workflows.</p>
+    <p class="ai-lede">Chris actively uses a variety of AI tools across business operations. He designs processes to be AI-ready so individuals and businesses can improve efficiency and workflows.</p>
     <p class="ai-lede">The Applications below are working tools that Chris built end to end.</p>
-    <p class="ai-creds">{site.certifications.filter((c) => /AI/.test(c)).join(" · ")}</p>
+    <p class="ai-creds">{site.certifications.join(" · ")}</p>
     <div class="ai-grid">
       {aiApps.map((app) => (
         <div class:list={["card", "ai-card", { "ai-card--link": app.href }]}>
@@ -41,6 +41,7 @@ const { raised = false } = Astro.props;
 </section>
 
 <style>
+  #ai { scroll-margin-top: 9rem; }
   .ai-tagline { font-family: var(--font-display); font-style: italic; font-size: 1.2rem; color: var(--accent); margin: -0.2rem 0 0.9rem; }
   .ai-lede { font-size: 1.05rem; max-width: 65ch; }
   .ai-creds { font-size: 0.85rem; color: var(--ink-soft); letter-spacing: 0.02em; margin-top: -0.25rem; }

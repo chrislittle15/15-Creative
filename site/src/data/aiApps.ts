@@ -27,7 +27,7 @@ export const aiApps: AiApp[] = [
   {
     name: "Efficiency Finder",
     summary:
-      "A five-minute interview that maps your work week and shows where a tool, an automation, an AI agent or a habit change would save time. The model proposes; code does the hours math. About 5 cents per interview, hard-capped at 15.",
+      "A five-minute interview that maps your work week and shows where a tool, an automation, an AI agent or a habit change would save time. The model proposes; code does the hours math. About 5 cents per interview, hard-capped at 15 cents.",
     status: "Live",
     href: "/efficiency-finder/",
     image: "/images/ai/efficiency-finder.svg",

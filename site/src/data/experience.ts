@@ -11,21 +11,27 @@ export type ExperienceEntry = {
 
 export const experience: ExperienceEntry[] = [
   {
-    icon: "trending-up",
-    role: "Venture Development",
-    org: "Pebble Beach Resorts",
-    dates: "Jan 2023 – Present",
-    summary:
-      "New outlet and merchandise roll outs within a billion-dollar retail enterprise. Brought in as a specialist to evaluate new ventures and integrate them into the existing business — the role was built around him.",
+    icon: "web",
+    role: "Business Operations & AI Enablement Consultant",
+    org: "AmpWorks / AmpStack.ai",
+    dates: "Jun 2026 – Present",
+    summary: "AI automation agency and AI agent platform for small and mid-sized businesses.",
     bullets: [
-      "Supported day-to-day operations of the retail division while leading new venture development, product category integration, and platform modernization",
-      "Led the Magento-to-Shopify Plus platform migration: architecture redesign, workflow automation, cross-functional adoption",
-      "Pro forma development and financial planning alongside senior leadership",
-      "New venture activations: US Open 2027 shop, Sunday Red, The Art of Speed, and integration of the 1919 historic collection",
-      "Managed integration of the Golf Links to the Past memorabilia collection into Pebble Beach retail, including historical Archives representation",
-      "Built AI workflow automation proposals and trained staff on using existing tools more efficiently",
-      "Inventory oversight across 20+ retail locations",
-      "Division exceeded FY25 budget by 11.5%",
+      "Prepare the business analysis that informs leadership strategy meetings, covering pipeline, sales goals and forecasting, competitive analysis, and efficiency and savings opportunities.",
+      "Deliver custom AI agents and workflow automations for client businesses, including CRM-connected tools that turn lead data into proposals and invoices, and build business intelligence dashboards and custom applications.",
+    ],
+  },
+  {
+    icon: "trending-up",
+    role: "Outlet Manager – Venture Development",
+    org: "Pebble Beach Resorts",
+    dates: "Jan 2023 – Mar 2026",
+    summary: "New outlet and merchandise ventures for the $45M+ retail division of a billion-dollar resort.",
+    bullets: [
+      "Partnered with the senior executive team on quarterly business reviews, annual planning, budgeting, and scorecards; the division beat its FY25 sales budget by 11.5%.",
+      "Built pro formas and investment cases for new ventures and presented them to C-suite leadership.",
+      "Led cross-functional launches, including the 1919 historic collection integration and the launch plan for the US Open 2027 shop.",
+      "Built and launched the division's new ecommerce website on Shopify Plus (migrated from Magento) and owned the full ecommerce product catalog.",
     ],
   },
   {
@@ -33,25 +39,11 @@ export const experience: ExperienceEntry[] = [
     role: "General Manager",
     org: "Golf Links to the Past",
     dates: "Jan 2023 – Jan 2025",
-    summary: "Globally recognized luxury golf memorabilia and fine art business.",
+    summary: "Golf memorabilia and fine art business. Joined in 2017; GM from 2023.",
     bullets: [
-      "Held full P&L ownership of the business, responsible for sales, merchandising, replenishments, and customer relationships, managing a team of 7 and reporting to both Golf Links ownership and Pebble Beach leadership",
-      "Built the sales pipeline; handled high-value negotiations and closures with collectors and institutional buyers",
-      "Personally designed, negotiated, and brokered the partnership that brought the Golf Links collection into Pebble Beach's retail network, working both sides of the transaction",
-      "Owned sourcing, procurement, and storage for a high-value, low-volume specialty collection; managed relationships with collectors, auction houses, artists, and golf historians",
-    ],
-  },
-  {
-    icon: "spark",
-    role: "Strategic Consultant (Founder)",
-    org: "15 Creative and Consulting",
-    dates: "Jan 2008 – Jan 2023",
-    summary: "Independent creative, technology, and consulting practice.",
-    bullets: [
-      "Website development, ecommerce platforms, and application builds alongside creative services and GTM strategy",
-      "Full marketing stack: SEO, SEM, email, social, paid digital",
-      "Directed designers, developers, videographers, and content specialists across concurrent client engagements",
-      "Advised ownership and C-suite teams on operating model design and commercial growth, training teams to operate independently before moving on",
+      "Ran the business end to end, from sourcing, buying, and receiving to merchandising, sales, marketing, and fulfillment, with full P&L ownership.",
+      "Hired, trained, and managed the sales team.",
+      "Brokered the sale of the retail operation and collection to Pebble Beach, working with legal through the deal.",
     ],
   },
   {
@@ -59,10 +51,21 @@ export const experience: ExperienceEntry[] = [
     role: "Director of Operations",
     org: "St. George and Associates / CHDG",
     dates: "Nov 2021 – Nov 2022",
-    summary: "Multi-vertical expansion across hospitality, student housing, and grocery.",
+    summary: "Privately held operating group expanding across hospitality, student housing, and grocery.",
     bullets: [
-      "Built operational infrastructure and GTM frameworks across distributed teams during rapid multi-vertical growth",
-      "Created the operational plan for acquisition and ground-up construction across multiple markets/delis, hotels, an educational campus, and a property management network",
+      "Built operations infrastructure, reporting, and executive visibility for a company entering three new industries at once, and created the operational plan for acquiring and building multiple hotels, grocery markets, and a mixed-use innovation campus.",
+    ],
+  },
+  {
+    icon: "spark",
+    role: "Strategic Consultant (Founder)",
+    org: "15 Creative and Consulting",
+    dates: "Jan 2008 – Jan 2023",
+    summary: "Creative, technology, and consulting practice, run alongside other roles.",
+    bullets: [
+      "Advised C-suite and ownership teams on operating models, go-to-market strategy, and growth.",
+      "Designed the practice's service packages and pricing.",
+      "Delivered web, ecommerce, and app builds and full marketing services, and coordinated product shoots and graphic and video ad campaigns.",
     ],
   },
   {
@@ -82,11 +85,10 @@ export const experience: ExperienceEntry[] = [
     role: "Director of Operations (Co-Founder)",
     org: "REPE Training LLC",
     dates: "Aug 2010 – Jul 2014",
-    summary: "SaaS-adjacent online education platform for real estate licensing exam prep, built from scratch.",
+    summary: "Subscription-based online education platform for real estate licensing candidates, built from scratch.",
     bullets: [
-      "Owned product architecture and content delivery workflows",
-      "Built the commission plan, hired and trained the sales team",
-      "Designed the institutional outreach strategy behind school and institution partnerships",
+      "Designed the platform's UX/UI and workflow with the lead programmer and set the subscription pricing and packages.",
+      "Built the sales commission plan, hired and trained the outside sales team, and built partnerships with schools and institutions.",
     ],
   },
   {
@@ -110,8 +112,8 @@ export const experience: ExperienceEntry[] = [
     summary:
       "Early digital out-of-home and in-store media company bringing programmatic content delivery to retail — 2004, before streaming infrastructure existed as we know it now.",
     bullets: [
-      "Founding commercial and creative leader; configured software on early streaming/digital signage platforms",
-      "Produced commercial media content, installed servers and display equipment in retail locations, managed enterprise client relationships",
+      "Co-led commercial and creative work, configured early digital signage software, produced media content, and wrote and negotiated client contracts and managed accounts for retail and restaurant locations.",
+      "Served on the board of directors.",
     ],
   },
 ];

@@ -12,23 +12,23 @@ export const site = {
   aboutPhilosophy:
     "A website is a peek into your identity and it should demonstrate not only your unique style but it should also clearly convey your products, services and personality.",
   throughline:
-    "Early digital signage and streaming tech in 2004 (Allodic) through hands-on creative and platform building (15 Creative) through enterprise operations and AI workflow automation today (Pebble Beach) — one 20-year arc of building with emerging technology, not three unrelated jobs.",
+    "Early digital signage and streaming tech in 2004 (Allodic) through hands-on creative and platform building (15 Creative) through enterprise operations at Pebble Beach, and AI workflow automation for client businesses at AmpWorks today — one 20-year arc of building with emerging technology, not three unrelated jobs.",
   founderStory:
     "Chris Little established 15 Creative, bringing expertise in videography, web design, graphic design, and marketing since 2004. Founded or co-founded four companies. Previously Vice President of Creative for a San Diego digital signage firm (Allodic).",
   education: "B.S. Mechanical Engineering, UC Santa Barbara, Dean's Honors, 2002",
   certifications: [
     "Agentic AI and AI Agents: A Primer for Leaders (Vanderbilt University)",
     "AI Fundamentals (Google)",
-    "Google Data Analytics (Coursera)",
+    "Google Data Analytics (Google)",
     "SQL for Data Science (UC Davis)",
   ],
   technology: [
-    "Adobe Creative Suite", "Figma", "Microsoft 365", "SharePoint", "Google Workspace",
+    "Adobe Creative Suite", "Figma", "Google Workspace",
     "Shopify", "WordPress", "Salesforce", "SQL", "HTML/CSS/PHP",
     "AI workflow automation", "Python and JavaScript (working knowledge)",
   ],
   aiNote:
-    "Chris actively uses AI tools (including Claude and Gemini) across business operations, holds multiple AI/data certifications, and contributed to the strategy and development of AmpStack.ai, an AI workflow automation platform. He designs processes to be AI-ready from the start — a practitioner, not a certificate collector.",
+    "Chris actively uses AI tools (including Claude and Gemini) across business operations and delivers AI agents and workflow automations for client businesses at AmpWorks / AmpStack.ai, an AI automation agency and AI agent platform. He designs processes to be AI-ready from the start — a practitioner, not a certificate collector.",
   lawsonLittle: {
     name: "Lawson Little Jr.",
     text: "Chris's grandfather: 1940 US Open champion, World Golf Hall of Fame inductee.",
