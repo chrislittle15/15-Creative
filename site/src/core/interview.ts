@@ -15,8 +15,20 @@ export const FIELD_MEANING: Record<Field, string> = {
 };
 
 export interface SeedCard { id: string; name: string; screen: Screen; kind: TaskKind }
-export interface SeedRequest { title: string; industry: string; weekHours: number; jobDescription?: string }
-export interface SeedResponse { interviewId: string; cards: SeedCard[]; tools: string[] }
+/** What the visitor tells us before the cards are drafted. All optional except title and industry. */
+export interface SeedProfile {
+  jobDescription?: string;
+  /** What the role is for, in the visitor's words (guided path). */
+  purpose?: string;
+  /** Hours a week in meetings, as a tap label such as "5 to 10 hours". */
+  meetingLoad?: string;
+  /** People managed, as a tap label such as "4 to 10". */
+  manages?: string;
+  /** The visitor's own tools, from the tools step. */
+  tools?: string[];
+}
+export interface SeedRequest extends SeedProfile { title: string; industry: string; weekHours: number }
+export interface SeedResponse { interviewId: string; cards: SeedCard[] }
 
 export interface AskedQuestion {
   taskId: string;

@@ -23,8 +23,8 @@
     "high": 44.17307692307692
    },
    "saved": {
-    "low": 2.2,
-    "high": 6.8
+    "low": 3.2,
+    "high": 8.3
    },
    "tasksMapped": 10
   },
@@ -32,8 +32,8 @@
    {
     "taskId": "t9",
     "taskName": "Chase prior authorizations",
-    "quote": "About 20 open prior authorizations",
-    "why": "You follow up by phone and portal on many open prior authorizations, which is the shape of chasing sign-offs and tracking replies.",
+    "quote": "I call insurers and check portals, then log status in my spreadsheet",
+    "why": "You spend time chasing insurers for updates on open requests and logging who has responded in a spreadsheet.",
     "patternId": "chasing-status",
     "patternName": "Chasing status updates and approvals",
     "level": "automation",
@@ -79,19 +79,19 @@
     "rank": 1
    },
    {
-    "taskId": "t4",
-    "taskName": "Triage the inbox",
-    "quote": "About 70 a day, mixed senders: referrals, insurance notices, and staff requests.",
-    "why": "You sort a high volume of mixed email in Outlook each day, which fits routine inbox triage.",
-    "patternId": "inbox-triage",
-    "patternName": "Inbox triage and routine replies",
-    "level": "ai_agent",
+    "taskId": "t3",
+    "taskName": "Scheduling calls with patients",
+    "quote": "no online booking",
+    "why": "You book and move appointments by phone with back-and-forth calls because patients have no online booking option.",
+    "patternId": "scheduling",
+    "patternName": "Scheduling and coordination",
+    "level": "existing_tool",
     "tool": {
-     "id": "m365-copilot",
-     "name": "Microsoft 365 Copilot in Outlook",
-     "url": "https://www.microsoft.com/en-us/microsoft-365/copilot",
+     "id": "google-appointments",
+     "name": "Appointment schedules in Google Calendar",
+     "url": "https://workspace.google.com/resources/appointment-scheduling/",
      "checked": "2026-10-11",
-     "owned": true
+     "owned": false
     },
     "math": {
      "durationLabel": "1 hour",
@@ -109,22 +109,22 @@
       "high": 5
      },
      "share": {
-      "low": 0.2,
-      "high": 0.4
+      "low": 0.4,
+      "high": 0.7
      },
      "sharePlaceholder": false,
      "saved": {
-      "low": 1,
-      "high": 2
+      "low": 2,
+      "high": 3.5
      }
     },
     "saved": {
-     "low": 1,
-     "high": 2
+     "low": 2,
+     "high": 3.5
     },
     "effort": "small",
-    "firstStep": "Turn on the inbox summary each morning and copy its action items into your to-do list for a week.",
-    "failureMode": "Summaries miss the one message that mattered, so important senders still need a rule that flags them.",
+    "firstStep": "Publish a booking page with your open hours and send it instead of proposing times.",
+    "failureMode": "Booking pages fill focus time unless protected blocks are set first.",
     "rank": 2
    }
   ],
@@ -151,9 +151,6 @@
     "taskName": "Front office stand-up"
    },
    {
-    "taskName": "Scheduling calls with patients"
-   },
-   {
     "taskName": "Cover the front desk at lunch"
    },
    {
@@ -161,6 +158,13 @@
    }
   ],
   "thin": [
+   {
+    "taskName": "Triage the inbox",
+    "patternName": "Inbox triage and routine replies",
+    "missing": [
+     "volume"
+    ]
+   },
    {
     "taskName": "Answer staff policy questions",
     "patternName": "Answering repeat questions",
@@ -188,9 +192,9 @@
   ],
   "notCounted": [],
   "checked": {
-   "proposals": 5,
+   "proposals": 6,
    "passed": 2,
-   "heldForDetail": 3,
+   "heldForDetail": 4,
    "rejected": [],
    "rules": [
     {
@@ -237,74 +241,74 @@
    "question": "For \"Rebuild provider schedules\", what triggers a rebuild, and who receives the finished schedule?",
    "options": [
     "Provider requests; sent to staff",
-    "Leave or time-off notices; posted in EHR",
-    "Clinic policy changes; sent to providers",
-    "Patient cancellations; goes to front desk"
+    "Leave/time-off notices; patients rebooked",
+    "Management changes; posted for all",
+    "Cancellations; goes to front desk"
    ],
-   "answer": "When providers call out or add sessions, I rebuild the schedule by hand in the EHR scheduler.",
+   "answer": "Provider call-outs or added sessions trigger it; I rebuild the schedule by hand and send it to staff.",
    "taskName": "Rebuild provider schedules"
   },
   {
    "question": "How many times a week do you rebuild provider schedules in \"Rebuild provider schedules\"?",
    "options": [
-    "1–2 times",
-    "3–5 times",
-    "6–10 times",
+    "1-2 times",
+    "3-5 times",
+    "6-10 times",
     "More than 10 times"
    ],
-   "answer": "Not sure",
+   "answer": "Whenever a provider calls out or adds a session, so probably 3-5 times a week.",
    "taskName": "Rebuild provider schedules"
   },
   {
-   "question": "How many prior authorizations do you chase in \"Chase prior authorizations\" in a typical week?",
+   "question": "About how many prior authorizations do you chase in \"Chase prior authorizations\" each week?",
    "options": [
     "Under 10",
-    "10–25",
-    "26–50",
+    "10-25",
+    "26-50",
     "More than 50"
    ],
-   "answer": "About 20 open prior authorizations, so I'd tap 10–25.",
+   "answer": "About 20 open requests at a time, so roughly 10-25 I chase each week.",
    "taskName": "Chase prior authorizations"
   },
   {
-   "question": "For \"Chase prior authorizations\", where do the requests come from, and where do the results go?",
+   "question": "For \"Chase prior authorizations\", where do the requests come from, and where does the result go?",
    "options": [
-    "Provider orders; results to EHR",
-    "Referral requests; results to providers",
-    "Insurer portal; results to patients",
-    "Staff emails; results to scheduling team"
+    "Provider orders → update the EHR",
+    "Scheduling team → tell the scheduler",
+    "Insurer portal → notify the provider",
+    "Referral inbox → notify the patient"
    ],
-   "answer": "Provider orders; results to EHR",
+   "answer": "Requests come from my open list of about 20 prior authorizations; I call insurers and check portals, then log status in my spreadsheet.",
    "taskName": "Chase prior authorizations"
   },
   {
-   "question": "For \"Scheduling calls with patients\", how many calls do you handle per day, and how do they come in?",
+   "question": "About how many patient calls do you handle each day in \"Scheduling calls with patients\"?",
    "options": [
-    "Under 20, patients call in",
-    "20–50, patients call in",
-    "50+, patients call in",
-    "Mostly outbound calls from a list"
+    "Under 10",
+    "10-20",
+    "20-40",
+    "Over 40"
    ],
-   "answer": "20–50, patients call in",
+   "answer": "About 25 calls a day to book and move appointments, since we have no online booking.",
    "taskName": "Scheduling calls with patients"
   },
   {
-   "question": "For \"Triage the inbox\", about how many emails arrive per day, and who mostly sends them?",
+   "question": "For \"Scheduling calls with patients\", who calls in, and where do the booked appointments get recorded?",
    "options": [
-    "Under 25, mostly staff",
-    "25–50, mostly staff",
-    "50–100, mixed senders",
-    "100+, mostly outside parties"
+    "Inbound calls; booked in EHR scheduler",
+    "Inbound calls; booked in paper book",
+    "Outbound reminder calls; booked in EHR",
+    "Mix of both; booked in EHR scheduler"
    ],
-   "answer": "About 70 a day, mixed senders: referrals, insurance notices, and staff requests.",
-   "taskName": "Triage the inbox"
+   "answer": "Mix of both; booked in EHR scheduler. About 25 calls a day to book and move appointments, and there's no online booking.",
+   "taskName": "Scheduling calls with patients"
   }
  ],
  "run": {
   "questions": 6,
   "finishReason": "limit",
   "overWeek": true,
-  "cost": 0.058913099999999996,
+  "cost": 0.0543979,
   "model": {
    "answers": "claude-haiku-5-5",
    "agent": "claude-sonnet-5-5",

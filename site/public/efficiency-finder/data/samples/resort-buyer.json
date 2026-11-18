@@ -18,17 +18,66 @@
     "high": 21.923076923076923
    },
    "saved": {
-    "low": 1,
-    "high": 2
+    "low": 1.6,
+    "high": 4.4
    },
    "tasksMapped": 9
   },
   "opportunities": [
    {
+    "taskId": "t6",
+    "taskName": "Chase late shipments",
+    "quote": "I track vendor and carrier replies in a spreadsheet",
+    "why": "You spend time asking vendors and carriers for updates and tracking who has replied.",
+    "patternId": "chasing-status",
+    "patternName": "Chasing status updates and approvals",
+    "level": "automation",
+    "tool": {
+     "id": "power-automate-approvals",
+     "name": "Approvals in Microsoft Power Automate",
+     "url": "https://www.microsoft.com/en-us/power-platform/products/power-automate",
+     "checked": "2026-10-11",
+     "owned": true
+    },
+    "math": {
+     "durationLabel": "1 hour",
+     "duration": {
+      "low": 1,
+      "high": 1
+     },
+     "frequencyLabel": "A few times a week",
+     "frequency": {
+      "low": 2,
+      "high": 4
+     },
+     "hoursPerWeek": {
+      "low": 2,
+      "high": 4
+     },
+     "share": {
+      "low": 0.3,
+      "high": 0.6
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 0.6,
+      "high": 2.4
+     }
+    },
+    "saved": {
+     "low": 0.6,
+     "high": 2.4
+    },
+    "effort": "medium",
+    "firstStep": "Move one recurring request into a form or workflow that sends reminders by itself.",
+    "failureMode": "People ignore automated reminders that arrive too often.",
+    "rank": 1
+   },
+   {
     "taskId": "t1",
     "taskName": "Triage the inbox",
-    "quote": "50 to 100",
-    "why": "You get a high volume of email from vendors and shop managers in Outlook and answer similar repeat questions yourself.",
+    "quote": "About 80 emails a day",
+    "why": "You get a high volume of vendor and shop manager email in Outlook that you sort by hand.",
     "patternId": "inbox-triage",
     "patternName": "Inbox triage and routine replies",
     "level": "ai_agent",
@@ -71,7 +120,7 @@
     "effort": "small",
     "firstStep": "Turn on the inbox summary each morning and copy its action items into your to-do list for a week.",
     "failureMode": "Summaries miss the one message that mattered, so important senders still need a rule that flags them.",
-    "rank": 1
+    "rank": 2
    }
   ],
   "habits": [
@@ -88,14 +137,7 @@
     "saved": null
    }
   ],
-  "noFit": [
-   {
-    "taskName": "Check sell-through by shop"
-   },
-   {
-    "taskName": "Write purchase orders"
-   }
-  ],
+  "noFit": [],
   "thin": [
    {
     "taskName": "Answer vendor questions",
@@ -103,6 +145,14 @@
     "missing": [
      "volume",
      "input"
+    ]
+   },
+   {
+    "taskName": "Check sell-through by shop",
+    "patternName": "Assembling a recurring report",
+    "missing": [
+     "input",
+     "output"
     ]
    },
    {
@@ -114,10 +164,10 @@
     ]
    },
    {
-    "taskName": "Chase late shipments",
-    "patternName": "Chasing status updates and approvals",
+    "taskName": "Write purchase orders",
+    "patternName": "Retyping data between systems",
     "missing": [
-     "volume"
+     "output"
     ]
    },
    {
@@ -141,9 +191,9 @@
    }
   ],
   "checked": {
-   "proposals": 6,
-   "passed": 1,
-   "heldForDetail": 5,
+   "proposals": 8,
+   "passed": 2,
+   "heldForDetail": 6,
    "rejected": [],
    "rules": [
     {
@@ -187,69 +237,70 @@
  },
  "transcript": [
   {
-   "question": "How many emails do you go through for \"Triage the inbox\" on a typical day?",
+   "question": "About how many emails do you go through for \"Triage the inbox\" each day?",
    "options": [
     "Under 25",
     "25 to 50",
     "50 to 100",
-    "Over 100"
+    "100 to 200",
+    "Over 200"
    ],
-   "answer": "50 to 100",
+   "answer": "About 80 emails a day, mostly vendor confirmations, shipping notices and shop manager questions.",
    "taskName": "Triage the inbox"
   },
   {
-   "question": "For \"Triage the inbox\", who do most emails come from, and where do they go after sorting?",
+   "question": "For \"Triage the inbox\", where do the emails come from, and where do they go once sorted?",
    "options": [
-    "Vendors; I reply myself",
-    "Shops; I forward to teammates",
-    "Internal staff; I file into folders",
-    "Mixed senders; I reply or forward"
+    "Vendors in; sorted into Outlook folders",
+    "Shops in; forwarded to colleagues",
+    "Mixed senders; replies sent back directly",
+    "Mixed senders; items logged in NetSuite"
    ],
-   "answer": "Vendors and shop managers; I reply myself to the repeat questions on ship dates and reorder status.",
+   "answer": "Vendors and shop managers in; I sort them in Outlook, and answers come from the open-orders spreadsheet.",
    "taskName": "Triage the inbox"
   },
   {
-   "question": "How many purchase orders do you write per week in \"Write purchase orders\", and what do you base them on?",
+   "question": "How many purchase orders do you write per week, and what do you base them on?",
    "options": [
     "Under 10, from shop manager requests",
-    "10 to 30, from reorder reports",
-    "10 to 30, from vendor quotes",
-    "Over 30, from stock levels in NetSuite"
+    "10–30, from stock level reports",
+    "30–60, from spreadsheet reorder lists",
+    "Over 60, from vendor quotes"
+   ],
+   "answer": "I type purchase orders into NetSuite from vendor line sheets, about fifteen lines each.",
+   "taskName": "Write purchase orders"
+  },
+  {
+   "question": "Once a purchase order is written in NetSuite, where does it go or who receives it?",
+   "options": [
+    "Sent to the vendor by email",
+    "Goes to a manager for approval",
+    "Stays in NetSuite only",
+    "Sent to the warehouse"
    ],
    "answer": "Not sure",
    "taskName": "Write purchase orders"
   },
   {
-   "question": "For \"Chase late shipments\", how many shipments do you chase per week, and how do you learn they're late?",
+   "question": "For \"Chase late shipments\", how many shipments do you chase per week, and how do you find out they're late?",
    "options": [
-    "Under 5, vendors tell me",
-    "5 to 15, from NetSuite order dates",
-    "15 to 30, from shop managers' reports",
-    "Over 30, from a tracking spreadsheet"
+    "Under 10; vendor notices",
+    "10–30; open-orders spreadsheet",
+    "30+; open-orders spreadsheet",
+    "Any count; shop managers tell me"
    ],
-   "answer": "Not sure",
+   "answer": "I chase late shipments two to four times a week, and I track vendor and carrier replies in a spreadsheet.",
    "taskName": "Chase late shipments"
   },
   {
-   "question": "In \"Write purchase orders\", where do the finished orders go?",
+   "question": "For \"Chase late shipments\", who receives your follow-ups or the updated status once you've chased?",
    "options": [
-    "Emailed to vendors",
-    "Sent for manager approval",
-    "Stay in NetSuite only",
-    "Sent to the warehouse"
-   ],
-   "answer": "Stay in NetSuite only",
-   "taskName": "Write purchase orders"
-  },
-  {
-   "question": "For \"Chase late shipments\", who receives your follow-ups once you've chased a shipment?",
-   "options": [
-    "Vendors",
+    "Vendors and carriers only",
     "Shop managers",
-    "Warehouse or receiving",
-    "Internal team or boss"
+    "My manager or buyers",
+    "Nobody, it stays in my spreadsheet"
    ],
-   "answer": "Vendors and freight carriers, mostly. I track their replies in a spreadsheet.",
+   "answer": "Vendors and carriers only",
    "taskName": "Chase late shipments"
   }
  ],
@@ -257,7 +308,7 @@
   "questions": 6,
   "finishReason": "limit",
   "overWeek": false,
-  "cost": 0.0556458,
+  "cost": 0.051346699999999995,
   "model": {
    "answers": "claude-haiku-5-5",
    "agent": "claude-sonnet-5-5",

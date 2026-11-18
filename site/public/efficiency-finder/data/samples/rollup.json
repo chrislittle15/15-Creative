@@ -4,10 +4,10 @@
   {
    "person": "Buyer",
    "saved": {
-    "low": 1,
-    "high": 2
+    "low": 1.6,
+    "high": 4.4
    },
-   "opportunities": 1
+   "opportunities": 2
   },
   {
    "person": "E-commerce coordinator",
@@ -28,10 +28,10 @@
   {
    "person": "Marketing coordinator",
    "saved": {
-    "low": 1.35,
-    "high": 3.9
+    "low": 0.6,
+    "high": 2.4
    },
-   "opportunities": 2
+   "opportunities": 1
   },
   {
    "person": "Store operations manager",
@@ -166,6 +166,30 @@
    "taskName": "Monitoring news and sources as a daily briefing"
   },
   {
+   "patternId": "chasing-status",
+   "patternName": "Chasing status updates and approvals",
+   "level": "automation",
+   "effort": "medium",
+   "people": [
+    "Buyer"
+   ],
+   "tasks": [
+    {
+     "person": "Buyer",
+     "taskName": "Chase late shipments",
+     "saved": {
+      "low": 0.6,
+      "high": 2.4
+     }
+    }
+   ],
+   "saved": {
+    "low": 0.6,
+    "high": 2.4
+   },
+   "taskName": "Chasing status updates and approvals"
+  },
+  {
    "patternId": "template-drafting",
    "patternName": "Drafting documents from a template",
    "level": "ai_agent",
@@ -188,30 +212,6 @@
     "high": 2
    },
    "taskName": "Drafting documents from a template"
-  },
-  {
-   "patternId": "repeat-questions",
-   "patternName": "Answering repeat questions",
-   "level": "ai_agent",
-   "effort": "medium",
-   "people": [
-    "Marketing coordinator"
-   ],
-   "tasks": [
-    {
-     "person": "Marketing coordinator",
-     "taskName": "Check social media comments",
-     "saved": {
-      "low": 0.75,
-      "high": 1.5
-     }
-    }
-   ],
-   "saved": {
-    "low": 0.75,
-    "high": 1.5
-   },
-   "taskName": "Answering repeat questions"
   }
  ],
  "shared": [
@@ -259,7 +259,7 @@
   }
  ],
  "total": {
-  "low": 10.149999999999999,
-  "high": 24.599999999999998
+  "low": 9.999999999999998,
+  "high": 25.499999999999996
  }
 }

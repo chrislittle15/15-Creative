@@ -9,7 +9,7 @@ import { isUnsure } from "./interview";
 import { rank, savedHours, taskHours, totalSaved, weekSummary } from "./math";
 import { meetsFrequency, review, RULE_NAMES, type Rejection, type RuleId } from "./reviewer";
 import type { Settings } from "./settings";
-import type { Effort, Pattern, Range, Recommendation, SolutionLevel, Task } from "./types";
+import { toolsOf, type Effort, type Pattern, type Range, type Recommendation, type SolutionLevel, type Task } from "./types";
 
 /** What the matching model proposes for one task. */
 export interface Proposal {
@@ -173,7 +173,7 @@ export function buildReport(input: BuildInput): Report {
     }
     habits.push({
       patternId: pattern.id, name: pattern.name, effort: pattern.effort,
-      becauseTasks: h.trigger === "group_similar" ? groupByTool(h.taskIds.map((id) => tasks.find((t) => t.id === id)!)) : h.taskIds.map((id) => tasks.find((t) => t.id === id)!.name),
+      becauseTasks: h.trigger === "group_similar" ? groupByTool(h.taskIds.map((id) => tasks.find((t) => t.id === id)!), s.habits.group_similar.min_cards_same_tool) : h.taskIds.map((id) => tasks.find((t) => t.id === id)!.name),
       firstStep: pattern.firstStep, failureMode: pattern.failureMode, saved: hours?.saved ?? null,
     });
   }
@@ -216,11 +216,14 @@ export function visitorAnswers(tasks: Task[], answered: { answer: string }[]): s
 }
 
 /** "Excel: Build the report, Reconcile invoices" lines for the group-similar habit. */
-function groupByTool(ts: Task[]): string[] {
-  const groups = new Map<string, Task[]>();
+function groupByTool(ts: Task[], minCards: number): string[] {
+  const groups = new Map<string, { label: string; names: string[] }>();
   for (const t of ts) {
-    const key = (t.tool ?? "").trim().toLowerCase();
-    groups.set(key, [...(groups.get(key) ?? []), t]);
+    for (const tool of toolsOf(t)) {
+      const g = groups.get(tool.toLowerCase()) ?? { label: tool, names: [] };
+      g.names.push(t.name);
+      groups.set(tool.toLowerCase(), g);
+    }
   }
-  return [...groups.values()].map((g) => `${g[0].tool!.trim()}: ${g.map((t) => t.name).join(", ")}`);
+  return [...groups.values()].filter((g) => g.names.length >= minCards).map((g) => `${g.label}: ${g.names.join(", ")}`);
 }

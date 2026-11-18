@@ -27,8 +27,8 @@
    {
     "taskId": "t3",
     "taskName": "Update product listings",
-    "quote": "typed into Shopify by hand from the buyer's spreadsheet",
-    "why": "You read product rows in the buyer's spreadsheet and type them into Shopify by hand each week.",
+    "quote": "typed into Shopify by hand",
+    "why": "You type new products from your buying spreadsheet into Shopify by hand on a regular cycle.",
     "patternId": "retyping-data",
     "patternName": "Retyping data between systems",
     "level": "automation",
@@ -76,8 +76,8 @@
    {
     "taskId": "t1",
     "taskName": "Answer customer emails",
-    "quote": "About 40 a day, all in my own Gmail inbox.",
-    "why": "You get a high volume of customer emails in Gmail and reply straight back to each customer.",
+    "quote": "mostly 'where is my order', returns and sizing",
+    "why": "You get a high volume of customer emails in Gmail that are mostly the same few questions and answered with similar replies.",
     "patternId": "inbox-triage",
     "patternName": "Inbox triage and routine replies",
     "level": "ai_agent",
@@ -125,8 +125,8 @@
    {
     "taskId": "t5",
     "taskName": "Write product descriptions",
-    "quote": "written up in the same structure each time",
-    "why": "You write descriptions in Google Docs from vendor notes using the same structure every time.",
+    "quote": "Supplier info to Shopify",
+    "why": "You write product descriptions repeatedly in Google Docs from supplier info in a similar structure.",
     "patternId": "template-drafting",
     "patternName": "Drafting documents from a template",
     "level": "ai_agent",
@@ -269,75 +269,74 @@
    "question": "How many products do you update in \"Update product listings\" in a typical week?",
    "options": [
     "Under 20",
-    "20–50",
-    "50–200",
+    "20 to 50",
+    "50 to 200",
     "Over 200"
    ],
-   "answer": "About 30 new products a week, typed into Shopify by hand from the buyer's spreadsheet.",
+   "answer": "About 30 new products a week, typed into Shopify by hand, so I'd say 20 to 50.",
    "taskName": "Update product listings"
   },
   {
-   "question": "How many customer emails do you answer in \"Answer customer emails\" per day, and where do they come from?",
+   "question": "Where does the product information for \"Update product listings\" come from?",
    "options": [
-    "Under 10/day, shared support inbox",
-    "10–30/day, shared support inbox",
-    "10–30/day, my own inbox",
-    "30+/day, shared support inbox",
-    "30+/day, contact form and inbox"
+    "Buying spreadsheet",
+    "Supplier emails or catalogs",
+    "Google Docs descriptions",
+    "Product photos and notes"
    ],
-   "answer": "About 40 a day, all in my own Gmail inbox.",
-   "taskName": "Answer customer emails"
-  },
-  {
-   "question": "Once a product is typed in for \"Update product listings\", where does it go or who sees it next?",
-   "options": [
-    "Straight live on the store",
-    "Saved as draft for someone to review",
-    "Goes to the buyer to check",
-    "Goes to marketing"
-   ],
-   "answer": "Not sure. Once I type it in Shopify by hand, I don't see it going anywhere else.",
+   "answer": "Buying spreadsheet",
    "taskName": "Update product listings"
   },
   {
-   "question": "After you answer a customer email in \"Answer customer emails\", where does the reply go or who sees it next?",
-   "options": [
-    "Straight back to the customer",
-    "Customer, plus logged in a help system",
-    "Passed to a colleague or manager",
-    "Depends on the question"
-   ],
-   "answer": "Straight back to the customer",
-   "taskName": "Answer customer emails"
-  },
-  {
-   "question": "For \"Write product descriptions\", where do the product details come from, and where do finished descriptions go?",
-   "options": [
-    "From buyer's spreadsheet, pasted into Shopify",
-    "From supplier info, sent to a colleague to review",
-    "From product photos or samples, into Shopify",
-    "From a brief by marketing, back to marketing"
-   ],
-   "answer": "From the vendor's notes, written up in the same structure each time, then into Shopify.",
-   "taskName": "Write product descriptions"
-  },
-  {
-   "question": "How many descriptions do you write in \"Write product descriptions\" in a typical week?",
+   "question": "How many customer emails do you answer in \"Answer customer emails\" on a typical day?",
    "options": [
     "Under 10",
-    "10 to 20",
-    "20 to 40",
-    "More than 40"
+    "10 to 25",
+    "25 to 50",
+    "More than 50"
    ],
-   "answer": "About 30 new products a week, so roughly 30 descriptions, though I work from the vendor's notes.",
+   "answer": "About 40 a day, mostly 'where is my order', returns and sizing.",
+   "taskName": "Answer customer emails"
+  },
+  {
+   "question": "For \"Answer customer emails\", how do the emails reach you, and where do your replies go?",
+   "options": [
+    "Shared inbox, replies to customers",
+    "Personal inbox, replies to customers",
+    "Contact form, replies to customers",
+    "Inbox, and some get passed to colleagues"
+   ],
+   "answer": "Shared inbox, replies to customers",
+   "taskName": "Answer customer emails"
+  },
+  {
+   "question": "For \"Write product descriptions\", where does the product information come from, and where do the finished descriptions go?",
+   "options": [
+    "Buying sheet to Shopify",
+    "Supplier info to Shopify",
+    "Brief from marketing to Shopify",
+    "Notes to Google Docs only"
+   ],
+   "answer": "Supplier info to Shopify",
    "taskName": "Write product descriptions"
+  },
+  {
+   "question": "How many orders do you handle in \"Process online orders\" on a typical day?",
+   "options": [
+    "Under 10",
+    "10 to 30",
+    "30 to 100",
+    "Over 100"
+   ],
+   "answer": "Not sure",
+   "taskName": "Process online orders"
   }
  ],
  "run": {
   "questions": 6,
   "finishReason": "limit",
   "overWeek": false,
-  "cost": 0.06529309999999999,
+  "cost": 0.0612669,
   "model": {
    "answers": "claude-haiku-5-5",
    "agent": "claude-sonnet-5-5",

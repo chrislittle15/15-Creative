@@ -16,7 +16,7 @@ import type { Settings } from "../core/settings";
 import type { Pattern, Task } from "../core/types";
 import { call, callJson, type ModelClient } from "./claude";
 import type { Ledger } from "./ledger";
-import { ADVICE_PATTERN, AGENT_SYSTEM, AGENT_TOOLS, MATCH_SCHEMA, MATCH_SYSTEM, SEED_SCHEMA, SEED_SYSTEM } from "./prompts";
+import { ADVICE_PATTERN, AGENT_SYSTEM, AGENT_TOOLS, MATCH_SCHEMA, MATCH_SYSTEM, REWRITE_SCHEMA, REWRITE_SYSTEM, SEED_SCHEMA, SEED_SYSTEM } from "./prompts";
 
 export interface Deps {
   client: ModelClient;
@@ -55,15 +55,22 @@ export function cleanTasks(v: unknown): Task[] {
     return {
       id: str(t.id, 20, "task id").replace(/[^a-z0-9_-]/gi, "") || `t${i}`,
       name: str(t.name, 80, "task name"),
-      screen: ["most_days", "weekly", "monthly"].includes(t.screen) ? t.screen : "weekly",
+      screen: ["most_days", "weekly", "monthly", "occasional"].includes(t.screen) ? t.screen : "weekly",
       order: Number.isFinite(t.order) ? t.order : i,
       duration: t.duration,
       frequency: t.frequency,
-      tool: typeof t.tool === "string" ? str(t.tool, 60, "tool") || undefined : undefined,
+      ...cleanTools(t),
       kind: ["meeting", "email", "other"].includes(t.kind) ? t.kind : "other",
       signals,
     };
   });
+}
+
+/** Several tools per task: a clean list, plus the joined text used for matching and evidence. */
+function cleanTools(t: any): Pick<Task, "tool" | "tools"> {
+  const raw: unknown[] = Array.isArray(t.tools) ? t.tools : typeof t.tool === "string" ? t.tool.split(",") : [];
+  const tools = [...new Set(raw.filter((x): x is string => typeof x === "string").map((x) => str(x, 40, "tool")).filter(Boolean))].slice(0, 8);
+  return tools.length ? { tool: tools.join(", "), tools } : {};
 }
 
 export function cleanHistory(v: unknown, tasks: Task[]): AskedQuestion[] {
@@ -83,19 +90,31 @@ export function cleanHistory(v: unknown, tasks: Task[]): AskedQuestion[] {
 
 export async function seed(body: any, d: Deps): Promise<SeedResponse> {
   const s = d.settings;
+  const opt = (v: unknown, max: number, name: string) => (typeof v === "string" ? str(v, max, name) : "");
   const req: SeedRequest = {
     title: str(body?.title, s.seed.title_max_chars, "Job title"),
     industry: str(body?.industry, s.seed.industry_max_chars, "Industry"),
     weekHours: weekHoursOf(body?.weekHours ?? s.default_week_hours),
-    jobDescription: typeof body?.jobDescription === "string" ? str(body.jobDescription, s.job_description_max_chars, "Job description") : "",
+    jobDescription: opt(body?.jobDescription, s.job_description_max_chars, "Job description"),
+    purpose: opt(body?.purpose, 600, "Role purpose"),
+    meetingLoad: opt(body?.meetingLoad, 40, "Meeting load"),
+    manages: opt(body?.manages, 40, "People managed"),
+    tools: Array.isArray(body?.tools) ? body.tools.filter((x: unknown) => typeof x === "string").map((x: string) => str(x, 40, "tool")).filter(Boolean).slice(0, 30) : [],
   };
   if (!req.title || !req.industry) throw new BadRequest("Job title and industry are required");
 
   const interviewId = await d.ledger.startInterview();
-  const jd = req.jobDescription
-    ? `\n<job_description>\n${req.jobDescription.replace(/<\/?job_description>/gi, "")}\n</job_description>`
-    : "\n(No job description given.)";
-  const out = await callJson<{ cards: { name: string; screen: SeedCard["screen"]; kind: SeedCard["kind"] }[]; likely_tools: string[] }>(
+  // Everything the visitor typed is wrapped as untrusted text; tags inside it are stripped.
+  const wrap = (tag: string, v: string) => `<${tag}>\n${v.replace(/<\/?[a-z_]+>/gi, "")}\n</${tag}>`;
+  const context = [
+    req.jobDescription ? wrap("job_description", req.jobDescription) : "(No job description given.)",
+    req.purpose ? wrap("role_purpose", req.purpose) : "",
+    req.meetingLoad ? `Time in meetings: ${req.meetingLoad} a week.` : "",
+    req.manages ? `People managed: ${req.manages}.` : "",
+    req.tools?.length ? wrap("tools_used", req.tools.join(", ")) : "",
+  ].filter(Boolean).join("\n");
+  const jd = `\n${context}`;
+  const out = await callJson<{ cards: { name: string; screen: SeedCard["screen"]; kind: SeedCard["kind"] }[] }>(
     d.client, d.ledger, interviewId,
     {
       model: s.models.seed, system: SEED_SYSTEM, maxTokens: 4000, effort: "low", schema: SEED_SCHEMA,
@@ -110,14 +129,15 @@ export async function seed(body: any, d: Deps): Promise<SeedResponse> {
   for (const c of out.cards ?? []) {
     const name = String(c.name ?? "").trim().slice(0, 60);
     const key = name.toLowerCase();
-    if (!name || seen.has(key) || containsNumber(name, s)) continue;
+    // Card names are labels the visitor confirms; "quarter" there is a time period ("Plan next quarter").
+    if (!name || seen.has(key) || containsNumber(name, s, ["quarter"])) continue;
+    if (!["most_days", "weekly", "monthly", "occasional"].includes(c.screen)) continue;
     if ((counts[c.screen] = (counts[c.screen] ?? 0) + 1) > s.seed.cards_per_screen_max) continue;
     seen.add(key);
     cards.push({ id: `c${cards.length + 1}`, name, screen: c.screen, kind: c.kind });
   }
-  const tools = [...new Set((out.likely_tools ?? []).map((t) => String(t).trim().slice(0, 40)).filter(Boolean))].slice(0, 8);
-  d.log(`[ef] seed interview=${interviewId} cards=${cards.length} tools=${tools.length} jd=${req.jobDescription ? "yes" : "no"}`);
-  return { interviewId, cards, tools };
+  d.log(`[ef] seed interview=${interviewId} cards=${cards.length} jd=${req.jobDescription ? "yes" : "no"} guided=${req.purpose || req.meetingLoad || req.manages ? "yes" : "no"}`);
+  return { interviewId, cards };
 }
 
 // ---------- drill-down agent ----------
@@ -255,7 +275,8 @@ export async function match(body: any, d: Deps): Promise<Report> {
     history: [],
   };
   req.history = cleanHistory(body?.history, req.tasks);
-  const tasks = applyAnswers(req.tasks, req.history);
+  // The browser sends each task's facts after the review step; the visitor's edits there win.
+  const tasks = applyAnswers(req.tasks, req.history).map((t, i) => ({ ...t, signals: { ...t.signals, ...req.tasks[i].signals } }));
   const answers = visitorAnswers(tasks, req.history);
 
   const tech = d.catalog.filter((p) => p.level !== "habit");
@@ -281,6 +302,23 @@ export async function match(body: any, d: Deps): Promise<Report> {
       taskId: m.task_id, patternId: m.pattern_id || null, toolId: m.tool_id || null,
       evidenceQuote: String(m.evidence_quote ?? "").slice(0, 300), why: String(m.why ?? "").slice(0, 400),
     }));
+  }
+
+  // One rewrite pass for explanations that slipped a number in (often the visitor's own count).
+  // The reviewer still applies rule 6 to whatever comes back.
+  const numbered = proposals.filter((p) => p.why && containsNumber(p.why, s));
+  if (numbered.length) {
+    const out = await callJson<{ rewrites: { task_id: string; why: string }[] }>(d.client, d.ledger, req.interviewId, {
+      model: s.models.match, system: REWRITE_SYSTEM, maxTokens: 2000, effort: "low", schema: REWRITE_SCHEMA,
+      user: numbered.map((p) => `[${p.taskId}] <sentence>${p.why}</sentence>`).join("\n"),
+    });
+    for (const r of out.rewrites ?? []) {
+      const p = proposals.find((x) => x.taskId === r.task_id);
+      // Accept only something that reads like the explanation itself, not a note about the edit.
+      const why = typeof r.why === "string" ? r.why.trim().slice(0, 400) : "";
+      if (p && /^you\b/i.test(why) && !/\b(replac|rewr|rephras|sentence|count word|number word)/i.test(why)) p.why = why;
+    }
+    d.log(`[ef] match interview=${req.interviewId} rewrote=${numbered.length}`);
   }
 
   const report = buildReport({ tasks, weekHours: req.weekHours, answers, proposals, catalog: d.catalog, linkOk: d.linkOk, today: d.today(), settings: s });

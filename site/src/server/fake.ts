@@ -19,7 +19,8 @@ export function fakeModel(): ModelClient {
           ["Triage the inbox", "most_days", "email"], ["Morning stand-up", "most_days", "meeting"], ["Answer vendor questions", "most_days", "other"],
           ["Update the open-orders tracker", "most_days", "other"], ["Back-to-back supplier calls", "most_days", "meeting"], ["Walk the sales floor", "most_days", "other"],
           ["Build the weekly sales report", "weekly", "other"], ["Plan reorders", "weekly", "other"], ["Team meeting", "weekly", "meeting"], ["Chase late shipments", "weekly", "other"],
-          ["Reconcile vendor invoices", "monthly", "other"], ["Month-end inventory review", "monthly", "other"], ["Seasonal line review", "monthly", "meeting"],
+          ["Reconcile vendor invoices", "monthly", "other"], ["Month-end inventory review", "monthly", "other"],
+          ["Seasonal line review", "occasional", "meeting"], ["Annual vendor negotiations", "occasional", "other"],
         ].map(([name, screen, kind]) => ({ name, screen, kind }));
         return msg([{ type: "text", text: JSON.stringify({ cards, likely_tools: ["Excel", "Outlook", "Teams", "NetSuite", "Shopify"] }) }], "end_turn");
       }

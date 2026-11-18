@@ -27,8 +27,8 @@
    {
     "taskId": "t1",
     "taskName": "Check stock levels by shop",
-    "quote": "Into the replenishment report",
-    "why": "You pull stock levels from NetSuite for each shop and feed them into the replenishment report, so the same exports are reshaped each cycle.",
+    "quote": "I combine their NetSuite on-hand and sales in Excel for the Monday report",
+    "why": "You pull NetSuite on-hand and sales for several shops and combine them in Excel for the weekly report.",
     "patternId": "recurring-report",
     "patternName": "Assembling a recurring report",
     "level": "existing_tool",
@@ -76,8 +76,8 @@
    {
     "taskId": "t4",
     "taskName": "Build the weekly replenishment report",
-    "quote": "every Monday",
-    "why": "You rebuild the replenishment report in Excel on a schedule and email it to the buyer and store operations.",
+    "quote": "NetSuite on-hand export plus point-of-sale sales, combined in Excel",
+    "why": "You rebuild the same report by combining the same exports in Excel and then emailing it out.",
     "patternId": "recurring-report",
     "patternName": "Assembling a recurring report",
     "level": "existing_tool",
@@ -215,68 +215,68 @@
  },
  "transcript": [
   {
-   "question": "How many shops do you cover when you \"Check stock levels by shop\"?",
+   "question": "How many shops do you check stock levels for in \"Check stock levels by shop\"?",
    "options": [
-    "1–5 shops",
-    "6–15 shops",
-    "16–30 shops",
-    "More than 30 shops"
+    "Fewer than 5",
+    "5 to 15",
+    "16 to 40",
+    "More than 40"
    ],
-   "answer": "6 shops",
+   "answer": "Six shops. I combine their NetSuite on-hand and sales in Excel for the Monday report.",
    "taskName": "Check stock levels by shop"
   },
   {
-   "question": "For \"Check stock levels by shop\", where do you send or record what you find?",
+   "question": "Who receives the Monday report from \"Check stock levels by shop\"?",
    "options": [
-    "Into the replenishment report",
-    "Email to shop managers",
-    "Excel transfer plan",
-    "Nowhere, just for me"
-   ],
-   "answer": "Into the replenishment report",
-   "taskName": "Check stock levels by shop"
-  },
-  {
-   "question": "For \"Build the weekly replenishment report\", who receives the finished report?",
-   "options": [
-    "Buying team",
+    "Merchandising team",
     "Shop managers",
     "My manager",
-    "Warehouse/supply team",
-    "Senior leadership"
+    "Purchasing or suppliers",
+    "Only I use it"
    ],
-   "answer": "The buyer and store operations, by email, every Monday.",
+   "answer": "Buyer and store operations, via email on Mondays.",
+   "taskName": "Check stock levels by shop"
+  },
+  {
+   "question": "For \"Build the weekly replenishment report\", where does the data come from, and who receives the finished report?",
+   "options": [
+    "NetSuite export, sent to buyer",
+    "Stock report from t1, sent to store ops",
+    "Shop emails, sent to buyer and ops",
+    "Mixed sources, shared on a drive"
+   ],
+   "answer": "NetSuite on-hand export plus point-of-sale sales, combined in Excel; emailed to the buyer and store operations.",
    "taskName": "Build the weekly replenishment report"
   },
   {
-   "question": "How many product lines or rows does the \"Build the weekly replenishment report\" usually cover?",
+   "question": "For \"Plan transfers between shops\", where does the information come from, and who gets the finished plan?",
    "options": [
-    "Under 100",
-    "100 to 500",
-    "500 to 2,000",
-    "Over 2,000"
+    "From my replenishment report; sent to store operations",
+    "From NetSuite stock data; sent to shop managers",
+    "From shop requests by email; sent to the buyer",
+    "From the Monday report; entered into NetSuite"
+   ],
+   "answer": "Not sure",
+   "taskName": "Plan transfers between shops"
+  },
+  {
+   "question": "How many products or rows does \"Build the weekly replenishment report\" usually cover each week?",
+   "options": [
+    "Under 100 rows",
+    "100 to 500 rows",
+    "500 to 2,000 rows",
+    "Over 2,000 rows"
    ],
    "answer": "Not sure",
    "taskName": "Build the weekly replenishment report"
   },
   {
-   "question": "For \"Plan transfers between shops\", where does the information come from, and who receives the plan?",
+   "question": "How many transfers do you usually plan each week in \"Plan transfers between shops\"?",
    "options": [
-    "From the replenishment report; sent to shops",
-    "From NetSuite stock data; sent to store operations",
-    "From shop managers' requests; sent to the warehouse",
-    "From the buyer; entered into NetSuite"
-   ],
-   "answer": "I pull NetSuite stock data and send the plan to store operations.",
-   "taskName": "Plan transfers between shops"
-  },
-  {
-   "question": "How many transfers do you usually plan each week for \"Plan transfers between shops\"?",
-   "options": [
-    "Under 10",
-    "10 to 25",
-    "26 to 50",
-    "More than 50"
+    "Fewer than 5",
+    "5–15",
+    "16–40",
+    "More than 40"
    ],
    "answer": "Not sure",
    "taskName": "Plan transfers between shops"
@@ -286,7 +286,7 @@
   "questions": 6,
   "finishReason": "limit",
   "overWeek": false,
-  "cost": 0.0470745,
+  "cost": 0.08171049999999999,
   "model": {
    "answers": "claude-haiku-5-5",
    "agent": "claude-sonnet-5-5",

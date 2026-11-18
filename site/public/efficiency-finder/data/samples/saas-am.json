@@ -18,17 +18,66 @@
     "high": 20.46153846153846
    },
    "saved": {
-    "low": 1.75,
-    "high": 3.5
+    "low": 3.25,
+    "high": 6.5
    },
    "tasksMapped": 8
   },
   "opportunities": [
    {
+    "taskId": "t2",
+    "taskName": "Customer calls",
+    "quote": "afterward I type notes and next steps into Salesforce by hand",
+    "why": "You take notes after your Zoom customer calls and turn them by hand into next steps.",
+    "patternId": "meeting-notes",
+    "patternName": "Meeting notes to action items",
+    "level": "ai_agent",
+    "tool": {
+     "id": "zoom-ai",
+     "name": "Zoom AI Companion",
+     "url": "https://www.zoom.com/en/products/ai-assistant/",
+     "checked": "2026-10-11",
+     "owned": true
+    },
+    "math": {
+     "durationLabel": "1 hour",
+     "duration": {
+      "low": 1,
+      "high": 1
+     },
+     "frequencyLabel": "Daily",
+     "frequency": {
+      "low": 5,
+      "high": 5
+     },
+     "hoursPerWeek": {
+      "low": 5,
+      "high": 5
+     },
+     "share": {
+      "low": 0.3,
+      "high": 0.6
+     },
+     "sharePlaceholder": false,
+     "saved": {
+      "low": 1.5,
+      "high": 3
+     }
+    },
+    "saved": {
+     "low": 1.5,
+     "high": 3
+    },
+    "effort": "small",
+    "firstStep": "Turn on the meeting recap for one recurring meeting and compare its action list with your own for two weeks.",
+    "failureMode": "Recaps assign actions to the wrong person when names are not said aloud.",
+    "rank": 1
+   },
+   {
     "taskId": "t1",
     "taskName": "Triage the inbox",
-    "quote": "About 60 a day",
-    "why": "You get a high volume of Gmail and reply directly to similar customer requests for numbers, invoices and meeting times.",
+    "quote": "About 60 emails a day",
+    "why": "You get a high volume of customer email in Gmail and reply to each one yourself.",
     "patternId": "inbox-triage",
     "patternName": "Inbox triage and routine replies",
     "level": "ai_agent",
@@ -71,13 +120,13 @@
     "effort": "small",
     "firstStep": "Turn on the inbox summary each morning and copy its action items into your to-do list for a week.",
     "failureMode": "Summaries miss the one message that mattered, so important senders still need a rule that flags them.",
-    "rank": 1
+    "rank": 2
    },
    {
     "taskId": "t3",
     "taskName": "Write call notes into the CRM",
-    "quote": "I write notes after each customer call into Salesforce by hand",
-    "why": "You write notes by hand after each customer call on Zoom and turn them into CRM records.",
+    "quote": "type notes into Salesforce after each one",
+    "why": "You write notes and next steps by hand after each customer call.",
     "patternId": "meeting-notes",
     "patternName": "Meeting notes to action items",
     "level": "ai_agent",
@@ -120,19 +169,13 @@
     "effort": "small",
     "firstStep": "Turn on the meeting recap for one recurring meeting and compare its action list with your own for two weeks.",
     "failureMode": "Recaps assign actions to the wrong person when names are not said aloud.",
-    "rank": 2
+    "rank": 3
    }
   ],
   "habits": [],
   "noFit": [
    {
-    "taskName": "Customer calls"
-   },
-   {
     "taskName": "Pipeline review with my manager"
-   },
-   {
-    "taskName": "Renewal forecast update"
    }
   ],
   "thin": [
@@ -140,8 +183,7 @@
     "taskName": "Answer product questions from customers",
     "patternName": "Answering repeat questions",
     "missing": [
-     "volume",
-     "input"
+     "volume"
     ]
    },
    {
@@ -157,13 +199,21 @@
     "missing": [
      "volume"
     ]
+   },
+   {
+    "taskName": "Renewal forecast update",
+    "patternName": "Assembling a recurring report",
+    "missing": [
+     "input",
+     "output"
+    ]
    }
   ],
   "notCounted": [],
   "checked": {
-   "proposals": 5,
-   "passed": 2,
-   "heldForDetail": 3,
+   "proposals": 7,
+   "passed": 3,
+   "heldForDetail": 4,
    "rejected": [],
    "rules": [
     {
@@ -210,68 +260,67 @@
    "question": "About how many emails do you go through for \"Triage the inbox\" each day?",
    "options": [
     "Under 25",
-    "25-50",
-    "50-100",
-    "100-200",
+    "25–50",
+    "50–100",
+    "100–200",
     "Over 200"
    ],
-   "answer": "About 60 a day, so I'd say 50-100.",
+   "answer": "About 60 emails a day, so I'd say 50–100.",
    "taskName": "Triage the inbox"
   },
   {
-   "question": "For \"Triage the inbox\", who do the emails mostly come from, and where do they go afterward?",
+   "question": "For \"Triage the inbox\", where do most of the emails come from, and where do they go afterward?",
    "options": [
-    "Customers; replies back to them",
-    "Customers; forwarded to teammates",
-    "Internal team; replies or Slack",
-    "Automated alerts; filed or archived",
-    "Mixed; tasks into Salesforce"
+    "Customers; I reply myself",
+    "Customers; I forward to teammates",
+    "Internal team; I reply myself",
+    "Automated alerts; I file or archive them"
    ],
-   "answer": "Mostly customers asking for usage numbers, invoices or meeting times; I reply to them directly.",
+   "answer": "Customers; I reply myself",
    "taskName": "Triage the inbox"
   },
   {
-   "question": "About how many \"Customer calls\" do you have in a typical week?",
+   "question": "How many \"Customer calls\" do you have in a typical week?",
    "options": [
-    "1-3",
-    "4-6",
-    "7-10",
-    "More than 10"
+    "1–5",
+    "6–10",
+    "11–20",
+    "More than 20"
    ],
    "answer": "Not sure",
    "taskName": "Customer calls"
   },
   {
-   "question": "For \"Customer calls\", how do the calls get booked, and where do notes or follow-ups go afterward?",
+   "question": "For \"Customer calls\", how do the calls get booked, and where do the outcomes go afterward?",
    "options": [
-    "Customers book; notes go to Salesforce",
-    "I schedule by email; notes go to Salesforce",
-    "Manager assigns; notes go to team",
-    "Calendar invites; follow-up email to customer"
+    "Customers book; I write notes in CRM",
+    "I schedule them; notes go to my team",
+    "Manager assigns; I report back to manager",
+    "Calendar invites; no written follow-up"
    ],
-   "answer": "I schedule by email; notes go to Salesforce.",
+   "answer": "I schedule them over several emails; afterward I type notes and next steps into Salesforce by hand.",
    "taskName": "Customer calls"
   },
   {
-   "question": "About how many call notes do you write into the CRM in a typical week?",
+   "question": "How many sets of \"Write call notes into the CRM\" do you enter in a typical week?",
    "options": [
     "Under 5",
-    "5-10",
-    "11-20",
+    "5–10",
+    "11–20",
     "More than 20"
    ],
-   "answer": "Probably 5-10 a week, since I write notes after each customer call into Salesforce by hand.",
+   "answer": "Probably more than 20, since I have customer calls most days and type notes into Salesforce after each one.",
    "taskName": "Write call notes into the CRM"
   },
   {
-   "question": "For \"Answer product questions from customers\", how many questions come in per week, and from where?",
+   "question": "For \"Answer product questions from customers\", how do the questions reach you, and who gets your answers?",
    "options": [
-    "Under 10, from Slack channels",
-    "10-30, from Slack channels",
-    "10-30, forwarded by teammates",
-    "30+, from Slack channels"
+    "Customers message me in Slack; I reply there",
+    "Teammates relay them in Slack; I answer teammates",
+    "Customers email; I reply by email",
+    "Questions come from calls; I answer afterward"
    ],
-   "answer": "Not sure",
+   "answer": "Customers message me in Slack; I reply there.",
    "taskName": "Answer product questions from customers"
   }
  ],
@@ -279,7 +328,7 @@
   "questions": 6,
   "finishReason": "limit",
   "overWeek": false,
-  "cost": 0.07009590000000002,
+  "cost": 0.0679586,
   "model": {
    "answers": "claude-haiku-5-5",
    "agent": "claude-sonnet-5-5",

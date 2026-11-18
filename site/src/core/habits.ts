@@ -3,7 +3,7 @@
 
 import { taskHours } from "./math";
 import type { Settings } from "./settings";
-import type { Task } from "./types";
+import { toolsOf, type Task } from "./types";
 
 export type HabitTrigger = "meeting_gaps" | "written_update" | "email_batches" | "group_similar";
 
@@ -46,12 +46,11 @@ export function triggeredHabits(tasks: Task[], statedWeekHours: number, s: Setti
   // Group similar tasks: N or more cards using the same tool.
   const byTool = new Map<string, Task[]>();
   for (const t of tasks) {
-    const tool = t.tool?.trim().toLowerCase();
-    if (tool) byTool.set(tool, [...(byTool.get(tool) ?? []), t]);
+    for (const tool of toolsOf(t).map((x) => x.toLowerCase())) byTool.set(tool, [...(byTool.get(tool) ?? []), t]);
   }
   const grouped = [...byTool.values()].filter((g) => g.length >= h.group_similar.min_cards_same_tool);
   if (grouped.length) {
-    out.push({ trigger: "group_similar", taskIds: grouped.flat().map((t) => t.id) });
+    out.push({ trigger: "group_similar", taskIds: [...new Set(grouped.flat().map((t) => t.id))] });
   }
 
   return out;

@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-10-14T10:07:53.253Z",
+ "generatedAt": "2026-11-16T23:44:16.821Z",
  "rollup": true,
  "roles": [
   {
@@ -16,8 +16,8 @@
    ],
    "approved": true,
    "saved": {
-    "low": 2.2,
-    "high": 6.8
+    "low": 3.2,
+    "high": 8.3
    },
    "opportunities": 2
   },
@@ -30,8 +30,8 @@
    "traps": [],
    "approved": true,
    "saved": {
-    "low": 3.6,
-    "high": 10.8
+    "low": 2.8,
+    "high": 9.2
    },
    "opportunities": 3
   },
@@ -44,10 +44,10 @@
    "traps": [],
    "approved": true,
    "saved": {
-    "low": 1,
-    "high": 2
+    "low": 1.6,
+    "high": 4.4
    },
-   "opportunities": 1
+   "opportunities": 2
   },
   {
    "id": "resort-ecommerce",
@@ -86,10 +86,10 @@
    "traps": [],
    "approved": true,
    "saved": {
-    "low": 1.35,
-    "high": 3.9
+    "low": 0.6,
+    "high": 2.4
    },
-   "opportunities": 2
+   "opportunities": 1
   },
   {
    "id": "resort-store-ops",
@@ -114,10 +114,10 @@
    "traps": [],
    "approved": true,
    "saved": {
-    "low": 1.75,
-    "high": 3.5
+    "low": 3.25,
+    "high": 6.5
    },
-   "opportunities": 2
+   "opportunities": 3
   }
  ]
 }

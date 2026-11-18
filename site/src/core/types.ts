@@ -2,7 +2,7 @@
 
 export type DurationKey = "15m" | "30m" | "1h" | "2h" | "3h_plus";
 export type FrequencyKey = "daily" | "few_week" | "weekly" | "monthly" | "lt_monthly";
-export type Screen = "most_days" | "weekly" | "monthly";
+export type Screen = "most_days" | "weekly" | "monthly" | "occasional";
 export type Effort = "small" | "medium" | "large";
 export type SolutionLevel = "existing_tool" | "automation" | "ai_agent" | "habit";
 
@@ -19,7 +19,10 @@ export interface Task {
   duration: DurationKey;
   frequency: FrequencyKey;
   /** Tool the visitor tapped or typed, if any. */
+  /** The visitor's tools for this task, joined for display and matching ("Excel, Outlook"). */
   tool?: string;
+  /** The same tools as a list, when the visitor picked several. */
+  tools?: string[];
   kind: TaskKind;
   /** Signals recorded during the drill-down, keyed by field name (tool, volume, input, output, ...). */
   signals: Record<string, string>;
@@ -89,4 +92,10 @@ export interface Recommendation {
   modelSentences: string[];
   /** Hours figures attached to the recommendation. Must equal what code computed. */
   hours: SavedHours | null;
+}
+
+/** A task's tools as a list, from `tools` or the joined `tool` text. */
+export function toolsOf(t: Pick<Task, "tool" | "tools">): string[] {
+  const list = t.tools?.length ? t.tools : (t.tool ?? "").split(/\s*,\s*/);
+  return [...new Set(list.map((x) => x.trim()).filter(Boolean))];
 }
