@@ -1,6 +1,6 @@
 import{a as e,i as t,o as n,r,s as i,t as a}from"./ui-BghfFf24.js";import{a as o,i as s,r as c,t as l}from"./samples-DzMi3zpz.js";import{s as u}from"./math-DzdNnonG.js";/* empty css               */import{n as d,t as f}from"./report-view-LnMDbjWi.js";/* empty css                */var p=u.settings,m=new URLSearchParams(location.search).get(`role`),h=a(`#page`),g=`<div class="sample-ribbon">${t.flag} Sample · generated from a facts sheet, not a real person's answers</div>`,_=i({links:[{href:r,label:`About this demo`,hideSm:!0},{href:`${r}samples/`,label:`All samples`},{href:`${r}app/`,label:`Try it yourself`}]});async function v(){if(!m){let e=await s();h.innerHTML=`${_}${g}<main class="wrap samples-main">
       <div class="samples-head"><span class="eyebrow">Samples</span><h1>Sample reports</h1>
-      <p class="muted">Eight generalized roles, each answered by a low-cost model from ${l(e)}, then run through the same interview, matching and reviewer as the live demo. Some roles carry planted traps to show what the tool refuses to claim.</p></div>
+      <p class="muted">Seven generalized roles, each answered by a low-cost model from ${l(e)}, then run through the same interview, matching and reviewer as the live demo. Some roles carry planted traps to show what the tool refuses to claim.</p></div>
       <div class="sample-grid">${o(e)}</div>
     </main>${n()}`;return}let i=await c(m);i?(h.innerHTML=`${_}${g}<main class="wrap samples-main">
     <div class="no-print back"><a href="${r}samples/">${t.back} All samples</a></div>

@@ -1,5 +1,5 @@
 {
- "generatedAt": "2026-11-16T23:44:16.821Z",
+ "generatedAt": "2026-11-19T14:57:25.595Z",
  "rollup": true,
  "roles": [
   {
@@ -88,20 +88,6 @@
    "saved": {
     "low": 0.6,
     "high": 2.4
-   },
-   "opportunities": 1
-  },
-  {
-   "id": "resort-store-ops",
-   "title": "Store operations manager at a multi-location resort retailer",
-   "industry": "Resort retail, six shops across two resorts",
-   "blurb": "Runs day-to-day operations across the shops: staffing, schedules, standards and issues.",
-   "team": true,
-   "traps": [],
-   "approved": true,
-   "saved": {
-    "low": 1,
-    "high": 2
    },
    "opportunities": 1
   },

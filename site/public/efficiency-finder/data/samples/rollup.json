@@ -32,14 +32,6 @@
     "high": 2.4
    },
    "opportunities": 1
-  },
-  {
-   "person": "Store operations manager",
-   "saved": {
-    "low": 1,
-    "high": 2
-   },
-   "opportunities": 1
   }
  ],
  "rows": [
@@ -106,8 +98,7 @@
    "effort": "small",
    "people": [
     "Buyer",
-    "E-commerce coordinator",
-    "Store operations manager"
+    "E-commerce coordinator"
    ],
    "tasks": [
     {
@@ -125,19 +116,11 @@
       "low": 1,
       "high": 2
      }
-    },
-    {
-     "person": "Store operations manager",
-     "taskName": "Triage the inbox",
-     "saved": {
-      "low": 1,
-      "high": 2
-     }
     }
    ],
    "saved": {
-    "low": 3,
-    "high": 6
+    "low": 2,
+    "high": 4
    },
    "taskName": "Inbox triage and routine replies"
   },
@@ -222,8 +205,7 @@
    "effort": "small",
    "people": [
     "Buyer",
-    "E-commerce coordinator",
-    "Store operations manager"
+    "E-commerce coordinator"
    ],
    "tasks": [
     {
@@ -241,25 +223,17 @@
       "low": 1,
       "high": 2
      }
-    },
-    {
-     "person": "Store operations manager",
-     "taskName": "Triage the inbox",
-     "saved": {
-      "low": 1,
-      "high": 2
-     }
     }
    ],
    "saved": {
-    "low": 3,
-    "high": 6
+    "low": 2,
+    "high": 4
    },
    "taskName": "Inbox triage and routine replies"
   }
  ],
  "total": {
-  "low": 9.999999999999998,
-  "high": 25.499999999999996
+  "low": 9,
+  "high": 23.499999999999996
  }
 }

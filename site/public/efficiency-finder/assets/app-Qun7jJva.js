@@ -189,7 +189,7 @@ import{a as e,i as t,n,o as r,r as i,s as a,t as o}from"./ui-BghfFf24.js";import
       <button type="button" class="btn btn-primary btn-sm" data-go="review">Add details ${t.arrow}</button></div>`:``}
     ${p(e,y)}
     <div class="panel next no-print">
-      <div><h2>See how it reads for other roles</h2><p class="muted">Eight sample reports and a sample team rollup, built with the same pipeline.</p></div>
+      <div><h2>See how it reads for other roles</h2><p class="muted">Seven sample reports and a sample team rollup, built with the same pipeline.</p></div>
       <a class="btn btn-primary" href="${i}samples/">Browse sample reports ${t.arrow}</a>
     </div>
   </div>`}function ue(){let n=C.stopped,r=n.code===`daily_cap`;return`<div class="wrap wrap-narrow rise"><div class="panel stopped">

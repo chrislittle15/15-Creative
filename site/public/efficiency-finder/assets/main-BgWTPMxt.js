@@ -85,7 +85,7 @@ ${i({dark:!0,links:[{href:`#how`,label:`How it works`,hideSm:!0},{href:`#ai`,lab
 <section class="section alt" id="samples">
   <div class="wrap">
     <div class="section-head"><span class="eyebrow">Samples</span><h2>Sample reports and a sample team rollup</h2>
-      <p class="muted section-lead">Eight generalized roles, each answered by a low-cost model from <span id="facts-phrase">a facts sheet written for the role</span>, and run through the same pipeline. Each is labeled as sample.</p></div>
+      <p class="muted section-lead">Seven generalized roles, each answered by a low-cost model from <span id="facts-phrase">a facts sheet written for the role</span>, and run through the same pipeline. Each is labeled as sample.</p></div>
     <div id="sample-grid" class="sample-grid"><p class="muted">Loading samples…</p></div>
   </div>
 </section>
@@ -101,7 +101,7 @@ ${i({dark:!0,links:[{href:`#how`,label:`How it works`,hideSm:!0},{href:`#ai`,lab
         <li>Pattern matching checked by a seven-rule reviewer</li>
         <li>Savings math and ranking in code, with the math one tap away</li>
         <li>A catalog of ${f.length+p.length} patterns with a link and date checker</li>
-        <li>Eight sample reports and one sample team rollup</li>
+        <li>Seven sample reports and one sample team rollup</li>
         <li>Print layout, privacy notice, cost caps and a usage page</li>
       </ul></div>
       <div class="card scope-col planned"><h3>${t.flag} Planned for the full build</h3><ul>
