@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Z Ranch Water app icon">
+<rect x="12" y="12" width="488" height="488" rx="104" fill="#45563F"/>
+<circle cx="256" cy="190" r="105" fill="#D4BD91"/>
+<path d="M62 310 Q165 238 255 290 Q355 230 450 310 L450 350 L62 350Z" fill="#6D7C5D"/>
+<path d="M62 318 Q165 282 255 315 Q355 275 450 318" fill="none" stroke="#F6F5F0" stroke-width="7"/>
+<path d="M249 302 C247 256 250 224 258 190 M254 242 L205 212 M256 232 L304 200" fill="none" stroke="#45563F" stroke-width="15" stroke-linecap="round"/>
+<g fill="#45563F">
+<ellipse cx="211" cy="184" rx="44" ry="34"/><ellipse cx="253" cy="158" rx="54" ry="40"/><ellipse cx="300" cy="184" rx="44" ry="34"/><ellipse cx="257" cy="207" rx="58" ry="34"/>
+</g>
+<text x="256" y="420" text-anchor="middle" fill="#FFFFFF" font-family="Georgia,serif" font-size="68" font-weight="bold">ZR</text>
+</svg>
